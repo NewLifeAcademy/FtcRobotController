@@ -88,16 +88,17 @@ public class SampleTankDrive extends TankDrive {
         }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
+        // TODO: Team 17240 - Does this need to update to BNO55IMU?  It looks like Expansion Hub 3 (DQ3N0NI8) has an IMU
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
         // add/remove motors depending on your robot (e.g., 6WD)
-        DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        DcMotorEx leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        DcMotorEx rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "motorLF");
+        DcMotorEx leftRear = hardwareMap.get(DcMotorEx.class, "motorLB");
+        DcMotorEx rightRear = hardwareMap.get(DcMotorEx.class, "motorRB");
+        DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "motorRF");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
         leftMotors = Arrays.asList(leftFront, leftRear);
@@ -123,6 +124,11 @@ public class SampleTankDrive extends TankDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        /*
+         * FTC 17240 Tank
+         *  Set to TwoWheelTrackingLocalizer
+         */
+        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, this));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,

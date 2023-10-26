@@ -51,10 +51,10 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = 0; // X is the up and down direction
-    public static double PARALLEL_Y = 0; // Y is the strafe direction
+    public static double PARALLEL_X = 7; // X is the up and down direction
+    public static double PARALLEL_Y = -3; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = 0;
+    public static double PERPENDICULAR_X = 6;
     public static double PERPENDICULAR_Y = 0;
 
     // Parallel/Perpendicular to the forward axis
@@ -62,9 +62,9 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     // Perpendicular is perpendicular to the forward axis
     private Encoder parallelEncoder, perpendicularEncoder;
 
-    private SampleMecanumDrive drive;
+    private SampleTankDrive drive; // FTC 17240 Tank : converted to SampleTankDrive for Tank Odometry
 
-    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, SampleMecanumDrive drive) {
+    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, SampleTankDrive drive) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
@@ -72,8 +72,12 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         this.drive = drive;
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "parallelEncoder"));
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "perpendicularEncoder"));
+        /*
+         * FTC 17240 Tank
+         *  Through Bore Encoders are connected to enc0 "MotorRF" and enc3 "MotorLF"
+         */
+        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "motorRF"));
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "motorLF"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }
@@ -108,9 +112,14 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  competing magnetic encoders), change Encoder.getRawVelocity() to Encoder.getCorrectedVelocity() to enable a
         //  compensation method
 
+        /*
+         * FTC 17240 Tank
+         *  Using REV Through Bore Encoders
+         */
+
         return Arrays.asList(
-                encoderTicksToInches(parallelEncoder.getRawVelocity()),
-                encoderTicksToInches(perpendicularEncoder.getRawVelocity())
+                encoderTicksToInches(parallelEncoder.getCorrectedVelocity()),
+                encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity())
         );
     }
 }

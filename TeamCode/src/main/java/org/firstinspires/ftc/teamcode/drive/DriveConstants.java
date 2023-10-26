@@ -56,7 +56,7 @@ public class DriveConstants {
     /*
      * FTC 17240 Tank:
      *  Need SKU# for wheels or accurate measurement (guessed 4in wheels)
-     *  Gear ratio looks 1:1
+     *  Gear ratio is 1:1 (Through Bore Encoder direct to Omni Wheels)
      *  Measured track width at 15in
      */
     public static double WHEEL_RADIUS = 1.8898; // in
