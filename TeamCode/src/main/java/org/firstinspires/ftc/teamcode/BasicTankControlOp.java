@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp (name = "Basic Tank Control")
-public class BasicTaskControlOp extends LinearOpMode {
+public class BasicTankControlOp extends LinearOpMode {
     private DcMotor motorRF;
     private DcMotor motorLB;
     private DcMotor motorLF;
