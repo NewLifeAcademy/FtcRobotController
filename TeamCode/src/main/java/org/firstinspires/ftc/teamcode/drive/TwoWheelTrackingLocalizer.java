@@ -34,37 +34,38 @@ import java.util.List;
  *
  */
 /*
- * FTC 17240 Tank
+ * FTC 17240 GoBilda Strafe
  *  tracking wheel layout
  *        (forward)
  *    /--------------\
- *    |           || |
- *    |           || |    <- Parallel Wheel
- *    |     ____     |
- *    |     ----     |    <- Perpendicular Wheel
+ *    |              |
+ *    |              |
+ *    |  ____  ||    |  Perpendicular | Parallel Wheel
+ *    |  ----  ||    |
+ *    |              |
  *    |              |
  *    |              |
  *    \--------------/
  */
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 0;
-    public static double WHEEL_RADIUS = 2; // in
+    public static double TICKS_PER_REV = 8192;
+    public static double WHEEL_RADIUS = 1.77; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = 7; // X is the up and down direction
+    public static double PARALLEL_X = 4; // X is the up and down direction
     public static double PARALLEL_Y = -3; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = 6;
-    public static double PERPENDICULAR_Y = 0;
+    public static double PERPENDICULAR_X = 4;
+    public static double PERPENDICULAR_Y = 2;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
     private Encoder parallelEncoder, perpendicularEncoder;
 
-    private SampleTankDrive drive; // FTC 17240 Tank : converted to SampleTankDrive for Tank Odometry
+    private SampleMecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, SampleTankDrive drive) {
+    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, SampleMecanumDrive drive) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))

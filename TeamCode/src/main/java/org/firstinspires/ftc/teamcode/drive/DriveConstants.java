@@ -22,11 +22,10 @@ public class DriveConstants {
      * These are motor constants that should be listed online for your motors.
      */
     /*
-     * FTC 17240 Tank:
-     *  REV HD Hex 40:1 Spur
+     * FTC 17240 GoBilda v3 Chassis:
      */
-    public static final double TICKS_PER_REV = 1120;
-    public static final double MAX_RPM = 150;
+    public static final double TICKS_PER_REV = 537.6;
+    public static final double MAX_RPM = 312;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -37,7 +36,7 @@ public class DriveConstants {
      * from DriveVelocityPIDTuner.
      */
     /*
-     * FTC 17240 Tank:
+     * FTC 17240 GoBuilda:
      *  Using 'dead' wheels with 90mm Omni Wheels + Through Bore Encoder
      *   Noted that motors RF and RB appear to have malfunctioning encoders
      */
@@ -54,14 +53,14 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     /*
-     * FTC 17240 Tank:
-     *  Need SKU# for wheels or accurate measurement (guessed 4in wheels)
+     * FTC 17240 GoBuilda:
+     *  DUO Omni 90mm wheels (3.54 in): https://www.revrobotics.com/DUO-Omni-Wheels/
      *  Gear ratio is 1:1 (Through Bore Encoder direct to Omni Wheels)
      *  Measured track width at 15in
      */
-    public static double WHEEL_RADIUS = 1.8898; // in
+    public static double WHEEL_RADIUS = 1.77; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15; // in
+    public static double TRACK_WIDTH = 16.34; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -101,13 +100,13 @@ public class DriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
      */
     /*
-     * FTC 17420 Tank:
+     * FTC 17420 GoBilda:
      *  Values copied/pasted from the generated wizard at https://learnroadrunner.com/drive-constants.html#drive-constants
      */
-    public static double MAX_VEL = 25.23217263620446;
-    public static double MAX_ACCEL = 25.23217263620446;
-    public static double MAX_ANG_VEL = Math.toRadians(80.31649999999999);
-    public static double MAX_ANG_ACCEL = Math.toRadians(80.31649999999999);
+    public static double MAX_VEL = 52.48180821614297;
+    public static double MAX_ACCEL = 52.48180821614297;
+    public static double MAX_ANG_VEL = Math.toRadians(184.02607784577722);
+    public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722);
 
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.

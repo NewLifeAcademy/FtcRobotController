@@ -128,7 +128,7 @@ public class SampleTankDrive extends TankDrive {
          * FTC 17240 Tank
          *  Set to TwoWheelTrackingLocalizer
          */
-        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, this));
+        //setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, this));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,
