@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name = "ForwardDistanceOdometryAuto", preselectTeleOp = "IronEagle-GoBilda-Strafer")
 public class ForwardDistanceOdometryAuto extends LinearOpMode {
@@ -15,6 +16,14 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
     private DcMotor paraDeadWheelRight;
     private DcMotor perpDeadWheel;
 
+    private int paraPositionLeft;
+    private int paraPositionRight;
+    private int perpPosition;
+    private double current_forward_inches;
+    private int target_forward_inches;
+
+    double COUNTS_PER_INCH;
+
     /**
      * This function is executed when this OpMode is selected from the Driver Station.
      */
@@ -24,12 +33,6 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
         int GEAR_REDUCTION;
         double WHEEL_CIRCUMFERENCE_INCHES;
         int COUNTS_PER_WHEEL_REV;
-        double COUNTS_PER_INCH;
-        int paraPositionLeft;
-        int paraPositionRight;
-        int perpPosition;
-        double current_forward_inches;
-        int target_forward_inches;
         double drivePower;
 
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
@@ -55,10 +58,10 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
         telemetry.update();
 
         // Set motor directions
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // The 'Dead Wheels' will be the encoders we will use, so we disable the encoders on the drives themselves
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -72,10 +75,7 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
         perpDeadWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Establish current and target position
-        paraPositionLeft = paraDeadWheelLeft.getCurrentPosition();
-        paraPositionRight = paraDeadWheelRight.getCurrentPosition();
-        perpPosition = perpDeadWheel.getCurrentPosition();
-        current_forward_inches = paraPositionLeft / COUNTS_PER_INCH;
+        getCurrentPositions();
         target_forward_inches = 36;
         waitForStart();
         if (opModeIsActive()) {
@@ -87,24 +87,13 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
             leftFrontDrive.setPower(drivePower);
 
             while (current_forward_inches < target_forward_inches) {
-                paraPositionLeft = paraDeadWheelLeft.getCurrentPosition();
-                paraPositionRight = paraDeadWheelRight.getCurrentPosition();
-                perpPosition = perpDeadWheel.getCurrentPosition();
-                current_forward_inches = paraPositionLeft / COUNTS_PER_INCH;
-                telemetry.addData("para position left", paraPositionLeft);
-                telemetry.addData("para position right", paraPositionRight);
-                telemetry.addData("perp position", perpPosition);
-                telemetry.addData("current forward inches", current_forward_inches);
-                telemetry.addData("target forward inches", target_forward_inches);
+                getCurrentPositions();
+                addPositionTelemetryData();
                 telemetry.update();
             }
 
             // Position reached, stop movement
-            telemetry.addData("para position left", paraPositionLeft);
-            telemetry.addData("para position right", paraPositionRight);
-            telemetry.addData("perp position", perpPosition);
-            telemetry.addData("current forward inches", current_forward_inches);
-            telemetry.addData("target forward inches", target_forward_inches);
+            addPositionTelemetryData();
             telemetry.addLine("Position reached, stop movement");
             telemetry.update();
 
@@ -116,5 +105,20 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
             // Sleep for the remainder of auto
             sleep(30000);
         }
+    }
+
+    private void getCurrentPositions() {
+        paraPositionLeft = paraDeadWheelLeft.getCurrentPosition();
+        paraPositionRight = paraDeadWheelRight.getCurrentPosition();
+        perpPosition = perpDeadWheel.getCurrentPosition();
+        current_forward_inches = paraPositionLeft / COUNTS_PER_INCH;
+    }
+
+    private void addPositionTelemetryData() {
+        telemetry.addData("para position left", paraPositionLeft);
+        telemetry.addData("para position right", paraPositionRight);
+        telemetry.addData("perp position", perpPosition);
+        telemetry.addData("current forward inches", current_forward_inches);
+        telemetry.addData("target forward inches", target_forward_inches);
     }
 }
