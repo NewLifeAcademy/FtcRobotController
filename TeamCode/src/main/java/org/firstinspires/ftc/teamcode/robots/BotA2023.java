@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.TRACK_WI
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.robots.base.SampleMecanumDrive;
@@ -15,6 +16,11 @@ import java.util.Arrays;
  * FTC 17240 Robot A: Team Grant Bot - REV Robotics Chassis
  */
 public class BotA2023 extends SampleMecanumDrive {
+
+    public Servo ClawLiftServo;
+    public DcMotor LeftLiftMotor;
+    public DcMotor RightLiftMotor;
+    public Servo ClawServo;
 
     public BotA2023(HardwareMap hardwareMap) {
         super(hardwareMap);
@@ -46,6 +52,19 @@ public class BotA2023 extends SampleMecanumDrive {
 
         // Default brake behavior
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Configure Lift and Claw hardware
+        ClawLiftServo = hardwareMap.get(Servo.class, "ClawLiftServo");
+        LeftLiftMotor = hardwareMap.get(DcMotor.class, "LeftLiftMotor");
+        RightLiftMotor = hardwareMap.get(DcMotor.class, "RightLiftMotor");
+        ClawServo = hardwareMap.get(Servo.class, "ClawServo");
+
+        ClawLiftServo.scaleRange(-5, 0.8);
+
+        LeftLiftMotor.setDirection(DcMotor.Direction.FORWARD);
+        RightLiftMotor.setDirection(DcMotor.Direction.REVERSE);
+        RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 }
 

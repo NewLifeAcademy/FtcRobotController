@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.TRACK_WI
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.robots.base.SampleMecanumDrive;
@@ -15,6 +16,10 @@ import java.util.Arrays;
  * FTC 17240 Robot B: Team Zack Bot - GoBilda Chassis
  */
 public class BotB2023 extends SampleMecanumDrive {
+
+    public DcMotor clawArm;
+    public Servo clawLift;
+    public Servo clawClose;
     public BotB2023(HardwareMap hardwareMap) {
         super(hardwareMap);
 
@@ -46,5 +51,8 @@ public class BotB2023 extends SampleMecanumDrive {
 
         // Default brake behavior
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Setup Claw motors and servos
+
     }
 }
