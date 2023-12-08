@@ -32,10 +32,19 @@ public class BotALongRedLeft extends LinearOpMode {
             // Close the claw
             drive.ClawServo.setPosition(-1);
 
+            // TODO: Add vision support to recognize placement of the team prop, and then adjust
+            //  values to push purple pixel to the correct spot in the first drive sequence
+
+            // TODO: (Optional) After adding vision support, add AprilTag detection to create a
+            //  'closing distance trajectory' to move the robot closer to the correct spot on the board.
+
+            // Drive sequence to push pixel and move to board
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    // TODO: Tune and fix the negative distance values
                     .strafeLeft(-32 * DISTANCE_MULTIPLIER)
                     .strafeRight(-6 * DISTANCE_MULTIPLIER)
                     .forward(-62 * DISTANCE_MULTIPLIER)
+                    // TODO: Tune and change MAX_VEL in DriveConstantsBotA to the max velocity we want for all autonomous driving
                     .setVelConstraint(BotA2023.getVelocityConstraint(5, DriveConstantsBotA.MAX_ANG_VEL, DriveConstantsBotA.TRACK_WIDTH))
                     .build();
             drive.followTrajectorySequence(trajSeq);
@@ -44,6 +53,7 @@ public class BotALongRedLeft extends LinearOpMode {
             drive.LeftLiftMotor.setPower(-1);
             drive.RightLiftMotor.setPower(-1);
 
+            // TODO: Add motor encoders to lift motors to use number of motor rotations instead of time
             sleep(1000);
 
             // Stop the lift
