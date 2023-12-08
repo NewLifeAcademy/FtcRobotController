@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.robots.BotA2023;
-import org.firstinspires.ftc.teamcode.robots.base.DriveConstantsBotA;
+import org.firstinspires.ftc.teamcode.robots.base.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "Robot A red long right - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
@@ -33,10 +33,9 @@ public class BotALongRedRight extends LinearOpMode {
             drive.ClawServo.setPosition(-1);
 
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeLeft(-32 * DISTANCE_MULTIPLIER)
-                    .strafeRight(-6 * DISTANCE_MULTIPLIER)
-                    .forward(-62 * DISTANCE_MULTIPLIER)
-                    .setVelConstraint(BotA2023.getVelocityConstraint(5, DriveConstantsBotA.MAX_ANG_VEL, DriveConstantsBotA.TRACK_WIDTH))
+                    .strafeLeft(DriveConstants.STRAFE_ONE_DISTANCE)
+                    .strafeRight(DriveConstants.STRAFE_TWO_DISTANCE)
+                    .forward(DriveConstants.FORWARD_DISTANCE_LONG)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -63,7 +62,7 @@ public class BotALongRedRight extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeRight(-26 * DISTANCE_MULTIPLIER)
+                    .strafeRight(DriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);
             sleep(30000);

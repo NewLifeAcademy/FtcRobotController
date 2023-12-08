@@ -22,10 +22,17 @@ public class DriveConstants {
      * These are motor constants that should be listed online for your motors.
      */
     /*
-     * FTC 17240 GoBilda + DuluthBot v3 Chassis:
+     * FTC 17240 DuluthBot REV Robotics:
      */
     public static final double TICKS_PER_REV = 537.6;
-    public static final double MAX_RPM = 312;
+    public static final double MAX_RPM = 312.5;
+
+    /* Autonomous Distances */
+    public static final double STRAFE_ONE_DISTANCE = -60;
+    public static final double STRAFE_TWO_DISTANCE = -12;
+    public static final double FORWARD_DISTANCE_LONG = -120;
+    public static final double FORWARD_DISTANCE_SHORT = -42;
+    public static final double STRAFE_THREE_DISTANCE = -48;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -57,7 +64,7 @@ public class DriveConstants {
      *  Gear ratio is 1:1 (Through Bore Encoder direct to Omni Wheels)
      *  Measured track width at 15in
      */
-    public static double WHEEL_RADIUS = 1.77; // in
+    public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 15.25; // in
 
@@ -102,8 +109,16 @@ public class DriveConstants {
      * FTC 17420 GoBilda + DuluthBot:
      *  Values copied/pasted from the generated wizard at https://learnroadrunner.com/drive-constants.html#drive-constants
      */
+
+    /*
     public static double MAX_VEL = 52.48180821614297;
     public static double MAX_ACCEL = 52.48180821614297;
+    */
+
+    // Reduce MAX_VEL and MAX_ACCEL to 50% of theoretical max velocity
+    public static double MAX_VEL = 25.23217263620446;
+    public static double MAX_ACCEL = 25.23217263620446;
+
     public static double MAX_ANG_VEL = Math.toRadians(184.02607784577722);
     public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722);
 

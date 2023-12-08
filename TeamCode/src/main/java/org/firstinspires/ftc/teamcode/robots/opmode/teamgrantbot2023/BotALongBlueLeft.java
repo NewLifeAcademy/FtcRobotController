@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.robots.BotA2023;
-import org.firstinspires.ftc.teamcode.robots.base.DriveConstantsBotA;
+import org.firstinspires.ftc.teamcode.robots.base.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "Robot A blue long left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
@@ -41,11 +41,9 @@ public class BotALongBlueLeft extends LinearOpMode {
             // Drive sequence to push pixel and move to board
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                     // TODO: Tune and fix the negative distance values
-                    .strafeRight(-32 * DISTANCE_MULTIPLIER)
-                    .strafeLeft(-6 * DISTANCE_MULTIPLIER)
-                    .forward(-62 * DISTANCE_MULTIPLIER)
-                    // TODO: Tune and change MAX_VEL in DriveConstantsBotA to the max velocity we want for all autonomous driving
-                    .setVelConstraint(BotA2023.getVelocityConstraint(5, DriveConstantsBotA.MAX_ANG_VEL, DriveConstantsBotA.TRACK_WIDTH))
+                    .strafeRight(DriveConstants.STRAFE_ONE_DISTANCE)
+                    .strafeLeft(DriveConstants.STRAFE_TWO_DISTANCE)
+                    .forward(DriveConstants.FORWARD_DISTANCE_LONG)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -73,7 +71,7 @@ public class BotALongBlueLeft extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeLeft(-26 * DISTANCE_MULTIPLIER)
+                    .strafeLeft(DriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);
             sleep(30000);
