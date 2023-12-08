@@ -60,7 +60,7 @@ public class BotAShortRedLeft extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeRight(-26 * DISTANCE_MULTIPLIER)
+                    .strafeLeft(-26 * DISTANCE_MULTIPLIER)
                     .build();
             drive.followTrajectorySequence(trajSeq);
             sleep(30000);
