@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.robots.opmode.teamzackbot2023;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.robots.BotB2023;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.robots.base.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "Robot B - Autonomous")
+@Disabled
 public class BotBAutonomous extends LinearOpMode {
 
     public static double DISTANCE = 10; // in

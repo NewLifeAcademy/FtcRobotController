@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robots.BotA2023;
 import org.firstinspires.ftc.teamcode.robots.base.DriveConstantsBotA;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Robot A blue short left - Autonomous", preselectTeleOp = "2023-2024 IronEagle Strafe")
+@Autonomous(name = "Robot A blue short left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
 public class BotAShortBlueLeft extends LinearOpMode {
 
     private double DISTANCE_MULTIPLIER = 1.5;

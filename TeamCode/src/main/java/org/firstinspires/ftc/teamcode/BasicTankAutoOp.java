@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,6 +11,7 @@ Omni-wheel encoder based test on tank chassis using RoadRunner
  */
 
 @Autonomous (name = "Basic Tank Auto")
+@Disabled
 public class BasicTankAutoOp extends LinearOpMode{
     private DcMotor motorRF;
     private DcMotor motorLB;

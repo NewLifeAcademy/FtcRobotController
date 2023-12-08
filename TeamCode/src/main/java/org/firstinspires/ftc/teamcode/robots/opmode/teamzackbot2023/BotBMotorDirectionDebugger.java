@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.robots.opmode.teamzackbot2023;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.drive.opmode.MotorDirectionDebugger;
 import org.firstinspires.ftc.teamcode.robots.BotB2023;
 
 @TeleOp(group = "teamzackbot2023", name = "Robot B - MotorDirectionDebugger")
+@Disabled
 public class BotBMotorDirectionDebugger extends MotorDirectionDebugger {
 
     @Override
