@@ -28,11 +28,16 @@ public class DriveConstants {
     public static final double MAX_RPM = 312.5;
 
     /* Autonomous Distances */
-    public static final double STRAFE_ONE_DISTANCE = -60;
-    public static final double STRAFE_TWO_DISTANCE = -12;
-    public static final double FORWARD_DISTANCE_LONG = -120;
-    public static final double FORWARD_DISTANCE_SHORT = -42;
+    public static final double STRAFE_ONE_RED_DISTANCE = -67;
+    public static final double STRAFE_ONE_BLUE_DISTANCE = -60;
+    public static final double STRAFE_TWO_RED_DISTANCE = -12;
+    public static final double STRAFE_TWO_BLUE_DISTANCE = -12;
+    public static final double FORWARD_DISTANCE_BLUE_LONG = -120;
+    public static final double FORWARD_DISTANCE_RED_LONG = -132;
+    public static final double FORWARD_DISTANCE_SHORT = -60;
+    public static final double REVERSE_DISTANCE = -8;
     public static final double STRAFE_THREE_DISTANCE = -48;
+
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.

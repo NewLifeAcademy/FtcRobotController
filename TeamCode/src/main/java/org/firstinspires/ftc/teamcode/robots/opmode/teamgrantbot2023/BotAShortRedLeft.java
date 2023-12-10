@@ -30,8 +30,8 @@ public class BotAShortRedLeft extends LinearOpMode {
             drive.ClawServo.setPosition(-1);
 
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeLeft(DriveConstants.STRAFE_ONE_DISTANCE)
-                    .strafeRight(DriveConstants.STRAFE_TWO_DISTANCE)
+                    .strafeLeft(DriveConstants.STRAFE_ONE_RED_DISTANCE)
+                    .strafeRight(DriveConstants.STRAFE_TWO_RED_DISTANCE)
                     .forward(DriveConstants.FORWARD_DISTANCE_SHORT)
                     .build();
             drive.followTrajectorySequence(trajSeq);
@@ -59,6 +59,7 @@ public class BotAShortRedLeft extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .back(DriveConstants.REVERSE_DISTANCE)
                     .strafeLeft(DriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);

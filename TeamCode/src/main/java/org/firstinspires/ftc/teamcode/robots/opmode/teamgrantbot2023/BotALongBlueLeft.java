@@ -41,9 +41,9 @@ public class BotALongBlueLeft extends LinearOpMode {
             // Drive sequence to push pixel and move to board
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                     // TODO: Tune and fix the negative distance values
-                    .strafeRight(DriveConstants.STRAFE_ONE_DISTANCE)
-                    .strafeLeft(DriveConstants.STRAFE_TWO_DISTANCE)
-                    .forward(DriveConstants.FORWARD_DISTANCE_LONG)
+                    .strafeRight(DriveConstants.STRAFE_ONE_BLUE_DISTANCE)
+                    .strafeLeft(DriveConstants.STRAFE_TWO_BLUE_DISTANCE)
+                    .forward(DriveConstants.FORWARD_DISTANCE_BLUE_LONG)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -71,6 +71,7 @@ public class BotALongBlueLeft extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .back(DriveConstants.REVERSE_DISTANCE)
                     .strafeLeft(DriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);

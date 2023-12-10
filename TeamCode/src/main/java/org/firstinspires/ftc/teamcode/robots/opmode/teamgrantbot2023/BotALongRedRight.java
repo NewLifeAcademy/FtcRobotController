@@ -33,9 +33,9 @@ public class BotALongRedRight extends LinearOpMode {
             drive.ClawServo.setPosition(-1);
 
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeLeft(DriveConstants.STRAFE_ONE_DISTANCE)
-                    .strafeRight(DriveConstants.STRAFE_TWO_DISTANCE)
-                    .forward(DriveConstants.FORWARD_DISTANCE_LONG)
+                    .strafeLeft(DriveConstants.STRAFE_ONE_RED_DISTANCE)
+                    .strafeRight(DriveConstants.STRAFE_TWO_RED_DISTANCE)
+                    .forward(DriveConstants.FORWARD_DISTANCE_RED_LONG)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -62,6 +62,7 @@ public class BotALongRedRight extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .back(DriveConstants.REVERSE_DISTANCE)
                     .strafeRight(DriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);
