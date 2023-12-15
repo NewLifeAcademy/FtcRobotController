@@ -37,17 +37,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.kV;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.kV;
 
 /*
  * Simple tank drive hardware implementation for REV hardware.
@@ -91,7 +91,7 @@ public class SampleTankDrive extends TankDrive {
         // TODO: Team 17240 - Does this need to update to BNO55IMU?  It looks like Expansion Hub 3 (DQ3N0NI8) has an IMU
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
+                AlphaDriveConstants.LOGO_FACING_DIR, AlphaDriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
         // add/remove motors depending on your robot (e.g., 6WD)

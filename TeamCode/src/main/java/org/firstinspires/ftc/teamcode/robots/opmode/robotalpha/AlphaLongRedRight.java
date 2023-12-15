@@ -1,21 +1,21 @@
-package org.firstinspires.ftc.teamcode.robots.opmode.teamgrantbot2023;
+package org.firstinspires.ftc.teamcode.robots.opmode.robotalpha;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robots.BotA2023;
-import org.firstinspires.ftc.teamcode.robots.base.DriveConstants;
+import org.firstinspires.ftc.teamcode.robots.AlphaBot2024;
+import org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Robot A blue long left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
-public class BotALongBlueLeft extends LinearOpMode {
+@Autonomous(name = "Robot A red long right - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+public class AlphaLongRedRight extends LinearOpMode {
 
     private double DISTANCE_MULTIPLIER = 1.5;
 
     @Override
     public void runOpMode() throws InterruptedException{
-        BotA2023 drive = new BotA2023(hardwareMap);
+        AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
         Pose2d startPose = new Pose2d();
 
@@ -32,18 +32,10 @@ public class BotALongBlueLeft extends LinearOpMode {
             // Close the claw
             drive.ClawServo.setPosition(-1);
 
-            // TODO: Add vision support to recognize placement of the team prop, and then adjust
-            //  values to push purple pixel to the correct spot in the first drive sequence
-
-            // TODO: (Optional) After adding vision support, add AprilTag detection to create a
-            //  'closing distance trajectory' to move the robot closer to the correct spot on the board.
-
-            // Drive sequence to push pixel and move to board
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    // TODO: Tune and fix the negative distance values
-                    .strafeRight(DriveConstants.STRAFE_ONE_BLUE_DISTANCE)
-                    .strafeLeft(DriveConstants.STRAFE_TWO_BLUE_DISTANCE)
-                    .forward(DriveConstants.FORWARD_DISTANCE_BLUE_LONG)
+                    .strafeLeft(AlphaDriveConstants.STRAFE_ONE_RED_DISTANCE)
+                    .strafeRight(AlphaDriveConstants.STRAFE_TWO_RED_DISTANCE)
+                    .forward(AlphaDriveConstants.FORWARD_DISTANCE_RED_LONG)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -51,7 +43,6 @@ public class BotALongBlueLeft extends LinearOpMode {
             drive.LeftLiftMotor.setPower(-1);
             drive.RightLiftMotor.setPower(-1);
 
-            // TODO: Add motor encoders to lift motors to use number of motor rotations instead of time
             sleep(1000);
 
             // Stop the lift
@@ -71,8 +62,8 @@ public class BotALongBlueLeft extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .back(DriveConstants.REVERSE_DISTANCE)
-                    .strafeLeft(DriveConstants.STRAFE_THREE_DISTANCE)
+                    .back(AlphaDriveConstants.REVERSE_DISTANCE)
+                    .strafeRight(AlphaDriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);
             sleep(30000);

@@ -1,21 +1,21 @@
-package org.firstinspires.ftc.teamcode.robots.opmode.teamgrantbot2023;
+package org.firstinspires.ftc.teamcode.robots.opmode.robotalpha;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robots.BotA2023;
-import org.firstinspires.ftc.teamcode.robots.base.DriveConstants;
+import org.firstinspires.ftc.teamcode.robots.AlphaBot2024;
+import org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Robot A blue long right - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
-public class BotALongBlueRight extends LinearOpMode {
+@Autonomous(name = "Robot A red short right - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+public class AlphaShortRedRight extends LinearOpMode {
 
     private double DISTANCE_MULTIPLIER = 1.5;
 
     @Override
     public void runOpMode() throws InterruptedException{
-        BotA2023 drive = new BotA2023(hardwareMap);
+        AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
         Pose2d startPose = new Pose2d();
 
@@ -26,16 +26,13 @@ public class BotALongBlueRight extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (!isStopRequested()) {
-            // 5 sec delay to allow for alliance partner to move
-            sleep(5000);
-
             // Close the claw
             drive.ClawServo.setPosition(-1);
 
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeRight(DriveConstants.STRAFE_ONE_BLUE_DISTANCE)
-                    .strafeLeft(DriveConstants.STRAFE_TWO_BLUE_DISTANCE)
-                    .forward(DriveConstants.FORWARD_DISTANCE_BLUE_LONG)
+                    .strafeLeft(AlphaDriveConstants.STRAFE_ONE_RED_DISTANCE)
+                    .strafeRight(AlphaDriveConstants.STRAFE_TWO_RED_DISTANCE)
+                    .forward(AlphaDriveConstants.FORWARD_DISTANCE_SHORT)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -62,8 +59,8 @@ public class BotALongBlueRight extends LinearOpMode {
             sleep(1000);
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .back(DriveConstants.REVERSE_DISTANCE)
-                    .strafeRight(DriveConstants.STRAFE_THREE_DISTANCE)
+                    .back(AlphaDriveConstants.REVERSE_DISTANCE)
+                    .strafeRight(AlphaDriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);
             sleep(30000);

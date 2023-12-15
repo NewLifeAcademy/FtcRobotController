@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.MAX_RPM;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.robots.base.DriveConstants.rpmToVelocity;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.MAX_RPM;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.robots.base.AlphaDriveConstants.rpmToVelocity;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;

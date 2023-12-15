@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.robots.base;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-
 /*
  * Constants shared between multiple drive types.
  *
@@ -17,7 +14,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
  * and op modes themselves.
  */
 //@Config
-public class DriveConstantsBotB {
+public class BetaDriveConstants {
     // TODO: Regerate these from wizard at https://learnroadrunner.com/drive-constants.html#drive-constants
 
 }
