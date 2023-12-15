@@ -18,21 +18,11 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
  */
 //@Config
 public class BetaDriveConstants {
-    // TODO: Regerate these from wizard at https://learnroadrunner.com/drive-constants.html#drive-constants
+    /*
+     * These are motor constants that should be listed online for your motors.
+     */
     public static final double TICKS_PER_REV = 537.6;
-    public static final double MAX_RPM = 312.5;
-
-    /* Autonomous Distances */
-    public static final double STRAFE_ONE_RED_DISTANCE = -67;
-    public static final double STRAFE_ONE_BLUE_DISTANCE = -60;
-    public static final double STRAFE_TWO_RED_DISTANCE = -12;
-    public static final double STRAFE_TWO_BLUE_DISTANCE = -12;
-    public static final double FORWARD_DISTANCE_BLUE_LONG = -120;
-    public static final double FORWARD_DISTANCE_RED_LONG = -132;
-    public static final double FORWARD_DISTANCE_SHORT = -60;
-    public static final double REVERSE_DISTANCE = -8;
-    public static final double STRAFE_THREE_DISTANCE = -48;
-
+    public static final double MAX_RPM = 312;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -41,10 +31,6 @@ public class BetaDriveConstants {
      *
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
-     *
-     * FTC 17240 GoBuilda and DuluthBot:
-     *  Using 'dead' wheel odometry with 90mm Omni Wheels + Through Bore Encoder
-     *   Therefore, this should always be 'false'
      */
     public static final boolean RUN_USING_ENCODER = false;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
@@ -58,15 +44,9 @@ public class BetaDriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    /*
-     * FTC 17240 GoBuilda:
-     *  DUO Omni 90mm wheels (3.54 in): https://www.revrobotics.com/DUO-Omni-Wheels/
-     *  Gear ratio is 1:1 (Through Bore Encoder direct to Omni Wheels)
-     *  Measured track width at 15in
-     */
-    public static double WHEEL_RADIUS = 1.8898; // in
+    public static double WHEEL_RADIUS = 1.88976; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.25; // in
+    public static double TRACK_WIDTH = 16.34; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -89,46 +69,27 @@ public class BetaDriveConstants {
      * Note from LearnRoadRunner.com:
      * The velocity and acceleration constraints were calculated based on the following equation:
      * ((MAX_RPM / 60) * GEAR_RATIO * WHEEL_RADIUS * 2 * Math.PI) * 0.85
-     * Resulting in 25.23217263620446 in/s.
+     * Resulting in 52.48180821614297 in/s.
      * This is only 85% of the theoretical maximum velocity of the bot, following the recommendation above.
      * This is capped at 85% because there are a number of variables that will prevent your bot from actually
      * reaching this maximum velocity: voltage dropping over the game, bot weight, general mechanical inefficiencies, etc.
      * However, you can push this higher yourself if you'd like. Perhaps raise it to 90-95% of the theoretically
-     * max velocity. The theoretically maximum velocity is 29.684908983769954 in/s.
+     * max velocity. The theoretically maximum velocity is 61.74330378369762 in/s.
      * Just make sure that your bot can actually reach this maximum velocity. Path following will be detrimentally
      * affected if it is aiming for a velocity not actually possible.
      *
      * The maximum acceleration is somewhat arbitrary and it is recommended that you tweak this yourself based on
      * actual testing. Just set it at a reasonable value and keep increasing until your path following starts
-     * to degrade. As of now, it simply mirrors the velocity, resulting in 25.23217263620446 in/s/s
+     * to degrade. As of now, it simply mirrors the velocity, resulting in 52.48180821614297 in/s/s
      *
      * Maximum Angular Velocity is calculated as: maximum velocity / trackWidth * (180 / Math.PI) but capped at 360°/s.
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
-     */
-    /*
-     * FTC 17420 GoBilda + DuluthBot:
-     *  Values copied/pasted from the generated wizard at https://learnroadrunner.com/drive-constants.html#drive-constants
-     */
 
-    /*
+     */
     public static double MAX_VEL = 52.48180821614297;
     public static double MAX_ACCEL = 52.48180821614297;
-    */
-
-    // Reduce MAX_VEL and MAX_ACCEL to 50% of theoretical max velocity
-    public static double MAX_VEL = 25.23217263620446;
-    public static double MAX_ACCEL = 25.23217263620446;
-
     public static double MAX_ANG_VEL = Math.toRadians(184.02607784577722);
     public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722);
-
-    /*
-     * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
-     */
-    public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
-            RevHubOrientationOnRobot.LogoFacingDirection.UP;
-    public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
 
     public static double encoderTicksToInches(double ticks) {

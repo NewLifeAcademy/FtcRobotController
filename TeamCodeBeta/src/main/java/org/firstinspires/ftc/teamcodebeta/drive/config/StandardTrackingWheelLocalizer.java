@@ -31,6 +31,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double WHEEL_RADIUS = .69; // // Dual Omni 35mm (1.38 inches / 2)
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
+    // TODO: Update these for beta bot : https://learnroadrunner.com/dead-wheels.html#lateral-distance-forward-offset
     public static double LATERAL_DISTANCE = 8; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = -1; // in; offset of the lateral wheel
 

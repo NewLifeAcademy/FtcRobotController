@@ -52,6 +52,7 @@ import java.util.List;
  */
 @Config
 @Autonomous(group = "roadrunner tuning", name = "DriveVelocityPIDTuner")
+@Disabled
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 
