@@ -39,8 +39,10 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRearDrive");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFrontDrive");
 
-        // Set direction of leftRearDrive
-        leftRear.setDirection(DcMotor.Direction.REVERSE);
+        // Reverse direction of leftFrontDrive, rightFrontDrive, and rightRearDrive
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 

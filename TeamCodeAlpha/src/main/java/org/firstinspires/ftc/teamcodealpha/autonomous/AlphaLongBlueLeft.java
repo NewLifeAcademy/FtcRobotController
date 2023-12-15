@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Robot A blue long left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+@Autonomous(name = "Alpha blue long left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
 public class AlphaLongBlueLeft extends LinearOpMode {
 
     private double DISTANCE_MULTIPLIER = 1.5;
