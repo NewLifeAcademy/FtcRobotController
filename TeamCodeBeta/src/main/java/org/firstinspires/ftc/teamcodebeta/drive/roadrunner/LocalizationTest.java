@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcodebeta.BetaBot2024;
 import org.firstinspires.ftc.teamcodebeta.drive.config.SampleMecanumDrive;
 
 /**
@@ -15,12 +16,11 @@ import org.firstinspires.ftc.teamcodebeta.drive.config.SampleMecanumDrive;
  * exercise is to ascertain whether the localizer has been configured properly (note: the pure
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
-@TeleOp(group = "drive")
-@Disabled
+@TeleOp(group = "roadrunner tuning", name = "LocalizationTest")
 public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        BetaBot2024 drive = new BetaBot2024(hardwareMap);
         opModeCode(drive, 1, 1, 1);
     }
 

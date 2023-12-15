@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcodebeta.drive.roadrunner;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.fasterxml.jackson.databind.deser.impl.BeanAsArrayBuilderDeserializer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcodebeta.BetaBot2024;
 import org.firstinspires.ftc.teamcodebeta.drive.config.SampleMecanumDrive;
 
 /*
@@ -26,15 +28,14 @@ import org.firstinspires.ftc.teamcodebeta.drive.config.SampleMecanumDrive;
  * is recommended that you use the FollowerPIDTuner opmode for further fine tuning.
  */
 @Config
-@Autonomous(group = "drive")
-@Disabled
+@Autonomous(group = "roadrunner tuning", name = "BackAndForth")
 public class BackAndForth extends LinearOpMode {
 
     public static double DISTANCE = 50;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        BetaBot2024 drive = new BetaBot2024(hardwareMap);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcodebeta.BetaBot2024;
 import org.firstinspires.ftc.teamcodebeta.drive.config.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodebeta.trajectorysequence.TrajectorySequence;
 
@@ -23,14 +24,13 @@ import org.firstinspires.ftc.teamcodebeta.trajectorysequence.TrajectorySequence;
  * These coefficients can be tuned live in dashboard.
  */
 @Config
-@Autonomous(group = "drive")
-@Disabled
+@Autonomous(group = "roadrunner tuning", name = "FollowerPIDTuner")
 public class FollowerPIDTuner extends LinearOpMode {
     public static double DISTANCE = 48; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        BetaBot2024 drive = new BetaBot2024(hardwareMap);
 
         Pose2d startPose = new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0);
 
