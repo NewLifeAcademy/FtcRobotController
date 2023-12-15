@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.drive.config.SampleMecanumDrive;
 
 /**
@@ -39,14 +40,13 @@ import org.firstinspires.ftc.teamcodealpha.drive.config.SampleMecanumDrive;
  * Uncomment the @Disabled tag below to use this opmode.
  */
 @Config
-@TeleOp(group = "drive")
-@Disabled
+@TeleOp(group = "roadrunner tuning", name = "MotorDirectionDebugger")
 public class MotorDirectionDebugger extends LinearOpMode {
     public static double MOTOR_POWER = 0.5;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
         opModeCode(drive);
     }
 

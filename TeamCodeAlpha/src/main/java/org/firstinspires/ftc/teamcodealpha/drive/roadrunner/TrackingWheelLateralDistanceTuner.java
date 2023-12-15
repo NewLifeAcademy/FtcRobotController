@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.drive.config.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodealpha.drive.config.StandardTrackingWheelLocalizer;
 
@@ -63,14 +64,13 @@ import org.firstinspires.ftc.teamcodealpha.drive.config.StandardTrackingWheelLoc
  * precision. The heading should still line up.
  */
 @Config
-@TeleOp(group = "drive")
-@Disabled
+@TeleOp(group = "roadrunner tuning", name = "TrackingWheelLateralDistanceTuner")
 public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
     public static int NUM_TURNS = 10;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
         if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
             RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "
