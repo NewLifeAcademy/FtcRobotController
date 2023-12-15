@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcodebeta.drive.roadrunner.MotorDirectionDebugger;
 import org.firstinspires.ftc.teamcodebeta.BetaBot2024;
 
-@TeleOp(group = "teamzackbot2023", name = "Robot B - MotorDirectionDebugger")
-@Disabled
+@TeleOp(group = "Beta", name = "Beta - MotorDirectionDebugger")
 public class BetaMotorDirectionDebugger extends MotorDirectionDebugger {
 
     @Override
