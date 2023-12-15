@@ -17,7 +17,7 @@ import com.acmerobotics.roadrunner.trajectory.TrajectoryMarker;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcodebeta.robots.base.BetaDriveConstants;
+import org.firstinspires.ftc.teamcodebeta.drive.config.BetaDriveConstants;
 import org.firstinspires.ftc.teamcodebeta.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcodebeta.trajectorysequence.sequencesegment.TrajectorySegment;
 import org.firstinspires.ftc.teamcodebeta.trajectorysequence.sequencesegment.TurnSegment;
