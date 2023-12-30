@@ -31,13 +31,14 @@ package org.firstinspires.ftc.teamcodebeta.autonomous;
 
 import android.util.Size;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcodebeta.BetaBot2024;
+import org.firstinspires.ftc.teamcodebeta.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
@@ -50,8 +51,8 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
-public class ConceptTensorFlowObjectDetection extends LinearOpMode {
+@TeleOp(name = "DriveToPropTest", group = "Concept")
+public class DriveToPropTest extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -78,7 +79,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+        BetaBot2024 drive = new BetaBot2024(hardwareMap);
         initTfod();
 
         // Wait for the DS start button to be touched.
@@ -88,10 +89,23 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+            boolean moving = false;
             while (opModeIsActive()) {
 
-                telemetryTfod();
-
+                int pos = telemetryTfod();
+                if (0 != pos) {
+                    if (!moving) {
+                        moving = true;
+                        Pose2d startPose = new Pose2d();
+                        drive.setPoseEstimate(startPose);
+                        if (2 == pos) {
+                            TrajectorySequence trajCen = drive.trajectorySequenceBuilder(startPose)
+                                    .forward(38)
+                                    .build();
+                            drive.followTrajectorySequence(trajCen);
+                        }
+                    }
+                }
                 // Push telemetry to the Driver Station.
                 telemetry.update();
 
@@ -158,7 +172,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    private int telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -177,24 +191,27 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         // if number of recognitions is zero or greater than 1, display a message
         if (currentRecognitions.size() == 0 || currentRecognitions.size() > 1) {
             telemetry.addData("Image", "0 or more then 1 prop detected. Assuming center position.");
+            return 0;
         }
         else {
             // get x and y of first (and only) recognition
             double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
             double y = (currentRecognitions.get(0).getTop()  + currentRecognitions.get(0).getBottom()) / 2 ;
             // if y is less than 335, display a message
-            if (y < 335) {
+            if (y < 210) {
                 telemetry.addData("Image", "Prop detected below center line. Assuming center position.");
+                return 2;
             }
             else {
                 // if x is less than 260, display a message
-                if (x < 260) {
+                if (x < 400) {
                     telemetry.addData("Image", "Prop detected left of center. Assuming left position.");
+                    return 1;
                 }
                 else {
                     // Assuming right position
                         telemetry.addData("Image", "Prop detected right of center. Assuming right position.");
-
+                        return 3;
                     }
                 }
             }
