@@ -134,7 +134,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
             .setIsModelTensorFlow2(true)
             .setIsModelQuantized(true)
             .setModelInputSize(300)
-            .setModelAspectRatio(16.0 / 9.0)
+            .setModelAspectRatio(9.0 / 5.0)
 
             .build();
 
