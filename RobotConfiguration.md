@@ -43,11 +43,11 @@ GoBilda Chassis V4 Kit
 **Expansion Hub**
 |Port|Type|Name|Desciptor|
 |----|----|----|----|
-|3|Core HEX 40:1|`claw_arm`||
+|3|Rev Robotics 40:1 HD Hex Motor|`claw_arm`||
 
 ### Servos
 **Expansion Hub**
 |Port|Type|Name|Descriptor|
 |----|----|----|----|
-|0||`claw_lift`|----|
-|1||`claw_close`|----|
+|0|Servo|`claw_lift`|----|
+|1|Servo|`claw_close`|----|
