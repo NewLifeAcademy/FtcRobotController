@@ -1,15 +1,17 @@
-package org.firstinspires.ftc.teamcodealpha.autonomous;
+package org.firstinspires.ftc.teamcodealpha.autonomous.duluth;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Alpha blue long left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
-public class AlphaLongBlueLeft extends LinearOpMode {
+@Autonomous(name = "Old robot A red long left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+@Disabled
+public class AlphaLongRedLeft extends LinearOpMode {
 
     private double DISTANCE_MULTIPLIER = 1.5;
 
@@ -41,9 +43,9 @@ public class AlphaLongBlueLeft extends LinearOpMode {
             // Drive sequence to push pixel and move to board
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                     // TODO: Tune and fix the negative distance values
-                    .strafeRight(AlphaDriveConstants.STRAFE_ONE_BLUE_DISTANCE)
-                    .strafeLeft(AlphaDriveConstants.STRAFE_TWO_BLUE_DISTANCE)
-                    .forward(AlphaDriveConstants.FORWARD_DISTANCE_BLUE_LONG)
+                    .strafeLeft(AlphaDriveConstants.STRAFE_ONE_RED_DISTANCE)
+                    .strafeRight(AlphaDriveConstants.STRAFE_TWO_RED_DISTANCE)
+                    .forward(AlphaDriveConstants.FORWARD_DISTANCE_RED_LONG)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 

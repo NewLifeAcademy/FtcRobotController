@@ -1,15 +1,17 @@
-package org.firstinspires.ftc.teamcodealpha.autonomous;
+package org.firstinspires.ftc.teamcodealpha.autonomous.duluth;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Robot A red short left - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
-public class AlphaShortRedLeft extends LinearOpMode {
+@Autonomous(name = "Old robot A red short right - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+@Disabled
+public class AlphaShortRedRight extends LinearOpMode {
 
     private double DISTANCE_MULTIPLIER = 1.5;
 
@@ -60,7 +62,7 @@ public class AlphaShortRedLeft extends LinearOpMode {
 
             trajSeq = drive.trajectorySequenceBuilder(startPose)
                     .back(AlphaDriveConstants.REVERSE_DISTANCE)
-                    .strafeLeft(AlphaDriveConstants.STRAFE_THREE_DISTANCE)
+                    .strafeRight(AlphaDriveConstants.STRAFE_THREE_DISTANCE)
                     .build();
             drive.followTrajectorySequence(trajSeq);
             sleep(30000);
