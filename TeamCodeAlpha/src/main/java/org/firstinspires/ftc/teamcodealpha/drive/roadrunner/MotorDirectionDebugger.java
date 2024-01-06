@@ -47,10 +47,6 @@ public class MotorDirectionDebugger extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
-        opModeCode(drive);
-    }
-
-    protected void opModeCode(SampleMecanumDrive drive) {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         telemetry.addLine("Press play to begin the debugging opmode");
@@ -85,8 +81,15 @@ public class MotorDirectionDebugger extends LinearOpMode {
             } else if(gamepad1.a) {
                 drive.setMotorPowers(0, MOTOR_POWER, 0, 0);
                 telemetry.addLine("Running Motor: Rear Left");
+            } else if (gamepad1.dpad_up) {
+                drive.setLiftMotorPowers(0.5);
+                telemetry.addLine("Running Motor: Lift Up");
+            } else if (gamepad1.dpad_down) {
+                drive.setLiftMotorPowers(-0.5);
+                telemetry.addLine("Running Motor: Lift Down");
             } else {
                 drive.setMotorPowers(0, 0, 0, 0);
+                drive.setLiftMotorPowers(0);
                 telemetry.addLine("Running Motor: None");
             }
 
