@@ -31,11 +31,19 @@ package org.firstinspires.ftc.teamcodealpha.autonomous;
 
 import android.util.Size;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
+import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
+import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
@@ -76,6 +84,7 @@ public class AlphaLongRedRight extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
         initTfod();
 
@@ -86,22 +95,52 @@ public class AlphaLongRedRight extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+            drive.claw2close.setPosition(-1);
+            drive.ClawServo.setPosition(-1);
             while (opModeIsActive()) {
+                // 2 second sleep to allow TFOD to detect prop
+                sleep(2000);
 
-                telemetryTfod();
+                int pos = telemetryTfod();
 
                 // Push telemetry to the Driver Station.
                 telemetry.update();
 
-                // Save CPU resources; can resume streaming when needed.
-                if (gamepad1.dpad_down) {
-                    visionPortal.stopStreaming();
-                } else if (gamepad1.dpad_up) {
-                    visionPortal.resumeStreaming();
-                }
+                // Save CPU resources
+                visionPortal.stopStreaming();
 
-                // Share the CPU.
-                sleep(20);
+                // set starting position of robot
+                Pose2d startPose = new Pose2d(-36.25, -62.5, Math.toRadians(90));
+                drive.setPoseEstimate(startPose);
+
+                // if pos is 0 then move to center position, rotate 180 degrees, lower rear claw, open rear claw, raise rear claw
+                if (pos == 0) {
+                    // TODO: lineTo has an xError of about 6 inches, using distance instead
+//                    Trajectory sequence = drive.trajectoryBuilder(startPose)
+//                            .lineTo(new Vector2d(-36.25,-37))
+//                            .build();
+//                    drive.followTrajectory(sequence);
+                    TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+                            .setTurnConstraint(2, 2)
+                            .forward(28.5)
+                            .build();
+
+                    drive.followTrajectorySequence(trajSeq);
+
+                    drive.claw2flip.setPosition(0.9);
+                    sleep(1000);
+
+                     trajSeq = drive.trajectorySequenceBuilder(startPose)
+                            .setTurnConstraint(2, 2)
+                            .turn(Math.toRadians(-180))
+                            .build();
+
+                    drive.followTrajectorySequence(trajSeq);
+                }
+                drive.claw2close.setPosition(0.8);
+
+                // stop autonomous and wait for finish
+                sleep(30000);
             }
         }
 
@@ -156,7 +195,7 @@ public class AlphaLongRedRight extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    private int telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -175,26 +214,29 @@ public class AlphaLongRedRight extends LinearOpMode {
         // if number of recognitions is zero or greater than 1, display a message
         if (currentRecognitions.size() == 0 || currentRecognitions.size() > 1) {
             telemetry.addData("Image", "0 or more then 1 prop detected. Assuming center position.");
+            return 0;
         }
         else {
             // get x and y of first (and only) recognition
-            double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
             double y = (currentRecognitions.get(0).getTop()  + currentRecognitions.get(0).getBottom()) / 2 ;
-            // if y is less than 335, display a message
-            if (y < 335) {
+            double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
+            // if y is less than 90, return 0 and display prop in center
+            if (y < 90) {
                 telemetry.addData("Image", "Prop detected below center line. Assuming center position.");
+                return 0;
             }
             else {
-                // if x is less than 260, display a message
-                if (x < 260) {
+                // if x is less than 400, return 1 and display prop left of center
+                if (x < 400) {
                     telemetry.addData("Image", "Prop detected left of center. Assuming left position.");
+                    return 1;
                 }
                 else {
                     // Assuming right position
-                        telemetry.addData("Image", "Prop detected right of center. Assuming right position.");
-
-                    }
+                    telemetry.addData("Image", "Prop detected right of center. Assuming right position.");
+                    return 2;
                 }
             }
+        }
     } // end method telemetryTfod()
 }   // end class

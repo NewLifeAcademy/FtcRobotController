@@ -21,6 +21,8 @@ public class AlphaBot2024 extends SampleMecanumDrive {
     public DcMotor LeftLiftMotor;
     public DcMotor RightLiftMotor;
     public Servo ClawServo;
+    public Servo claw2flip;
+    public Servo claw2close;
 
     public AlphaBot2024(HardwareMap hardwareMap) {
         super(hardwareMap);
@@ -60,6 +62,8 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         LeftLiftMotor = hardwareMap.get(DcMotor.class, "LeftLiftMotor");
         RightLiftMotor = hardwareMap.get(DcMotor.class, "RightLiftMotor");
         ClawServo = hardwareMap.get(Servo.class, "ClawServo");
+        claw2flip = hardwareMap.get(Servo.class, "claw2flip");
+        claw2close = hardwareMap.get(Servo.class, "claw2close");
 
         ClawLiftServo.scaleRange(-5, 0.8);
 
