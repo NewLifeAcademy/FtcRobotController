@@ -27,13 +27,7 @@ public class AlphaBot2024 extends SampleMecanumDrive {
     public AlphaBot2024(HardwareMap hardwareMap) {
         super(hardwareMap);
 
-        // Override DriveConstants
-        TRACK_WIDTH = 15.25; // in
 
-        // Reduce power for easier testing
-        VX_PERCENTAGE = 0.6;
-        VY_PERCENTAGE = 0.6;
-        HEADING_PERCENTAGE = 0.6;
 
         // Configure the drive motors
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFrontDrive");

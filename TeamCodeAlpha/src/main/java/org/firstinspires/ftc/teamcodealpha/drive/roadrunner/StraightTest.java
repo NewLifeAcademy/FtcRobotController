@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcodealpha.drive.config.SampleMecanumDrive;
 @Config
 @Autonomous(group = "roadrunner tuning", name = "StraightTest")
 public class StraightTest extends LinearOpMode {
-    public static double DISTANCE = 60; // in
+    public static double DISTANCE = 70; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
