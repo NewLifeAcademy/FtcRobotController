@@ -115,29 +115,36 @@ public class AlphaLongRedRight extends LinearOpMode {
 
                 // if pos is 0 then move to center position, rotate 180 degrees, lower rear claw, open rear claw, raise rear claw
                 if (pos == 0) {
-                    // TODO: lineTo has an xError of about 6 inches, using distance instead
-//                    Trajectory sequence = drive.trajectoryBuilder(startPose)
-//                            .lineTo(new Vector2d(-36.25,-37))
+//                   TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
+//                            .lineTo(new Vector2d(-40.25,-37))
+//                           .turn(Math.toRadians(-180))
 //                            .build();
-//                    drive.followTrajectory(sequence);
-                    TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                            .setTurnConstraint(2, 2)
-                            .forward(28.5)
+//                    drive.followTrajectorySequence(seq1);
+
+                    Pose2d centerDropPose = new Pose2d(-40.25, -43.5, Math.toRadians(270));
+                    TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
+                            .lineToLinearHeading(centerDropPose)
                             .build();
 
-                    drive.followTrajectorySequence(trajSeq);
+                    drive.followTrajectorySequence(seq1);
 
-                    drive.claw2flip.setPosition(0.9);
-                    sleep(1000);
-
-                     trajSeq = drive.trajectorySequenceBuilder(startPose)
-                            .setTurnConstraint(2, 2)
-                            .turn(Math.toRadians(-180))
-                            .build();
-
-                    drive.followTrajectorySequence(trajSeq);
                 }
+
+                // Lower claw2
+                drive.claw2flip.setPosition(0.8);
+                sleep(500);
+
+                // Drop pixel
                 drive.claw2close.setPosition(0.8);
+                sleep(500);
+
+                // Raise claw2
+                drive.claw2flip.setPosition(-1);
+                sleep(500);
+
+                // Close claw2
+                drive.claw2close.setPosition(-1);
+                sleep(500);
 
                 // stop autonomous and wait for finish
                 sleep(30000);
