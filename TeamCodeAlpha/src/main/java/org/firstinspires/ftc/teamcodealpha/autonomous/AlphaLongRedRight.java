@@ -115,12 +115,10 @@ public class AlphaLongRedRight extends LinearOpMode {
 
                 // if pos is 0 then move to center position, rotate 180 degrees, lower rear claw, open rear claw, raise rear claw
                 if (pos == 0) {
-//                   TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
-//                            .lineTo(new Vector2d(-40.25,-37))
-//                           .turn(Math.toRadians(-180))
-//                            .build();
-//                    drive.followTrajectorySequence(seq1);
+                    // TODO: Create a pose that is 4inches south and 4inches west (same heading) of the startPose, this will
+                    // avoid bumping into field objects before rotating and moving to the centerDropPose
 
+                    // Drive to center pose position
                     Pose2d centerDropPose = new Pose2d(-40.25, -43.5, Math.toRadians(270));
                     TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
                             .lineToLinearHeading(centerDropPose)
