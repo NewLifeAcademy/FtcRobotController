@@ -91,6 +91,9 @@ public class AlphaLongRedNearWall extends LinearOpMode {
     public static double BACKBOARD_HEADING = 0;
     public static double BACKBOARD_LEFTOFFSET = 5;
     public static double BACKBOARD_RIGHTOFFSET = -5;
+    public static double WAYPOINT6_X = 52;
+    public static double WAYPOINT6_Y = -39;
+    public static double WAYPOINT6_HEADING = 0;
     public static double PARK_X = 52;
     public static double PARK_Y = -63.5;
     public static double PARK_HEADING = 0;
@@ -144,7 +147,7 @@ public class AlphaLongRedNearWall extends LinearOpMode {
                 telemetry.update();
 
                 // Save CPU resources
-                visionPortal.stopStreaming();
+                visionPortal.close();
 
                 // set starting position of robot
                 Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
@@ -229,7 +232,9 @@ public class AlphaLongRedNearWall extends LinearOpMode {
                 sleep(500);
 
                 // Move to park
+                // TODO: Change heading to avoid any 'strafing' (seems to consume too much battery)
                 TrajectorySequence seq3 = drive.trajectorySequenceBuilder(backpose)
+                        .lineToLinearHeading(new Pose2d(WAYPOINT6_X, WAYPOINT6_Y, Math.toRadians(WAYPOINT6_HEADING)))
                         .lineToLinearHeading(new Pose2d(PARK_X, PARK_Y, Math.toRadians(PARK_HEADING)))
                         .build();
 
@@ -239,10 +244,6 @@ public class AlphaLongRedNearWall extends LinearOpMode {
                 sleep(30000);
             }
         }
-
-        // Save more CPU resources when camera is no longer needed.
-        visionPortal.close();
-
     }   // end runOpMode()
 
     /**
