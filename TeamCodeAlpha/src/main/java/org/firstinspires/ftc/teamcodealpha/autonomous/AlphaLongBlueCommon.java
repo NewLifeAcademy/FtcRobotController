@@ -84,7 +84,7 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
     public static double WAYPOINT5_Y = 36;
     public static double WAYPOINT5_HEADING = 0;
 
-    public static double BACKBOARD_X = 53;
+    public static double BACKBOARD_X = 54;
     public static double BACKBOARD_Y = 36;
     public static double BACKBOARD_HEADING = 0;
     public static double BACKBOARD_LEFT_OFFSET = 4;
