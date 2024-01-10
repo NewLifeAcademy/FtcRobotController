@@ -153,9 +153,6 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
                 Pose2d dropPose, c2orLR2Pose;
                 Pose2d backpose = new Pose2d(BACKBOARD_X, BACKBOARD_Y, Math.toRadians(BACKBOARD_HEADING));
                 if (pos == 0) {
-                    // TODO: Create a pose that is 4inches south and 4inches west (same heading) of the startPose, this will
-                    // avoid bumping into field objects before rotating and moving to the centerDropPose
-
                     // Drive to center pose position
                     dropPose = new Pose2d(CENTER_POS_X, CENTER_POS_Y, Math.toRadians(CENTER_POS_HEADING));
                     c2orLR2Pose = new Pose2d(CENTER2_X, CENTER2_Y, Math.toRadians(CENTER2_HEADING));
