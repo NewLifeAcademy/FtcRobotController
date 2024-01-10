@@ -31,18 +31,14 @@ package org.firstinspires.ftc.teamcodealpha.autonomous;
 
 import android.util.Size;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
-import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -56,8 +52,49 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Robot A red long right - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
-public class AlphaLongRedRight extends LinearOpMode {
+@Autonomous(name = "Robot A red long near wall - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+@Config
+public class AlphaLongRedNearWall extends LinearOpMode {
+    public static double START_POS_X = -36.25;
+    public static double START_POS_Y = -62.5;
+    public static double START_POS_HEADING = 90;
+    public static double WAYPOINT1_X = -42.25;
+    public static double WAYPOINT1_Y = -52.5;
+    public static double WAYPOINT1_HEADING = 90;
+    public static double LEFT_POS_X = -29.75;
+    public static double LEFT_POS_Y = -36.75;
+    public static double LEFT_POS_HEADING = 0;
+    public static double RIGHT_POS_X = -41.25;
+    public static double RIGHT_POS_Y = -42.25;
+    public static double RIGHT_POS_HEADING = 180;
+    public static double CENTER_POS_X = -52;
+    public static double CENTER_POS_Y = -43.5;
+    public static double CENTER_POS_HEADING = 270;
+    public static double CENTER2_X = -40.25;
+    public static double CENTER2_Y = -43.5;
+    public static double CENTER2_HEADING = 0;
+    public static double LR2_X = -40.25;
+    public static double LR2_Y = -11;
+    public static double LR2_HEADING = 0;
+    public static double WAYPOINT3_X = -42;
+    public static double WAYPOINT3_Y = -11;
+    public static double WAYPOINT3_HEADING = 0;
+    public static double WAYPOINT4_X = 36;
+    public static double WAYPOINT4_Y = -11;
+    public static double WAYPOINT4_HEADING = 0;
+    public static double WAYPOINT5_X = 36;
+    public static double WAYPOINT5_Y = -39;
+    public static double WAYPOINT5_HEADING = 0;
+
+    public static double BACKBOARD_X = 55;
+    public static double BACKBOARD_Y = -39;
+    public static double BACKBOARD_HEADING = 0;
+    public static double BACKBOARD_LEFTOFFSET = 5;
+    public static double BACKBOARD_RIGHTOFFSET = -5;
+    public static double PARK_X = 52;
+    public static double PARK_Y = -63.5;
+    public static double PARK_HEADING = 0;
+
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -98,8 +135,8 @@ public class AlphaLongRedRight extends LinearOpMode {
             drive.claw2close.setPosition(-1);
             drive.ClawServo.setPosition(-1);
             while (opModeIsActive()) {
-                // 2 second sleep to allow TFOD to detect prop
-                sleep(2000);
+                // 4 second sleep to allow TFOD to detect prop
+                sleep(4000);
 
                 int pos = telemetryTfod();
 
@@ -110,23 +147,39 @@ public class AlphaLongRedRight extends LinearOpMode {
                 visionPortal.stopStreaming();
 
                 // set starting position of robot
-                Pose2d startPose = new Pose2d(-36.25, -62.5, Math.toRadians(90));
+                Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
                 drive.setPoseEstimate(startPose);
 
+                // Setup waypoint1
+                Pose2d waypoint1 = new Pose2d(WAYPOINT1_X, WAYPOINT1_Y, Math.toRadians(WAYPOINT1_HEADING));
+
                 // if pos is 0 then move to center position, rotate 180 degrees, lower rear claw, open rear claw, raise rear claw
+                Pose2d dropPose, c2orLR2Pose;
+                Pose2d backpose = new Pose2d(BACKBOARD_X, BACKBOARD_Y, Math.toRadians(BACKBOARD_HEADING));
                 if (pos == 0) {
                     // TODO: Create a pose that is 4inches south and 4inches west (same heading) of the startPose, this will
                     // avoid bumping into field objects before rotating and moving to the centerDropPose
 
                     // Drive to center pose position
-                    Pose2d centerDropPose = new Pose2d(-40.25, -43.5, Math.toRadians(270));
-                    TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
-                            .lineToLinearHeading(centerDropPose)
-                            .build();
+                    dropPose = new Pose2d(CENTER_POS_X, CENTER_POS_Y, Math.toRadians(CENTER_POS_HEADING));
+                    c2orLR2Pose = new Pose2d(CENTER2_X, CENTER2_Y, Math.toRadians(CENTER2_HEADING));
 
-                    drive.followTrajectorySequence(seq1);
-
+                } else if (pos == 1) {
+                    dropPose = new Pose2d(LEFT_POS_X, LEFT_POS_Y, Math.toRadians(LEFT_POS_HEADING));
+                    c2orLR2Pose = new Pose2d(LR2_X, LR2_Y, Math.toRadians(LR2_HEADING));
+                    backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_LEFTOFFSET, Math.toRadians(BACKBOARD_HEADING));
+                } else {
+                    dropPose = new Pose2d(RIGHT_POS_X, RIGHT_POS_Y, Math.toRadians(RIGHT_POS_HEADING));
+                    c2orLR2Pose = new Pose2d(LR2_X, LR2_Y, Math.toRadians(LR2_HEADING));
+                    backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_RIGHTOFFSET, Math.toRadians(BACKBOARD_HEADING));
                 }
+                // Move to dropPose
+                TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
+                        .lineToLinearHeading(waypoint1)
+                        .lineToLinearHeading(dropPose)
+                        .build();
+
+                drive.followTrajectorySequence(seq1);
 
                 // Lower claw2
                 drive.claw2flip.setPosition(0.8);
@@ -143,6 +196,44 @@ public class AlphaLongRedRight extends LinearOpMode {
                 // Close claw2
                 drive.claw2close.setPosition(-1);
                 sleep(500);
+
+                // Move to backfield
+                TrajectorySequence seq2 = drive.trajectorySequenceBuilder(dropPose)
+                        .lineToLinearHeading(c2orLR2Pose)
+                        .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
+                        .lineToLinearHeading(new Pose2d(WAYPOINT4_X, WAYPOINT4_Y, Math.toRadians(WAYPOINT4_HEADING)))
+                        .lineToLinearHeading(new Pose2d(WAYPOINT5_X, WAYPOINT5_Y, Math.toRadians(WAYPOINT5_HEADING)))
+                        .lineToLinearHeading(backpose)
+                        .build();
+
+                drive.followTrajectorySequence(seq2);
+
+                // Raise the lift
+                drive.setLiftMotorPowers(1);
+                sleep(1000);
+
+                // Stop the lift
+                drive.setLiftMotorPowers(0);
+                sleep(500);
+
+                // Lower the claw
+                drive.ClawLiftServo.setPosition(-1);
+                sleep(500);
+
+                // Open the claw
+                drive.ClawServo.setPosition(0.8);
+                sleep(500);
+
+                // Raise the claw
+                drive.ClawLiftServo.setPosition(1);
+                sleep(500);
+
+                // Move to park
+                TrajectorySequence seq3 = drive.trajectorySequenceBuilder(backpose)
+                        .lineToLinearHeading(new Pose2d(PARK_X, PARK_Y, Math.toRadians(PARK_HEADING)))
+                        .build();
+
+                drive.followTrajectorySequence(seq3);
 
                 // stop autonomous and wait for finish
                 sleep(30000);
