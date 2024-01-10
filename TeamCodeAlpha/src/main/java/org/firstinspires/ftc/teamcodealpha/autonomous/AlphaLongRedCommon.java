@@ -33,7 +33,6 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -52,9 +51,8 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Robot A red long near wall - Autonomous", preselectTeleOp = "2023-2024 IronEagle-Strafe")
 @Config
-public class AlphaLongRedNearWall extends LinearOpMode {
+public abstract class AlphaLongRedCommon extends LinearOpMode {
     public static double START_POS_X = -36.25;
     public static double START_POS_Y = -62.5;
     public static double START_POS_HEADING = 90;
@@ -89,15 +87,11 @@ public class AlphaLongRedNearWall extends LinearOpMode {
     public static double BACKBOARD_X = 55;
     public static double BACKBOARD_Y = -39;
     public static double BACKBOARD_HEADING = 0;
-    public static double BACKBOARD_LEFTOFFSET = 5;
-    public static double BACKBOARD_RIGHTOFFSET = -5;
+    public static double BACKBOARD_LEFT_OFFSET = 5;
+    public static double BACKBOARD_RIGHT_OFFSET = -5;
     public static double WAYPOINT6_X = 52;
     public static double WAYPOINT6_Y = -39;
     public static double WAYPOINT6_HEADING = 0;
-    public static double PARK_X = 52;
-    public static double PARK_Y = -63.5;
-    public static double PARK_HEADING = 0;
-
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -122,8 +116,7 @@ public class AlphaLongRedNearWall extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
-    @Override
-    public void runOpMode() {
+    protected void opModeCode(Pose2d parkPose) {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
         initTfod();
@@ -170,11 +163,11 @@ public class AlphaLongRedNearWall extends LinearOpMode {
                 } else if (pos == 1) {
                     dropPose = new Pose2d(LEFT_POS_X, LEFT_POS_Y, Math.toRadians(LEFT_POS_HEADING));
                     c2orLR2Pose = new Pose2d(LR2_X, LR2_Y, Math.toRadians(LR2_HEADING));
-                    backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_LEFTOFFSET, Math.toRadians(BACKBOARD_HEADING));
+                    backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_LEFT_OFFSET, Math.toRadians(BACKBOARD_HEADING));
                 } else {
                     dropPose = new Pose2d(RIGHT_POS_X, RIGHT_POS_Y, Math.toRadians(RIGHT_POS_HEADING));
                     c2orLR2Pose = new Pose2d(LR2_X, LR2_Y, Math.toRadians(LR2_HEADING));
-                    backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_RIGHTOFFSET, Math.toRadians(BACKBOARD_HEADING));
+                    backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_RIGHT_OFFSET, Math.toRadians(BACKBOARD_HEADING));
                 }
                 // Move to dropPose
                 TrajectorySequence seq1 = drive.trajectorySequenceBuilder(startPose)
@@ -235,7 +228,7 @@ public class AlphaLongRedNearWall extends LinearOpMode {
                 // TODO: Change heading to avoid any 'strafing' (seems to consume too much battery)
                 TrajectorySequence seq3 = drive.trajectorySequenceBuilder(backpose)
                         .lineToLinearHeading(new Pose2d(WAYPOINT6_X, WAYPOINT6_Y, Math.toRadians(WAYPOINT6_HEADING)))
-                        .lineToLinearHeading(new Pose2d(PARK_X, PARK_Y, Math.toRadians(PARK_HEADING)))
+                        .lineToLinearHeading(parkPose)
                         .build();
 
                 drive.followTrajectorySequence(seq3);
