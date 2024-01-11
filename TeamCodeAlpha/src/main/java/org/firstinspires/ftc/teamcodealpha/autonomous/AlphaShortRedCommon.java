@@ -52,40 +52,28 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Config
-public abstract class AlphaLongRedCommon extends LinearOpMode {
-    public static double START_POS_X = -36.25;
+public abstract class AlphaShortRedCommon extends LinearOpMode {
+    public static double START_POS_X = 14.25;
     public static double START_POS_Y = -62.5;
     public static double START_POS_HEADING = 90;
-    public static double WAYPOINT1_X = -42.25;
+    public static double WAYPOINT1_X = 30.25;
     public static double WAYPOINT1_Y = -52.5;
     public static double WAYPOINT1_HEADING = 90;
-    public static double LEFT_POS_X = -29.75;
-    public static double LEFT_POS_Y = -36.75;
+    public static double LEFT_POS_X = 20;
+    public static double LEFT_POS_Y = -39;
     public static double LEFT_POS_HEADING = 0;
-    public static double RIGHT_POS_X = -41.25;
-    public static double RIGHT_POS_Y = -42.25;
-    public static double RIGHT_POS_HEADING = 180;
-    public static double CENTER_POS_X = -52;
-    public static double CENTER_POS_Y = -43.5;
+    public static double RIGHT_POS_X = 44;
+    public static double RIGHT_POS_Y = -39;
+    public static double RIGHT_POS_HEADING = 0;
+    public static double CENTER_POS_X = 18.5;
+    public static double CENTER_POS_Y = -44;
     public static double CENTER_POS_HEADING = 270;
-    public static double CENTER2_X = -40.25;
-    public static double CENTER2_Y = -43.5;
-    public static double CENTER2_HEADING = 0;
-    public static double LR2_X = -40.25;
-    public static double LR2_Y = -11;
-    public static double LR2_HEADING = 0;
-    public static double WAYPOINT3_X = -42;
-    public static double WAYPOINT3_Y = -11;
-    public static double WAYPOINT3_HEADING = 0;
-    public static double WAYPOINT4_X = 36;
-    public static double WAYPOINT4_Y = -11;
-    public static double WAYPOINT4_HEADING = 0;
     public static double WAYPOINT5_X = 36;
     public static double WAYPOINT5_Y = -39;
     public static double WAYPOINT5_HEADING = 0;
 
     public static double BACKBOARD_X = 55;
-    public static double BACKBOARD_Y = -39;
+    public static double BACKBOARD_Y = -37;
     public static double BACKBOARD_HEADING = 0;
     public static double BACKBOARD_LEFT_OFFSET = 5;
     public static double BACKBOARD_RIGHT_OFFSET = -5;
@@ -155,15 +143,12 @@ public abstract class AlphaLongRedCommon extends LinearOpMode {
                 if (pos == 0) {
                     // Drive to center pose position
                     dropPose = new Pose2d(CENTER_POS_X, CENTER_POS_Y, Math.toRadians(CENTER_POS_HEADING));
-                    c2orLR2Pose = new Pose2d(CENTER2_X, CENTER2_Y, Math.toRadians(CENTER2_HEADING));
 
                 } else if (pos == 1) {
                     dropPose = new Pose2d(LEFT_POS_X, LEFT_POS_Y, Math.toRadians(LEFT_POS_HEADING));
-                    c2orLR2Pose = new Pose2d(LR2_X, LR2_Y, Math.toRadians(LR2_HEADING));
                     backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_LEFT_OFFSET, Math.toRadians(BACKBOARD_HEADING));
                 } else {
                     dropPose = new Pose2d(RIGHT_POS_X, RIGHT_POS_Y, Math.toRadians(RIGHT_POS_HEADING));
-                    c2orLR2Pose = new Pose2d(LR2_X, LR2_Y, Math.toRadians(LR2_HEADING));
                     backpose = new Pose2d(BACKBOARD_X , BACKBOARD_Y + BACKBOARD_RIGHT_OFFSET, Math.toRadians(BACKBOARD_HEADING));
                 }
                 // Move to dropPose
@@ -192,9 +177,6 @@ public abstract class AlphaLongRedCommon extends LinearOpMode {
 
                 // Move to backfield
                 TrajectorySequence seq2 = drive.trajectorySequenceBuilder(dropPose)
-                        .lineToLinearHeading(c2orLR2Pose)
-                        .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
-                        .lineToLinearHeading(new Pose2d(WAYPOINT4_X, WAYPOINT4_Y, Math.toRadians(WAYPOINT4_HEADING)))
                         .lineToLinearHeading(new Pose2d(WAYPOINT5_X, WAYPOINT5_Y, Math.toRadians(WAYPOINT5_HEADING)))
                         .lineToLinearHeading(backpose)
                         .build();
@@ -307,7 +289,7 @@ public abstract class AlphaLongRedCommon extends LinearOpMode {
             // get x and y of first (and only) recognition
             double y = (currentRecognitions.get(0).getTop()  + currentRecognitions.get(0).getBottom()) / 2 ;
             double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
-            // if y is less than 180, return 0 and display prop in center
+            // if y is less than 90, return 0 and display prop in center
             if (y < 250) {
                 telemetry.addData("Image", "Prop detected below center line. Assuming center position.");
                 return 0;

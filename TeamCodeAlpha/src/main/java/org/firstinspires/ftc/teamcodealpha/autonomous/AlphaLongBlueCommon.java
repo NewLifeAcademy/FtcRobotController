@@ -307,8 +307,8 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
             // get x and y of first (and only) recognition
             double y = (currentRecognitions.get(0).getTop()  + currentRecognitions.get(0).getBottom()) / 2 ;
             double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
-            // if y is less than 90, return 0 and display prop in center
-            if (y < 90) {
+            // if y is less than 180, return 0 and display prop in center
+            if (y < 250) {
                 telemetry.addData("Image", "Prop detected below center line. Assuming center position.");
                 return 0;
             }
