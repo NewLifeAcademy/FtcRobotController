@@ -59,37 +59,37 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
     public static double WAYPOINT1_X = -42.25;
     public static double WAYPOINT1_Y = 52.5;
     public static double WAYPOINT1_HEADING = 270;
-    public static double LEFT_POS_X = -41.25;
+    public static double LEFT_POS_X = -42.25;
     public static double LEFT_POS_Y = 42.25;
     public static double LEFT_POS_HEADING = 180;
     public static double RIGHT_POS_X = -29.75;
     public static double RIGHT_POS_Y = 36.75;
     public static double RIGHT_POS_HEADING = 0;
-    public static double CENTER_POS_X = -52;
+    public static double CENTER_POS_X = -45;
     public static double CENTER_POS_Y = 43.5;
     public static double CENTER_POS_HEADING = 90;
-    public static double CENTER2_X = -40.25;
+    public static double CENTER2_X = -55;
     public static double CENTER2_Y = 43.5;
     public static double CENTER2_HEADING = 0;
     public static double LR2_X = -40.25;
     public static double LR2_Y = 11;
     public static double LR2_HEADING = 0;
-    public static double WAYPOINT3_X = -42;
+    public static double WAYPOINT3_X = -55;
     public static double WAYPOINT3_Y = 11;
     public static double WAYPOINT3_HEADING = 0;
     public static double WAYPOINT4_X = 36;
     public static double WAYPOINT4_Y = 11;
     public static double WAYPOINT4_HEADING = 0;
     public static double WAYPOINT5_X = 36;
-    public static double WAYPOINT5_Y = 39;
+    public static double WAYPOINT5_Y = 36;
     public static double WAYPOINT5_HEADING = 0;
 
-    public static double BACKBOARD_X = 55;
-    public static double BACKBOARD_Y = 39;
+    public static double BACKBOARD_X = 54;
+    public static double BACKBOARD_Y = 36;
     public static double BACKBOARD_HEADING = 0;
-    public static double BACKBOARD_LEFT_OFFSET = -5;
-    public static double BACKBOARD_RIGHT_OFFSET = 5;
-    public static double WAYPOINT6_X = 52;
+    public static double BACKBOARD_LEFT_OFFSET = 4;
+    public static double BACKBOARD_RIGHT_OFFSET = -4;
+    public static double WAYPOINT6_X = 50;
     public static double WAYPOINT6_Y = 39;
     public static double WAYPOINT6_HEADING = 0;
 
@@ -202,7 +202,7 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
                 drive.followTrajectorySequence(seq2);
 
                 // Raise the lift
-                drive.setLiftMotorPowers(1);
+                drive.setLiftMotorPowers(0.75);
                 sleep(1000);
 
                 // Stop the lift
@@ -307,7 +307,7 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
             // get x and y of first (and only) recognition
             double y = (currentRecognitions.get(0).getTop()  + currentRecognitions.get(0).getBottom()) / 2 ;
             double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
-            // if y is less than 180, return 0 and display prop in center
+            // if y is less than 250, return 0 and display prop in center
             if (y < 250) {
                 telemetry.addData("Image", "Prop detected below center line. Assuming center position.");
                 return 0;
