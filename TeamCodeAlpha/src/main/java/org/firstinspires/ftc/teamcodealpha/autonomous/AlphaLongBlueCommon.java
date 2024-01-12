@@ -78,8 +78,8 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
     public static double WAYPOINT3_X = -55;
     public static double WAYPOINT3_Y = 11;
     public static double WAYPOINT3_HEADING = 0;
-    public static boolean USE_SPLINE_FOR_W3_TO_W5 = true;
-    public static double USE_SPLINE_W3_TO_W5_TANGENT = 270;
+    public static boolean USE_SPLINE_FOR_W4_TO_BACKBOARD = false;
+    public static double USE_SPLINE_TANGENT = 270;
 
     public static double WAYPOINT4_X = 36;
     public static double WAYPOINT4_Y = 11;
@@ -91,10 +91,10 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
     public static double BACKBOARD_X = 54;
     public static double BACKBOARD_Y = 36;
     public static double BACKBOARD_HEADING = 0;
-    public static double BACKBOARD_LEFT_OFFSET = 4;
-    public static double BACKBOARD_RIGHT_OFFSET = -4;
+    public static double BACKBOARD_LEFT_OFFSET = 6;
+    public static double BACKBOARD_RIGHT_OFFSET = -6;
     public static double WAYPOINT6_X = 50;
-    public static double WAYPOINT6_Y = 39;
+    public static double WAYPOINT6_Y = 36;
     public static double WAYPOINT6_HEADING = 0;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -196,12 +196,13 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
 
                 // Move to backfield
                 TrajectorySequence seq2;
-                if (USE_SPLINE_FOR_W3_TO_W5) {
+                if (USE_SPLINE_FOR_W4_TO_BACKBOARD) {
                     // Spline option
                     seq2 = drive.trajectorySequenceBuilder(dropPose)
-                            .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
-                            .splineTo(new Vector2d(WAYPOINT5_X, WAYPOINT5_Y), Math.toRadians(USE_SPLINE_W3_TO_W5_TANGENT))
                             .lineToLinearHeading(c2orLR2Pose)
+                            .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
+                            .lineToLinearHeading(new Pose2d(WAYPOINT4_X, WAYPOINT4_Y, Math.toRadians(WAYPOINT4_HEADING)))
+                            .splineTo(new Vector2d(backpose.getX(), backpose.getY()), Math.toRadians(backpose.getHeading()))
                             .build();
                 } else {
                     // Linear option

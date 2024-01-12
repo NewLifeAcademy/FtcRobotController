@@ -69,16 +69,16 @@ public abstract class AlphaShortBlueCommon extends LinearOpMode {
     public static double CENTER_POS_Y = 44;
     public static double CENTER_POS_HEADING = 90;
     public static double WAYPOINT5_X = 36;
-    public static double WAYPOINT5_Y = 39;
+    public static double WAYPOINT5_Y = 36;
     public static double WAYPOINT5_HEADING = 0;
 
     public static double BACKBOARD_X = 55;
-    public static double BACKBOARD_Y = 37;
+    public static double BACKBOARD_Y = 36;
     public static double BACKBOARD_HEADING = 0;
-    public static double BACKBOARD_LEFT_OFFSET = 5;
-    public static double BACKBOARD_RIGHT_OFFSET = -5;
+    public static double BACKBOARD_LEFT_OFFSET = 6;
+    public static double BACKBOARD_RIGHT_OFFSET = -6;
     public static double WAYPOINT6_X = 50;
-    public static double WAYPOINT6_Y = 39;
+    public static double WAYPOINT6_Y = 36;
     public static double WAYPOINT6_HEADING = 0;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
