@@ -43,7 +43,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name = "Auto - Short Red Park Near", preselectTeleOp = "2023-2024 IronEagle-Strafe")
 @Config
 public class AlphaShortRedParkNear extends AlphaShortRedCommon {
-    public static double PARK_X = 52;
+    public static double PARK_X = 50;
     public static double PARK_Y = -63.5;
     public static double PARK_HEADING = 0;
 

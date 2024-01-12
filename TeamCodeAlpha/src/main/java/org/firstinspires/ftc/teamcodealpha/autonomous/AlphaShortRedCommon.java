@@ -77,7 +77,7 @@ public abstract class AlphaShortRedCommon extends LinearOpMode {
     public static double BACKBOARD_HEADING = 0;
     public static double BACKBOARD_LEFT_OFFSET = 5;
     public static double BACKBOARD_RIGHT_OFFSET = -5;
-    public static double WAYPOINT6_X = 52;
+    public static double WAYPOINT6_X = 50;
     public static double WAYPOINT6_Y = -39;
     public static double WAYPOINT6_HEADING = 0;
 

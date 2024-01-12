@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Short Red Park Near", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+@Autonomous(name = "Auto - Short Red Park Away", preselectTeleOp = "2023-2024 IronEagle-Strafe")
 @Config
 public class AlphaShortRedParkAway extends AlphaShortRedCommon {
     public static double PARK_X = 50;
