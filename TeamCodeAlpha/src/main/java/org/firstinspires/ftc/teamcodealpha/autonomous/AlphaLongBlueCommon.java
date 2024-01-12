@@ -33,6 +33,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -77,6 +78,9 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
     public static double WAYPOINT3_X = -55;
     public static double WAYPOINT3_Y = 11;
     public static double WAYPOINT3_HEADING = 0;
+    public static boolean USE_SPLINE_FOR_W3_TO_W5 = true;
+    public static double USE_SPLINE_W3_TO_W5_TANGENT = 270;
+
     public static double WAYPOINT4_X = 36;
     public static double WAYPOINT4_Y = 11;
     public static double WAYPOINT4_HEADING = 0;
@@ -191,13 +195,24 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
                 sleep(500);
 
                 // Move to backfield
-                TrajectorySequence seq2 = drive.trajectorySequenceBuilder(dropPose)
-                        .lineToLinearHeading(c2orLR2Pose)
-                        .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
-                        .lineToLinearHeading(new Pose2d(WAYPOINT4_X, WAYPOINT4_Y, Math.toRadians(WAYPOINT4_HEADING)))
-                        .lineToLinearHeading(new Pose2d(WAYPOINT5_X, WAYPOINT5_Y, Math.toRadians(WAYPOINT5_HEADING)))
-                        .lineToLinearHeading(backpose)
-                        .build();
+                TrajectorySequence seq2;
+                if (USE_SPLINE_FOR_W3_TO_W5) {
+                    // Spline option
+                    seq2 = drive.trajectorySequenceBuilder(dropPose)
+                            .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
+                            .splineTo(new Vector2d(WAYPOINT5_X, WAYPOINT5_Y), Math.toRadians(USE_SPLINE_W3_TO_W5_TANGENT))
+                            .lineToLinearHeading(c2orLR2Pose)
+                            .build();
+                } else {
+                    // Linear option
+                    seq2 = drive.trajectorySequenceBuilder(dropPose)
+                            .lineToLinearHeading(c2orLR2Pose)
+                            .lineToLinearHeading(new Pose2d(WAYPOINT3_X, WAYPOINT3_Y, Math.toRadians(WAYPOINT3_HEADING)))
+                            .lineToLinearHeading(new Pose2d(WAYPOINT4_X, WAYPOINT4_Y, Math.toRadians(WAYPOINT4_HEADING)))
+                            .lineToLinearHeading(new Pose2d(WAYPOINT5_X, WAYPOINT5_Y, Math.toRadians(WAYPOINT5_HEADING)))
+                            .lineToLinearHeading(backpose)
+                            .build();
+                }
 
                 drive.followTrajectorySequence(seq2);
 
