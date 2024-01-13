@@ -66,7 +66,7 @@ public abstract class AlphaLongRedCommon extends LinearOpMode {
     public static double RIGHT_POS_X = -43.25;
     public static double RIGHT_POS_Y = -42.25;
     public static double RIGHT_POS_HEADING = 180;
-    public static double CENTER_POS_X = -45;
+    public static double CENTER_POS_X = -41;
     public static double CENTER_POS_Y = -44.5;
     public static double CENTER_POS_HEADING = 270;
     public static double CENTER2_X = -55;
