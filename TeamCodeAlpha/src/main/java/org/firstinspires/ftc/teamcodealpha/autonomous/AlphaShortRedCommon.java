@@ -184,7 +184,7 @@ public abstract class AlphaShortRedCommon extends LinearOpMode {
                 drive.followTrajectorySequence(seq2);
 
                 // Raise the lift
-                drive.setLiftMotorPowers(1);
+                drive.setLiftMotorPowers(0.75);
                 sleep(1000);
 
                 // Stop the lift
