@@ -59,11 +59,11 @@ public abstract class AlphaShortBlueCommon extends LinearOpMode {
     public static double WAYPOINT1_X = 30.25;
     public static double WAYPOINT1_Y = 52.5;
     public static double WAYPOINT1_HEADING = 270;
-    public static double LEFT_POS_X = 20;
-    public static double LEFT_POS_Y = 39;
+    public static double LEFT_POS_X = 47;
+    public static double LEFT_POS_Y = 38;
     public static double LEFT_POS_HEADING = 0;
-    public static double RIGHT_POS_X = 44;
-    public static double RIGHT_POS_Y = 39;
+    public static double RIGHT_POS_X = 20;
+    public static double RIGHT_POS_Y = 38;
     public static double RIGHT_POS_HEADING = 0;
     public static double CENTER_POS_X = 18.5;
     public static double CENTER_POS_Y = 44;
@@ -72,8 +72,8 @@ public abstract class AlphaShortBlueCommon extends LinearOpMode {
     public static double WAYPOINT5_Y = 36;
     public static double WAYPOINT5_HEADING = 0;
 
-    public static double BACKBOARD_X = 55;
-    public static double BACKBOARD_Y = 36;
+    public static double BACKBOARD_X = 57;
+    public static double BACKBOARD_Y = 37;
     public static double BACKBOARD_HEADING = 0;
     public static double BACKBOARD_LEFT_OFFSET = 6;
     public static double BACKBOARD_RIGHT_OFFSET = -6;
