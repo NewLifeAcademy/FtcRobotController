@@ -286,24 +286,24 @@ public abstract class AlphaShortBlueCommon extends LinearOpMode {
             return 0;
         }
         else {
-            // get x and y of first (and only) recognition
-            double y = (currentRecognitions.get(0).getTop()  + currentRecognitions.get(0).getBottom()) / 2 ;
+            // get x of first (and only) recognition
             double x = (currentRecognitions.get(0).getLeft() + currentRecognitions.get(0).getRight()) / 2 ;
-            // if y is less than 90, return 0 and display prop in center
-            if (y < 250) {
-                telemetry.addData("Image", "Prop detected below center line. Assuming center position.");
-                return 0;
+
+            // if x < 300, prop is left
+            if (x < 300) {
+                telemetry.addData("Image", "Prop x < 300 - moving to LEFT.");
+                return 1;
             }
             else {
-                // if x is less than 400, return 1 and display prop left of center
-                if (x < 400) {
-                    telemetry.addData("Image", "Prop detected left of center. Assuming left position.");
-                    return 1;
+                // if x > 550, prop is right
+                if (x > 550) {
+                    telemetry.addData("Image", "Prop x > 550 - moving to RIGHT.");
+                    return 2;
                 }
                 else {
-                    // Assuming right position
-                    telemetry.addData("Image", "Prop detected right of center. Assuming right position.");
-                    return 2;
+                    // Assuming center position
+                    telemetry.addData("Image", "moving to CENTER.");
+                    return 0;
                 }
             }
         }
