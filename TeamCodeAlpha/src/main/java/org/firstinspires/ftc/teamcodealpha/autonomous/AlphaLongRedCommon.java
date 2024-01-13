@@ -61,7 +61,7 @@ public abstract class AlphaLongRedCommon extends LinearOpMode {
     public static double WAYPOINT1_Y = -52.5;
     public static double WAYPOINT1_HEADING = 90;
     public static double LEFT_POS_X = -28.75;
-    public static double LEFT_POS_Y = -36.75;
+    public static double LEFT_POS_Y = -33.75;
     public static double LEFT_POS_HEADING = 0;
     public static double RIGHT_POS_X = -43.25;
     public static double RIGHT_POS_Y = -42.25;
