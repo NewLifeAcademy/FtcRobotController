@@ -9,14 +9,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.List;
 
@@ -31,8 +29,7 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
     private DcMotor paraDeadWheelLeft;
     private DcMotor paraDeadWheelRight;
     private DcMotor perpDeadWheel;
-private VisionPortal visionPortal;
-private TfodProcessor tfod;
+    private VisionPortal visionPortal;
     private AprilTagProcessor aprilTag;
     private AprilTagDetection desiredTag = null;
     private int paraPositionLeft;
@@ -99,9 +96,6 @@ private TfodProcessor tfod;
         telemetry.addData("WHEEL_CIRCUMFERENCE_INCHES", WHEEL_CIRCUMFERENCE_INCHES);
         telemetry.addData("COUNTS_PER_WHEEL_REV", COUNTS_PER_WHEEL_REV);
         telemetry.addData("COUNTS_PER_INCH", COUNTS_PER_INCH);
-
-        List<Recognition> updatedRecognitions = tfod.getRecognitions();
-        telemetry.addData("# Object Detected", updatedRecognitions.size());
         telemetry.update();
 
         waitForStart();
@@ -135,15 +129,12 @@ private TfodProcessor tfod;
         }
     }
     private void initAprilTag() {
-        tfod=TfodProcessor.easyCreateWithDefaults();
-
         aprilTag = new AprilTagProcessor.Builder().build();
         aprilTag.setDecimation(2);
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(848, 480))
                 .addProcessor(aprilTag)
-                .addProcessor(tfod)
                 .build();
 
         /*

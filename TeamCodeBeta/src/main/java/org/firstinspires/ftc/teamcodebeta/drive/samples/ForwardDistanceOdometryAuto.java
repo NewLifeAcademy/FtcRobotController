@@ -31,8 +31,7 @@ public class ForwardDistanceOdometryAuto extends LinearOpMode {
     private DcMotor paraDeadWheelLeft;
     private DcMotor paraDeadWheelRight;
     private DcMotor perpDeadWheel;
-private VisionPortal visionPortal;
-private TfodProcessor tfod;
+    private VisionPortal visionPortal;
     private AprilTagProcessor aprilTag;
     private AprilTagDetection desiredTag = null;
     private int paraPositionLeft;
@@ -99,9 +98,6 @@ private TfodProcessor tfod;
         telemetry.addData("WHEEL_CIRCUMFERENCE_INCHES", WHEEL_CIRCUMFERENCE_INCHES);
         telemetry.addData("COUNTS_PER_WHEEL_REV", COUNTS_PER_WHEEL_REV);
         telemetry.addData("COUNTS_PER_INCH", COUNTS_PER_INCH);
-
-        List<Recognition> updatedRecognitions = tfod.getRecognitions();
-        telemetry.addData("# Object Detected", updatedRecognitions.size());
         telemetry.update();
 
         waitForStart();
@@ -135,7 +131,6 @@ private TfodProcessor tfod;
         }
     }
     private void initAprilTag() {
-        tfod=TfodProcessor.easyCreateWithDefaults();
 
         aprilTag = new AprilTagProcessor.Builder().build();
         aprilTag.setDecimation(2);
@@ -143,7 +138,6 @@ private TfodProcessor tfod;
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(848, 480))
                 .addProcessor(aprilTag)
-                .addProcessor(tfod)
                 .build();
 
         /*
