@@ -16,6 +16,7 @@ REV Robotics Chassis Kit
 |----|----|----|----|
 |0|REV 40:1 HD Hex Motor|`LeftLiftMotor`||
 |1|REV 40:1 HD Hex Motor|`RightLiftMotor`||
+|2|Core Hex Motor|`LiftTiltMotor`|Encoder : `LiftTiltEncoder`|
 
 ### Servos
 **Control Hub**
@@ -25,9 +26,9 @@ REV Robotics Chassis Kit
 **Expansion Hub**
 |Port|Type|Name|Descriptor|
 |----|----|----|----|
-|0|Servo|`ClawLiftServo`||
-|1|Servo|`ClawServo`||
-|2|Servo|`drone`||
+|3|Servo|`ClawExtend`||
+|4|Servo|`ClawLevel`||
+|5|Servo|`ClawClose`||
 
 ## Bot B - 17240-B-RC
 GoBilda Chassis V4 Kit
