@@ -125,8 +125,8 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            drive.claw2close.setPosition(-1);
-            drive.ClawServo.setPosition(-1);
+//            drive.claw2close.setPosition(-1);
+//            drive.ClawServo.setPosition(-1);
             while (opModeIsActive()) {
                 // 4 second sleep to allow TFOD to detect prop
                 sleep(4000);
@@ -158,21 +158,21 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
 
                 drive.followTrajectorySequence(seq1);
 
-                // Lower claw2
-                drive.claw2flip.setPosition(0.8);
-                sleep(500);
-
-                // Drop pixel
-                drive.claw2close.setPosition(0.8);
-                sleep(500);
-
-                // Raise claw2
-                drive.claw2flip.setPosition(-1);
-                sleep(500);
-
-                // Close claw2
-                drive.claw2close.setPosition(-1);
-                sleep(500);
+//                // Lower claw2
+//                drive.claw2flip.setPosition(0.8);
+//                sleep(500);
+//
+//                // Drop pixel
+//                drive.claw2close.setPosition(0.8);
+//                sleep(500);
+//
+//                // Raise claw2
+//                drive.claw2flip.setPosition(-1);
+//                sleep(500);
+//
+//                // Close claw2
+//                drive.claw2close.setPosition(-1);
+//                sleep(500);
 
                 // Move to backfield
                 TrajectorySequence seq2;
@@ -205,17 +205,17 @@ public abstract class AlphaLongBlueCommon extends LinearOpMode {
                 drive.setLiftMotorPowers(0);
                 sleep(500);
 
-                // Lower the claw
-                drive.ClawLiftServo.setPosition(-1);
-                sleep(500);
-
-                // Open the claw
-                drive.ClawServo.setPosition(0.8);
-                sleep(500);
-
-                // Raise the claw
-                drive.ClawLiftServo.setPosition(1);
-                sleep(500);
+//                // Lower the claw
+//                drive.ClawLiftServo.setPosition(-1);
+//                sleep(500);
+//
+//                // Open the claw
+//                drive.ClawServo.setPosition(0.8);
+//                sleep(500);
+//
+//                // Raise the claw
+//                drive.ClawLiftServo.setPosition(1);
+//                sleep(500);
 
                 // Move to park
                 // TODO: Change heading to avoid any 'strafing' (seems to consume too much battery)

@@ -18,12 +18,12 @@ import java.util.Arrays;
  */
 public class AlphaBot2024 extends SampleMecanumDrive {
 
-    public Servo ClawLiftServo;
     public DcMotor LeftLiftMotor;
     public DcMotor RightLiftMotor;
-    public Servo ClawServo;
-    public Servo claw2flip;
-    public Servo claw2close;
+    private DcMotor LiftTiltMotor;
+    public Servo ClawExtend;
+    public Servo ClawLevel;
+    public Servo ClawClose;
 
     public AlphaBot2024(HardwareMap hardwareMap) {
         super(hardwareMap);
@@ -53,14 +53,17 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Configure Lift and Claw hardware
-        ClawLiftServo = hardwareMap.get(Servo.class, "ClawLiftServo");
         LeftLiftMotor = hardwareMap.get(DcMotor.class, "LeftLiftMotor");
         RightLiftMotor = hardwareMap.get(DcMotor.class, "RightLiftMotor");
-        ClawServo = hardwareMap.get(Servo.class, "ClawServo");
-        claw2flip = hardwareMap.get(Servo.class, "claw2flip");
-        claw2close = hardwareMap.get(Servo.class, "claw2close");
+        LiftTiltMotor = hardwareMap.get(DcMotor.class, "LiftTiltMotor");
 
-        ClawLiftServo.scaleRange(-5, 0.8);
+        ClawExtend = hardwareMap.get(Servo.class, "ClawExtend");
+        ClawLevel = hardwareMap.get(Servo.class, "ClawLevel");
+        ClawClose = hardwareMap.get(Servo.class, "ClawClose");
+
+        ClawExtend.scaleRange(-1.0, 1.0);
+        ClawLevel.scaleRange(-1.0, 1.0);
+        ClawClose.scaleRange(-1.0, 1.0);
 
         LeftLiftMotor.setDirection(DcMotor.Direction.REVERSE);
         RightLiftMotor.setDirection(DcMotor.Direction.FORWARD);
