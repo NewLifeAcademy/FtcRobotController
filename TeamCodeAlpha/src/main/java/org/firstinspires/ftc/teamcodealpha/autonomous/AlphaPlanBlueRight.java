@@ -49,65 +49,55 @@ import org.firstinspires.ftc.vision.VisionPortal;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Plan Blue Right", preselectTeleOp = "2023-2024 IronEagle-Strafe")
+@Autonomous(name = "Auto - Plan Blue Right", preselectTeleOp = "2024-2025 IronEagle-Strafe")
 
 @Config
 public class AlphaPlanBlueRight extends LinearOpMode {
-    public static double START_POS_X = -36.25;
-    public static double START_POS_Y = 62.5;
+    public static double START_POS_X = -10;
+    public static double START_POS_Y = 62;
     public static double START_POS_HEADING = 270;
     public static double WAYP_ONE_X = -10;
-    public static double WAYP_ONE_Y = 27;
+    public static double WAYP_ONE_Y = 40;
     public static double WAYP_ONE_HEADING = 270;
-    public static double WAYP_TWO_X = -56.25;
-    public static double WAYP_TWO_Y = 62.5;
+    public static double WAYP_TWO_X = -56;
+    public static double WAYP_TWO_Y = 62;
     public static double WAYP_TWO_HEADING = 270;
-    public static double PARK_X = -60;
-    public static double PARK_Y = 60;
-    public static double PARK_HEADING = 270;
 
-
-
-
+    @Override
     public void runOpMode() {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
-
-
+        waitForStart();
 
         if (opModeIsActive()) {
 
-            while (opModeIsActive()) {
-                // Define the start pose
-                Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
-                drive.setPoseEstimate(startPose);
+            // Define the start pose
+            Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
+            drive.setPoseEstimate(startPose);
 
-                //create waypoint 1
-                Pose2d waypOne = new Pose2d(WAYP_ONE_X, WAYP_ONE_Y, Math.toRadians(WAYP_ONE_HEADING));
+            //create waypoint 1
+            Pose2d waypOne = new Pose2d(WAYP_ONE_X, WAYP_ONE_Y, Math.toRadians(WAYP_ONE_HEADING));
 
-                //create trajectory to waypoint one and follow it
-                TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                        .lineToLinearHeading(waypOne)
-                        .build();
+            //create trajectory to waypoint one and follow it
+            TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .lineToLinearHeading(waypOne)
+                    .build();
 
-                drive.followTrajectorySequence(trajSeq);
+            drive.followTrajectorySequence(trajSeq);
 
-                // TODO: place specimen
+            // TODO: place specimen
 
-                //create waypoint 2
-                Pose2d waypTwo = new Pose2d(WAYP_TWO_X, WAYP_TWO_Y, Math.toRadians(WAYP_TWO_HEADING));
+            //create waypoint 2
+            Pose2d waypTwo = new Pose2d(WAYP_TWO_X, WAYP_TWO_Y, Math.toRadians(WAYP_TWO_HEADING));
 
-                //create trajectory to waypoint two and follow it
-                trajSeq = drive.trajectorySequenceBuilder(waypOne)
-                        .lineToLinearHeading(waypTwo)
-                        .build();
+            //create trajectory to waypoint two and follow it
+            trajSeq = drive.trajectorySequenceBuilder(waypOne)
+                    .lineToLinearHeading(waypTwo)
+                    .build();
 
+            drive.followTrajectorySequence(trajSeq);
 
-                drive.followTrajectorySequence(trajSeq);
-            }
-
-
+            // stop autonomous and wait for finish
+            sleep(30000);
         }
     }   // end runOpMode()
-
-
 }   // end class

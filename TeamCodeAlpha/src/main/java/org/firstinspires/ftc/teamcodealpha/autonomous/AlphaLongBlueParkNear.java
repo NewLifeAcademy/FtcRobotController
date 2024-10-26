@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcodealpha.autonomous;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /*
  * This OpMode illustrates the basics of TensorFlow Object Detection,
@@ -42,6 +43,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 @Autonomous(name = "Auto - Long Blue Park Near", preselectTeleOp = "2023-2024 IronEagle-Strafe")
 @Config
+@Disabled
 public class AlphaLongBlueParkNear extends AlphaLongBlueCommon {
     public static double PARK_X = 50;
     public static double PARK_Y = 61.5;
