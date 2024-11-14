@@ -33,6 +33,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
@@ -52,11 +53,14 @@ public class AlphaPlanRedLeft extends LinearOpMode {
     public static double START_POS_Y = -62;
     public static double START_POS_HEADING = 90;
     public static double WAYP_ONE_X = -10;
-    public static double WAYP_ONE_Y = -40;
+    public static double WAYP_ONE_Y = -39;
     public static double WAYP_ONE_HEADING = 90;
-    public static double WAYP_TWO_X = -56;
-    public static double WAYP_TWO_Y = -62;
+    public static double WAYP_TWO_X = -10;
+    public static double WAYP_TWO_Y = -36.5;
     public static double WAYP_TWO_HEADING = 90;
+    public static double WAYP_THREE_X = -56;
+    public static double WAYP_THREE_Y = -62;
+    public static double WAYP_THREE_HEADING = 90;
 
     @Override
     public void runOpMode() {
@@ -64,6 +68,13 @@ public class AlphaPlanRedLeft extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+            drive.ClawClose.setPosition(0);
+            drive.ClawExtend.setPosition(1);
+            drive.ClawLevel.setPosition(0.75);
+
+            // sleep to allow time for the claw to close to position
+            sleep(2000);
+
             // Define the start pose
             Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
             drive.setPoseEstimate(startPose);
@@ -78,7 +89,19 @@ public class AlphaPlanRedLeft extends LinearOpMode {
 
             drive.followTrajectorySequence(trajSeq);
 
-            // TODO: place specimen
+            // Perform an encoder based lift
+            drive.LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            drive.RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            drive.LeftLiftMotor.setTargetPosition(4800);
+            drive.RightLiftMotor.setTargetPosition(4800);
+            drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.LeftLiftMotor.setPower(.5);
+            drive.RightLiftMotor.setPower(.5);
+
+            while (drive.LeftLiftMotor.isBusy() && drive.RightLiftMotor.isBusy()) {
+                //wait for lift to reach position
+            }
 
             //create waypoint 2
             Pose2d waypTwo = new Pose2d(WAYP_TWO_X, WAYP_TWO_Y, Math.toRadians(WAYP_TWO_HEADING));
@@ -90,6 +113,40 @@ public class AlphaPlanRedLeft extends LinearOpMode {
 
 
             drive.followTrajectorySequence(trajSeq);
+
+            // Perform an encoder based drop to 4000
+            drive.LeftLiftMotor.setTargetPosition(3600);
+            drive.RightLiftMotor.setTargetPosition(3600);
+            drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.LeftLiftMotor.setPower(.5);
+            drive.RightLiftMotor.setPower(.5);
+
+            while (drive.LeftLiftMotor.isBusy() && drive.RightLiftMotor.isBusy()) {
+                //wait for lift to reach position
+            }
+
+
+            // open ClawClose
+            drive.ClawClose.setPosition(1);
+
+            // create waypoint 3
+            Pose2d waypThree = new Pose2d(WAYP_THREE_X, WAYP_THREE_Y, Math.toRadians(WAYP_THREE_HEADING));
+
+            // create trajectory to waypoint three and follow it
+            trajSeq = drive.trajectorySequenceBuilder(waypTwo)
+                    .lineToLinearHeading(waypThree)
+                    .build();
+
+            drive.followTrajectorySequence(trajSeq);
+
+            // Perform an encoder based lift to 0
+            drive.LeftLiftMotor.setTargetPosition(0);
+            drive.RightLiftMotor.setTargetPosition(0);
+            drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.LeftLiftMotor.setPower(.5);
+            drive.RightLiftMotor.setPower(.5);
 
             // stop autonomous and wait for finish
             sleep(30000);

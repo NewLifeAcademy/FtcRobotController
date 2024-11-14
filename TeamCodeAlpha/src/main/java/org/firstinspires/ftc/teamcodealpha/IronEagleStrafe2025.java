@@ -118,8 +118,8 @@ public class IronEagleStrafe2025 extends LinearOpMode {
                     ClawLevel.setPosition(0);
                 }
                 if (gamepad2.dpad_left) {
-                    ClawExtend.setPosition(0.65);
-                    ClawLevel.setPosition(0.8);
+                    ClawExtend.setPosition(1);
+                    ClawLevel.setPosition(0.75);
                 }
                 if (gamepad2.dpad_up) {
                     ClawExtend.setPosition(0);
