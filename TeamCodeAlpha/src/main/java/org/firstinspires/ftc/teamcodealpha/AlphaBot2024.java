@@ -20,7 +20,7 @@ public class AlphaBot2024 extends SampleMecanumDrive {
 
     public DcMotor LeftLiftMotor;
     public DcMotor RightLiftMotor;
-    private DcMotor LiftTiltMotor;
+    public DcMotor LiftTiltMotor;
     public Servo ClawExtend;
     public Servo ClawLevel;
     public Servo ClawClose;

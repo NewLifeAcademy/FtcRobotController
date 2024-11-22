@@ -45,28 +45,23 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Plan Red Left", preselectTeleOp = "IntoTheDeep")
+@Autonomous(name = "Auto - Plan Red Right", preselectTeleOp = "IntoTheDeep")
 
 @Config
-public class AlphaPlanRedLeft extends LinearOpMode {
-    public static double START_POS_X = -10;
+public class AlphaPlanRedRight extends LinearOpMode {
+    public static double START_POS_X = 10;
     public static double START_POS_Y = -62;
     public static double START_POS_HEADING = 90;
-    public static double WAYP_ONE_X = -10;
+    public static double WAYP_ONE_X = 10;
     public static double WAYP_ONE_Y = -39;
     public static double WAYP_ONE_HEADING = 90;
-    public static double WAYP_TWO_X = -10;
+    public static double WAYP_TWO_X = 10;
     public static double WAYP_TWO_Y = -36.5;
     public static double WAYP_TWO_HEADING = 90;
-    public static double WAYP_THREE_X = -48;
-    public static double WAYP_THREE_Y = -48;
-    public static double WAYP_THREE_HEADING = 0;
-    public static double WAYP_FOUR_X = -48;
-    public static double WAYP_FOUR_Y = 6;
-    public static double WAYP_FOUR_HEADING = 0;
-    public static double WAYP_FIVE_X = -24;
-    public static double WAYP_FIVE_Y = 6;
-    public static double WAYP_FIVE_HEADING = 0;
+    public static double WAYP_THREE_X = 48;
+    public static double WAYP_THREE_Y = -62;
+    public static double WAYP_THREE_HEADING = 90;
+
 
     @Override
     public void runOpMode() {
@@ -77,8 +72,6 @@ public class AlphaPlanRedLeft extends LinearOpMode {
         Pose2d waypOne = new Pose2d(WAYP_ONE_X, WAYP_ONE_Y, Math.toRadians(WAYP_ONE_HEADING));
         Pose2d waypTwo = new Pose2d(WAYP_TWO_X, WAYP_TWO_Y, Math.toRadians(WAYP_TWO_HEADING));
         Pose2d waypThree = new Pose2d(WAYP_THREE_X, WAYP_THREE_Y, Math.toRadians(WAYP_THREE_HEADING));
-        Pose2d waypFour = new Pose2d(WAYP_FOUR_X, WAYP_FOUR_Y, Math.toRadians(WAYP_FOUR_HEADING));
-        Pose2d waypFive = new Pose2d(WAYP_FIVE_X, WAYP_FIVE_Y, Math.toRadians(WAYP_FIVE_HEADING));
 
         waitForStart();
 
@@ -150,9 +143,9 @@ public class AlphaPlanRedLeft extends LinearOpMode {
 
             drive.followTrajectorySequence(trajSeq);
 
-            // Perform an encoder based drop to 1000
-            drive.LeftLiftMotor.setTargetPosition(1000);
-            drive.RightLiftMotor.setTargetPosition(1000);
+            // Perform an encoder based drop to 0
+            drive.LeftLiftMotor.setTargetPosition(0);
+            drive.RightLiftMotor.setTargetPosition(0);
             drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             drive.LeftLiftMotor.setPower(.5);
@@ -163,22 +156,6 @@ public class AlphaPlanRedLeft extends LinearOpMode {
                 sleep(100);
             }
 
-            // create trajectory to waypoint four and five and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypThree)
-                    .lineToLinearHeading(waypFour)
-                    .lineToLinearHeading(waypFive)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            //perform an encoder based tilt to 3000
-            drive.LiftTiltMotor.setTargetPosition(3000);
-            drive.LiftTiltMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.LiftTiltMotor.setPower(.5);
-            //wait for tilt to reach position
-            while (drive.LiftTiltMotor.isBusy()) {
-                //wait for tilt to reach position
-                sleep(100);
-            }
 
 
             // stop autonomous and wait for finish
