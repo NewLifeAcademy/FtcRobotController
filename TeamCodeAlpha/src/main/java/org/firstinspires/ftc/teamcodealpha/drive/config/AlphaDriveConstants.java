@@ -120,8 +120,8 @@ public class AlphaDriveConstants {
     public static double MAX_ACCEL = 52.48180821614297;
     */
 
-    // Reduce MAX_VEL and MAX_ACCEL to 50% of theoretical max velocity
-    public static double MAX_VEL = 25;
+    // Set max velocity and acceleration
+    public static double MAX_VEL = 52;
     public static double MAX_ACCEL = 52;
 
    // public static double MAX_ANG_VEL = Math.toRadians(184.02607784577722);

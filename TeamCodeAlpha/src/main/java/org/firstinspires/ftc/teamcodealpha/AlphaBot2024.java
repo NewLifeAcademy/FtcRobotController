@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcodealpha.drive.config.SampleMecanumDrive;
 
@@ -74,6 +75,53 @@ public class AlphaBot2024 extends SampleMecanumDrive {
     public void setLiftMotorPowers(double power) {
         LeftLiftMotor.setPower(power);
         RightLiftMotor.setPower(power);
+    }
+
+    public void resetLiftEncoders() {
+        LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void startLiftToPosition(int position, double power) {
+        LeftLiftMotor.setTargetPosition(position);
+        RightLiftMotor.setTargetPosition(position);
+        LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftLiftMotor.setPower(power);
+        RightLiftMotor.setPower(power);
+    }
+
+    public void waitForLiftToReachPosition() {
+        while (LeftLiftMotor.isBusy() && RightLiftMotor.isBusy()) {
+            wait(100);
+        }
+    }
+
+    public void extendClawArm() {
+        ClawExtend.setPosition(0.25);
+        ClawLevel.setPosition(0.4);
+    }
+
+    public void retractClawArm() {
+        ClawExtend.setPosition(1);
+        ClawLevel.setPosition(0.75);
+    }
+
+    public void openClaw() {
+        ClawClose.setPosition(1);
+    }
+
+    public void closeClawAndWait() {
+        ClawClose.setPosition(0);
+        wait(200);
+    }
+
+    private void wait(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
 
