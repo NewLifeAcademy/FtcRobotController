@@ -34,6 +34,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -49,7 +50,7 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous(name = "Auto - Plan Red Left Simple", preselectTeleOp = "IntoTheDeep")
-
+@Disabled
 @Config
 public class AlphaPlanRedLeftSimple extends LinearOpMode {
     public static double START_POS_X = -10;

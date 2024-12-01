@@ -31,17 +31,17 @@ package org.firstinspires.ftc.teamcodealpha.autonomous;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
+import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 
 /*
- * This OpMode illustrates the basics of TensorFlow Object Detection,
- * including Java Builder structures for specifying Vision parameterConceptTensorFlowObjectDetections.
- *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
@@ -49,19 +49,28 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
 
 @Config
 public class AlphaPlanRedRight extends LinearOpMode {
+    public static double LIFT_ASCENT_SPEED = 1;
+    public static double LIFT_DESCENT_SPEED = 1;
+
     public static double START_POS_X = 10;
     public static double START_POS_Y = -62;
     public static double START_POS_HEADING = 90;
-    public static double WAYP_ONE_X = 10;
-    public static double WAYP_ONE_Y = -39;
-    public static double WAYP_ONE_HEADING = 90;
-    public static double WAYP_TWO_X = 10;
-    public static double WAYP_TWO_Y = -36.5;
-    public static double WAYP_TWO_HEADING = 90;
-    public static double WAYP_THREE_X = 48;
-    public static double WAYP_THREE_Y = -62;
-    public static double WAYP_THREE_HEADING = 90;
-
+    public static int SUB_APPROACH_HEIGHT = 4000;
+    public static int SUB_APPROACH_VELOCITY = 36;
+    public static int SUB_APPROACH_ACCELERATION = 36;
+    public static double SUB_APPROACH_X = 10;
+    public static double SUB_APPROACH_Y = -39;
+    public static double SUB_APPROACH_HEADING = 90;
+    public static int SUB_FASTEN_HEIGHT = 4600;
+    public static int SUB_FASTEN_VELOCITY = 12;
+    public static int SUB_FASTEN_ACCELERATION = 12;
+    public static double SUB_FASTEN_LIFT_SPEED = 0.75;
+    public static double SUB_FASTEN_X = 10;
+    public static double SUB_FASTEN_Y = -36.5;
+    public static double SUB_FASTEN_HEADING = 90;
+    public static double OBSERVE_PARK_X = 48;
+    public static double OBSERVE_PARK_Y = -62;
+    public static double OBSERVE_PARK_HEADING = 90;
 
     @Override
     public void runOpMode() {
@@ -69,94 +78,90 @@ public class AlphaPlanRedRight extends LinearOpMode {
 
         // Create all waypoints
         Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
-        Pose2d waypOne = new Pose2d(WAYP_ONE_X, WAYP_ONE_Y, Math.toRadians(WAYP_ONE_HEADING));
-        Pose2d waypTwo = new Pose2d(WAYP_TWO_X, WAYP_TWO_Y, Math.toRadians(WAYP_TWO_HEADING));
-        Pose2d waypThree = new Pose2d(WAYP_THREE_X, WAYP_THREE_Y, Math.toRadians(WAYP_THREE_HEADING));
+        Pose2d subApproach = new Pose2d(SUB_APPROACH_X, SUB_APPROACH_Y, Math.toRadians(SUB_APPROACH_HEADING));
+        Pose2d subFasten = new Pose2d(SUB_FASTEN_X, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
+        Pose2d observePark = new Pose2d(OBSERVE_PARK_X, OBSERVE_PARK_Y, Math.toRadians(OBSERVE_PARK_HEADING));
+
+        // Create all velocities and accelerations
+        TrajectoryVelocityConstraint subApproachVelocity = AlphaBot2024.getVelocityConstraint(SUB_APPROACH_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
+        TrajectoryAccelerationConstraint subApproachAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_APPROACH_ACCELERATION);
+        TrajectoryVelocityConstraint subFastenVelocity = AlphaBot2024.getVelocityConstraint(SUB_FASTEN_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
+        TrajectoryAccelerationConstraint subFastenAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_FASTEN_ACCELERATION);
 
         waitForStart();
 
         if (opModeIsActive()) {
-            drive.ClawClose.setPosition(0);
-            drive.ClawExtend.setPosition(1);
-            drive.ClawLevel.setPosition(0.75);
+            drive.resetLiftEncoders();
+            drive.closeClawAndWait();
+            drive.retractClawArm();
 
-            // sleep to allow time for the claw to close to position
-            sleep(2000);
-
-            // Define the start pose
+            // Define the starting point
             drive.setPoseEstimate(startPose);
 
-            //create trajectory to waypoint one and follow it
+            /*
+                Move into submersible
+            */
+
+            // Raise list to approach height
+            drive.startLiftToPosition(SUB_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
+
+            // create trajectory to submersible approach with custom velocity
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .lineToLinearHeading(waypOne)
+                    .lineToLinearHeading(
+                            subApproach,
+                            subApproachVelocity,
+                            subApproachAcceleration)
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
 
-            // Perform an encoder based lift
-            drive.LeftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            drive.RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            drive.LeftLiftMotor.setTargetPosition(4800);
-            drive.RightLiftMotor.setTargetPosition(4800);
-            drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.LeftLiftMotor.setPower(.5);
-            drive.RightLiftMotor.setPower(.5);
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
 
-            while (drive.LeftLiftMotor.isBusy() && drive.RightLiftMotor.isBusy()) {
-                //wait for lift to reach position
-                sleep(100);
-            }
+            /*
+                Raise specimen in submersible
+            */
 
-            //create trajectory to waypoint two and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypOne)
-                    .lineToLinearHeading(waypTwo)
+            // Raise specimen to fasten to submersible
+            drive.startLiftToPosition(SUB_FASTEN_HEIGHT, SUB_FASTEN_LIFT_SPEED);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
+
+            /*
+                Reverse out of submersible
+            */
+
+            // create trajectory to subFasten with custom velocity and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subApproach)
+                    .lineToLinearHeading(
+                            subFasten,
+                            subFastenVelocity,
+                            subFastenAcceleration)
                     .build();
-
 
             drive.followTrajectorySequence(trajSeq);
 
-            // Perform an encoder based lift to 3600
-            drive.LeftLiftMotor.setTargetPosition(3600);
-            drive.RightLiftMotor.setTargetPosition(3600);
-            drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.LeftLiftMotor.setPower(.5);
-            drive.RightLiftMotor.setPower(.5);
+            // open claw
+            drive.openClaw();
 
-            while (drive.LeftLiftMotor.isBusy() && drive.RightLiftMotor.isBusy()) {
-                //wait for lift to reach position
-                sleep(100);
-            }
+            /*
+                Park in Observation Zone
+             */
 
+            // start lift descent
+            drive.startLiftToPosition(0, LIFT_DESCENT_SPEED);
 
-            // open ClawClose
-            drive.ClawClose.setPosition(1);
-
-
-
-            // create trajectory to waypoint three and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypTwo)
-                    .lineToLinearHeading(waypThree)
+            // create trajectory to observation and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subFasten)
+                    .lineToLinearHeading(observePark)
 
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
 
-            // Perform an encoder based drop to 0
-            drive.LeftLiftMotor.setTargetPosition(0);
-            drive.RightLiftMotor.setTargetPosition(0);
-            drive.LeftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.RightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drive.LeftLiftMotor.setPower(.5);
-            drive.RightLiftMotor.setPower(.5);
-
-            while (drive.LeftLiftMotor.isBusy() && drive.RightLiftMotor.isBusy()) {
-                //wait for lift to reach position
-                sleep(100);
-            }
-
-
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
 
             // stop autonomous and wait for finish
             sleep(30000);

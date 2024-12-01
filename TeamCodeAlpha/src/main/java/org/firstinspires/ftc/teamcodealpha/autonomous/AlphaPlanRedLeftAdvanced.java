@@ -41,9 +41,6 @@ import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 
 /*
- * This OpMode illustrates the basics of TensorFlow Object Detection,
- * including Java Builder structures for specifying Vision parameterConceptTensorFlowObjectDetections.
- *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
@@ -87,6 +84,7 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
     public static double SAMPLE_TWO_X = -59;
     public static double SAMPLE_TWO_Y = -37;
     public static double SAMPLE_TWO_HEADING = 90;
+
     @Override
     public void runOpMode() {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
@@ -117,7 +115,10 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // Define the starting point
             drive.setPoseEstimate(startPose);
 
-            /*  Move into submersible */
+            /*
+                Move into submersible
+            */
+
             // Raise list to approach height
             drive.startLiftToPosition(SUB_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
 
@@ -134,14 +135,20 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
 
-        /* Raise specimen in submersible */
+            /*
+                Raise specimen in submersible
+            */
+
             // Raise specimen to fasten to submersible
             drive.startLiftToPosition(SUB_FASTEN_HEIGHT, SUB_FASTEN_LIFT_SPEED);
 
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
 
-        /* Reverse out of submersible */
+            /*
+                Reverse out of submersible
+            */
+
             // create trajectory to subFasten with custom velocity and follow it
             trajSeq = drive.trajectorySequenceBuilder(subApproach)
                     .lineToLinearHeading(
@@ -155,7 +162,10 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // open claw
             drive.openClaw();
 
-        /* Move to Sample One */
+            /*
+                Move to Sample One
+            */
+
             // lower lift to sample height
             drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
 
@@ -173,7 +183,10 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // close claw around sampleOne
             drive.closeClawAndWait();
 
-        /* Drop Sample One in High Basket */
+            /*
+                Drop Sample One in High Basket
+            */
+
             // extend the claw arm
             drive.extendClawArm();
 
@@ -195,7 +208,10 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // wait (allow sample to drop in basket)
             sleep(200);
 
-        /* Reverse away from basket and retract claw arm */
+            /*
+                Reverse away from basket and retract claw arm
+            */
+
             // move from baskedDrop to basketReverse
             trajSeq = drive.trajectorySequenceBuilder(basketDrop)
                     .lineToLinearHeading(basketReverse)
@@ -208,7 +224,10 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // retract the claw arm
             drive.retractClawArm();
 
-        /* Move to Sample Two */
+            /*
+                Move to Sample Two
+            */
+
             // create trajectory to sample two and follow it
             trajSeq = drive.trajectorySequenceBuilder(basketReverse)
                     .lineToLinearHeading(sampleTwo)
@@ -221,7 +240,10 @@ public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
             // close claw
             drive.closeClawAndWait();
 
-        /* Drop Sample Two in High Basket */
+            /*
+                Drop Sample Two in High Basket
+            */
+
             // extend the claw arm
             drive.extendClawArm();
 

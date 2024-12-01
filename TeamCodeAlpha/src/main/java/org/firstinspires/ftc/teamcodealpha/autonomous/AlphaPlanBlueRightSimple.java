@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcodealpha.autonomous;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -45,10 +46,10 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Plan Blue Right", preselectTeleOp = "IntoTheDeep")
-
+@Autonomous(name = "Auto - Plan Blue Right Simple", preselectTeleOp = "IntoTheDeep")
+@Disabled
 @Config
-public class AlphaPlanBlueRight extends LinearOpMode {
+public class AlphaPlanBlueRightSimple extends LinearOpMode {
     public static double START_POS_X = -10;
     public static double START_POS_Y = 62;
     public static double START_POS_HEADING = 270;
