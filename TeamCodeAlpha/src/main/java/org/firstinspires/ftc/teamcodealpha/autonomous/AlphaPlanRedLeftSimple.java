@@ -48,10 +48,10 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Plan Red Left", preselectTeleOp = "IntoTheDeep")
+@Autonomous(name = "Auto - Plan Red Left Simple", preselectTeleOp = "IntoTheDeep")
 
 @Config
-public class AlphaPlanRedLeft extends LinearOpMode {
+public class AlphaPlanRedLeftSimple extends LinearOpMode {
     public static double START_POS_X = -10;
     public static double START_POS_Y = -62;
     public static double START_POS_HEADING = 90;

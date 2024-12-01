@@ -35,7 +35,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
 import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
@@ -48,54 +47,65 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Plan Red Left 2", preselectTeleOp = "IntoTheDeep")
+@Autonomous(name = "Auto - Plan Red Left Advanced", preselectTeleOp = "IntoTheDeep")
 
 @Config
-public class AlphaPlanRedLeft2 extends LinearOpMode {
-    public static int SUMBERSIBLE_APPROACH_HEIGHT = 4000;
-    public static int SUBMERSIBLE_REVERSE_HEIGHT = 4600;
-    public static int BASKET_DROP_HEIGHT = 6300;
-    public static int FLOOR_LIFT_HEIGHT = 0;
+public class AlphaPlanRedLeftAdvanced extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
     public static double LIFT_DESCENT_SPEED = 1;
 
     public static double START_POS_X = -10;
     public static double START_POS_Y = -62;
     public static double START_POS_HEADING = 90;
-    public static double WAYP_ONE_X = -10;
-    public static double WAYP_ONE_Y = -34;
-    public static double WAYP_ONE_HEADING = 90;
-    public static double WAYP_TWO_X = -10;
-    public static double WAYP_TWO_Y = -45;
-    public static double WAYP_TWO_HEADING = 90;
-    public static double WAYP_THREE_X = -48;
-    public static double WAYP_THREE_Y = -48;
-    public static double WAYP_THREE_HEADING = 90;
-    public static double WAYP_FOUR_X = -48;
-    public static double WAYP_FOUR_Y = -35;
-    public static double WAYP_FOUR_HEADING = 90;
-    public static double WAYP_FIVE_X = -55;
-    public static double WAYP_FIVE_Y = -55;
-    public static double WAYP_FIVE_HEADING = 230;
-    public static double WAYP_SIX_X = -51;
-    public static double WAYP_SIX_Y = -51;
-    public static double WAYP_SIX_HEADING = 230;
-    public static double WAYP_SEVEN_X = -59;
-    public static double WAYP_SEVEN_Y = -37;
-    public static double WAYP_SEVEN_HEADING = 90;
+    public static double SUB_APPROACH_X = -10;
+    public static double SUB_APPROACH_Y = -34;
+    public static double SUB_APPROACH_HEADING = 90;
+    public static int SUB_APPROACH_HEIGHT = 4000;
+    public static int SUB_APPROACH_VELOCITY = 36;
+    public static int SUB_APPROACH_ACCELERATION = 36;
+    public static double SUB_FASTEN_X = -10;
+    public static double SUB_FASTEN_Y = -45;
+    public static double SUB_FASTEN_HEADING = 90;
+    public static int SUB_FASTEN_HEIGHT = 4600;
+    public static int SUB_FASTEN_VELOCITY = 12;
+    public static int SUB_FASTEN_ACCELERATION = 12;
+    public static double SUB_FASTEN_LIFT_SPEED = 0.75;
+    public static double SAMPLE_AREA_X = -48;
+    public static double SAMPLE_AREA_Y = -48;
+    public static double SAMPLE_AREA_HEADING = 90;
+    public static int SAMPLE_LIFT_HEIGHT = 0;
+    public static double SAMPLE_ONE_X = -48;
+    public static double SAMPLE_ONE_Y = -35;
+    public static double SAMPLE_ONE_HEADING = 90;
+    public static double BASKET_DROP_X = -55;
+    public static double BASKET_DROP_Y = -55;
+    public static double BASKET_DROP_HEADING = 230;
+    public static int BASKET_DROP_HEIGHT = 6300;
+    public static double BASKET_REVERSE_X = -51;
+    public static double BASKET_REVERSE_Y = -51;
+    public static double BASKET_REVERSE_HEADING = 230;
+    public static double SAMPLE_TWO_X = -59;
+    public static double SAMPLE_TWO_Y = -37;
+    public static double SAMPLE_TWO_HEADING = 90;
     @Override
     public void runOpMode() {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
         // Create all waypoints
         Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
-        Pose2d waypOne = new Pose2d(WAYP_ONE_X, WAYP_ONE_Y, Math.toRadians(WAYP_ONE_HEADING));
-        Pose2d waypTwo = new Pose2d(WAYP_TWO_X, WAYP_TWO_Y, Math.toRadians(WAYP_TWO_HEADING));
-        Pose2d waypThree = new Pose2d(WAYP_THREE_X, WAYP_THREE_Y, Math.toRadians(WAYP_THREE_HEADING));
-        Pose2d waypFour = new Pose2d(WAYP_FOUR_X, WAYP_FOUR_Y, Math.toRadians(WAYP_FOUR_HEADING));
-        Pose2d waypFive = new Pose2d(WAYP_FIVE_X, WAYP_FIVE_Y, Math.toRadians(WAYP_FIVE_HEADING));
-        Pose2d waypSix = new Pose2d(WAYP_SIX_X, WAYP_SIX_Y, Math.toRadians(WAYP_SIX_HEADING));
-        Pose2d waypSeven = new Pose2d(WAYP_SEVEN_X, WAYP_SEVEN_Y, Math.toRadians(WAYP_SEVEN_HEADING));
+        Pose2d subApproach = new Pose2d(SUB_APPROACH_X, SUB_APPROACH_Y, Math.toRadians(SUB_APPROACH_HEADING));
+        Pose2d subFasten = new Pose2d(SUB_FASTEN_X, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
+        Pose2d sampleArea = new Pose2d(SAMPLE_AREA_X, SAMPLE_AREA_Y, Math.toRadians(SAMPLE_AREA_HEADING));
+        Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
+        Pose2d basketDrop = new Pose2d(BASKET_DROP_X, BASKET_DROP_Y, Math.toRadians(BASKET_DROP_HEADING));
+        Pose2d basketReverse = new Pose2d(BASKET_REVERSE_X, BASKET_REVERSE_Y, Math.toRadians(BASKET_REVERSE_HEADING));
+        Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
+
+        // Create all velocities and accelerations
+        TrajectoryVelocityConstraint subApproachVelocity = AlphaBot2024.getVelocityConstraint(SUB_APPROACH_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
+        TrajectoryAccelerationConstraint subApproachAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_APPROACH_ACCELERATION);
+        TrajectoryVelocityConstraint subFastenVelocity = AlphaBot2024.getVelocityConstraint(SUB_FASTEN_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
+        TrajectoryAccelerationConstraint subFastenAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_FASTEN_ACCELERATION);
 
         waitForStart();
 
@@ -104,20 +114,19 @@ public class AlphaPlanRedLeft2 extends LinearOpMode {
             drive.closeClawAndWait();
             drive.retractClawArm();
 
-        /*  Move into submersible */
-            // Lift to 4000 with power 1
-            drive.startLiftToPosition(SUMBERSIBLE_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
-
             // Define the starting point
             drive.setPoseEstimate(startPose);
 
-            // create a slow velocity and acceleration constraint
-            TrajectoryVelocityConstraint slowVelocity = AlphaBot2024.getVelocityConstraint(36, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
-            TrajectoryAccelerationConstraint slowAcceleration = AlphaBot2024.getAccelerationConstraint(36);
+            /*  Move into submersible */
+            // Raise list to approach height
+            drive.startLiftToPosition(SUB_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
 
-            //create trajectory to waypoint one and follow it
+            // create trajectory to submersible approach with custom velocity
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .lineToLinearHeading(waypOne, slowVelocity, slowAcceleration)
+                    .lineToLinearHeading(
+                            subApproach,
+                            subApproachVelocity,
+                            subApproachAcceleration)
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
@@ -126,48 +135,45 @@ public class AlphaPlanRedLeft2 extends LinearOpMode {
             drive.waitForLiftToReachPosition();
 
         /* Raise specimen in submersible */
-            // Lift to 4600 with power .75
-            drive.startLiftToPosition(SUBMERSIBLE_REVERSE_HEIGHT, .75);
+            // Raise specimen to fasten to submersible
+            drive.startLiftToPosition(SUB_FASTEN_HEIGHT, SUB_FASTEN_LIFT_SPEED);
 
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
 
         /* Reverse out of submersible */
-            // create a slower velocity and acceleration constraint
-            TrajectoryVelocityConstraint slowerVelocity = AlphaBot2024.getVelocityConstraint(12, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
-            TrajectoryAccelerationConstraint slowerAcceleration = AlphaBot2024.getAccelerationConstraint(12);
-
-            //create trajectory to waypoint two and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypOne)
+            // create trajectory to subFasten with custom velocity and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subApproach)
                     .lineToLinearHeading(
-                            waypTwo,
-                            slowerVelocity,
-                            slowerAcceleration)
+                            subFasten,
+                            subFastenVelocity,
+                            subFastenAcceleration)
                     .build();
-
 
             drive.followTrajectorySequence(trajSeq);
 
             // open claw
             drive.openClaw();
 
-            // lift to position 0 with power .75
-            drive.startLiftToPosition(FLOOR_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
+        /* Move to Sample One */
+            // lower lift to sample height
+            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
 
-            // create trajectory to waypoint three and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypTwo)
-                    .lineToLinearHeading(waypThree)
-                    .lineToLinearHeading(waypFour)
+            // create trajectory to sampleOne and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subFasten)
+                    .lineToLinearHeading(sampleArea)
+                    .lineToLinearHeading(sampleOne)
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
 
-            // wait for lift descend to finish
+            // wait for lift descent to finish
             drive.waitForLiftToReachPosition();
 
-            // close claw
+            // close claw around sampleOne
             drive.closeClawAndWait();
 
+        /* Drop Sample One in High Basket */
             // extend the claw arm
             drive.extendClawArm();
 
@@ -177,33 +183,35 @@ public class AlphaPlanRedLeft2 extends LinearOpMode {
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
 
-            // create trajectory to waypoint six and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypFour)
-                    .lineToLinearHeading(waypFive)
+            // create trajectory to basket drop and follow it
+            trajSeq = drive.trajectorySequenceBuilder(sampleOne)
+                    .lineToLinearHeading(basketDrop)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
-            //open claw
+            //open claw (release sample)
             drive.openClaw();
 
             // wait (allow sample to drop in basket)
             sleep(200);
 
-            // move from waypoint five to waypoint six
-            trajSeq = drive.trajectorySequenceBuilder(waypFive)
-                    .lineToLinearHeading(waypSix)
+        /* Reverse away from basket and retract claw arm */
+            // move from baskedDrop to basketReverse
+            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
+                    .lineToLinearHeading(basketReverse)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
             // lift to position 0 with power .75
-            drive.startLiftToPosition(FLOOR_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
+            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
 
             // retract the claw arm
             drive.retractClawArm();
 
-            // create trajectory to waypoint six and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypSix)
-                    .lineToLinearHeading(waypSeven)
+        /* Move to Sample Two */
+            // create trajectory to sample two and follow it
+            trajSeq = drive.trajectorySequenceBuilder(basketReverse)
+                    .lineToLinearHeading(sampleTwo)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -213,6 +221,7 @@ public class AlphaPlanRedLeft2 extends LinearOpMode {
             // close claw
             drive.closeClawAndWait();
 
+        /* Drop Sample Two in High Basket */
             // extend the claw arm
             drive.extendClawArm();
 
@@ -222,9 +231,9 @@ public class AlphaPlanRedLeft2 extends LinearOpMode {
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
 
-            // create trajectory to waypoint six and follow it
-            trajSeq = drive.trajectorySequenceBuilder(waypSeven)
-                    .lineToLinearHeading(waypFive)
+            // create trajectory to basket drop and follow it
+            trajSeq = drive.trajectorySequenceBuilder(sampleTwo)
+                    .lineToLinearHeading(basketDrop)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
