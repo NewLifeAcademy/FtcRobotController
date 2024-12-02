@@ -44,46 +44,33 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Plan Blue Right Advanced", preselectTeleOp = "IntoTheDeep")
+@Autonomous(name = "Auto - Right Side Observation", preselectTeleOp = "IntoTheDeep")
 
 @Config
-public class AlphaPlanBlueRightAdvanced extends LinearOpMode {
+public class AlphaPlanRightObservation extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
     public static double LIFT_DESCENT_SPEED = 1;
 
     public static double START_POS_X = -10;
     public static double START_POS_Y = 62;
     public static double START_POS_HEADING = 270;
-    public static double SUB_APPROACH_X = -10;
-    public static double SUB_APPROACH_Y = 34;
-    public static double SUB_APPROACH_HEADING = 270;
     public static int SUB_APPROACH_HEIGHT = 4000;
     public static int SUB_APPROACH_VELOCITY = 36;
     public static int SUB_APPROACH_ACCELERATION = 36;
-    public static double SUB_FASTEN_X = -10;
-    public static double SUB_FASTEN_Y = 45;
-    public static double SUB_FASTEN_HEADING = 270;
+    public static double SUB_APPROACH_X = -10;
+    public static double SUB_APPROACH_Y = 34;
+    public static double SUB_APPROACH_HEADING = 270;
     public static int SUB_FASTEN_HEIGHT = 4600;
     public static int SUB_FASTEN_VELOCITY = 12;
     public static int SUB_FASTEN_ACCELERATION = 12;
     public static double SUB_FASTEN_LIFT_SPEED = 0.75;
-    public static double SAMPLE_AREA_X = -48;
-    public static double SAMPLE_AREA_Y = 48;
-    public static double SAMPLE_AREA_HEADING = 270;
-    public static int SAMPLE_LIFT_HEIGHT = 0;
-    public static double SAMPLE_ONE_X = -48;
-    public static double SAMPLE_ONE_Y = 35;
-    public static double SAMPLE_ONE_HEADING = 270;
-    public static double BASKET_DROP_X = -55;
-    public static double BASKET_DROP_Y = 55;
-    public static double BASKET_DROP_HEADING = 130;
-    public static int BASKET_DROP_HEIGHT = 6300;
-    public static double BASKET_REVERSE_X = -51;
-    public static double BASKET_REVERSE_Y = 51;
-    public static double BASKET_REVERSE_HEADING = 130;
-    public static double SAMPLE_TWO_X = -59;
-    public static double SAMPLE_TWO_Y = 37;
-    public static double SAMPLE_TWO_HEADING = 270;
+    public static double SUB_FASTEN_X = -10;
+    public static double SUB_FASTEN_Y = 45;
+    public static double SUB_FASTEN_HEADING = 270;
+    public static double OBSERVE_PARK_X = -48;
+    public static double OBSERVE_PARK_Y = 62;
+    public static double OBSERVE_PARK_HEADING = 270;
+    public static int OBSERVE_PARK_HEIGHT = 100;
 
     @Override
     public void runOpMode() {
@@ -93,11 +80,7 @@ public class AlphaPlanBlueRightAdvanced extends LinearOpMode {
         Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
         Pose2d subApproach = new Pose2d(SUB_APPROACH_X, SUB_APPROACH_Y, Math.toRadians(SUB_APPROACH_HEADING));
         Pose2d subFasten = new Pose2d(SUB_FASTEN_X, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
-        Pose2d sampleArea = new Pose2d(SAMPLE_AREA_X, SAMPLE_AREA_Y, Math.toRadians(SAMPLE_AREA_HEADING));
-        Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
-        Pose2d basketDrop = new Pose2d(BASKET_DROP_X, BASKET_DROP_Y, Math.toRadians(BASKET_DROP_HEADING));
-        Pose2d basketReverse = new Pose2d(BASKET_REVERSE_X, BASKET_REVERSE_Y, Math.toRadians(BASKET_REVERSE_HEADING));
-        Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
+        Pose2d observePark = new Pose2d(OBSERVE_PARK_X, OBSERVE_PARK_Y, Math.toRadians(OBSERVE_PARK_HEADING));
 
         // Create all velocities and accelerations
         TrajectoryVelocityConstraint subApproachVelocity = AlphaBot2024.getVelocityConstraint(SUB_APPROACH_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
@@ -163,104 +146,22 @@ public class AlphaPlanBlueRightAdvanced extends LinearOpMode {
             drive.openClaw();
 
             /*
-                Move to Sample One
-            */
+                Park in Observation Zone
+             */
 
-            // lower lift to sample height
-            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
+            // start lift descent
+            drive.startLiftToPosition(OBSERVE_PARK_HEIGHT, LIFT_DESCENT_SPEED);
 
-            // create trajectory to sampleOne and follow it
+            // create trajectory to observation and follow it
             trajSeq = drive.trajectorySequenceBuilder(subFasten)
-                    .lineToLinearHeading(sampleArea)
-                    .lineToLinearHeading(sampleOne)
+                    .lineToLinearHeading(observePark)
+
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift descent to finish
-            drive.waitForLiftToReachPosition();
-
-            // close claw around sampleOne
-            drive.closeClawAndWait();
-
-            /*
-                Drop Sample One in High Basket
-            */
-
-            // extend the claw arm
-            drive.extendClawArm();
-
-            // lift to basket drop height
-            drive.startLiftToPosition(BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
 
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
-
-            // create trajectory to basket drop and follow it
-            trajSeq = drive.trajectorySequenceBuilder(sampleOne)
-                    .lineToLinearHeading(basketDrop)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            //open claw (release sample)
-            drive.openClaw();
-
-            // wait (allow sample to drop in basket)
-            sleep(200);
-
-            /*
-                Reverse away from basket and retract claw arm
-            */
-
-            // move from baskedDrop to basketReverse
-            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
-                    .lineToLinearHeading(basketReverse)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // lift to position 0 with power .75
-            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
-
-            // retract the claw arm
-            drive.retractClawArm();
-
-            /*
-                Move to Sample Two
-            */
-
-            // create trajectory to sample two and follow it
-            trajSeq = drive.trajectorySequenceBuilder(basketReverse)
-                    .lineToLinearHeading(sampleTwo)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift descend to finish
-            drive.waitForLiftToReachPosition();
-
-            // close claw
-            drive.closeClawAndWait();
-
-            /*
-                Drop Sample Two in High Basket
-            */
-
-            // extend the claw arm
-            drive.extendClawArm();
-
-            // lift to basket drop position
-            drive.startLiftToPosition(BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
-
-            // wait for lift to reach position
-            drive.waitForLiftToReachPosition();
-
-            // create trajectory to basket drop and follow it
-            trajSeq = drive.trajectorySequenceBuilder(sampleTwo)
-                    .lineToLinearHeading(basketDrop)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            //open claw
-            drive.openClaw();
 
             // stop autonomous and wait for finish
             sleep(30000);

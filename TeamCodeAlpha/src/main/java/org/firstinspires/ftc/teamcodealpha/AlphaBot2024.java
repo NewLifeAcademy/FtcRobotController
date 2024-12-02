@@ -82,6 +82,10 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         RightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    public void resetTiltEncoder() {
+        LiftTiltMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
     public void startLiftToPosition(int position, double power) {
         LeftLiftMotor.setTargetPosition(position);
         RightLiftMotor.setTargetPosition(position);
@@ -93,6 +97,18 @@ public class AlphaBot2024 extends SampleMecanumDrive {
 
     public void waitForLiftToReachPosition() {
         while (LeftLiftMotor.isBusy() && RightLiftMotor.isBusy()) {
+            wait(100);
+        }
+    }
+
+    public void startTiltToPosition(int position, double power) {
+        LiftTiltMotor.setTargetPosition(position);
+        LiftTiltMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LiftTiltMotor.setPower(power);
+    }
+
+    public void waitForTiltToReachPosition() {
+        while (LiftTiltMotor.isBusy()) {
             wait(100);
         }
     }
