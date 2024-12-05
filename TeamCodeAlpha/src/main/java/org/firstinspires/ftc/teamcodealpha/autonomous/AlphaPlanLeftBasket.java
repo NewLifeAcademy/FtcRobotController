@@ -72,7 +72,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double SAMPLE_AREA_Y = 48;
     public static double SAMPLE_AREA_HEADING = 270;
     public static int SAMPLE_LIFT_HEIGHT = 100;
-    public static double SAMPLE_ONE_X = 49;
+    public static double SAMPLE_ONE_X = 48;
     public static double SAMPLE_ONE_Y = 35;
     public static double SAMPLE_ONE_HEADING = 270;
     public static double BASKET_DROP_X = 54;
@@ -82,7 +82,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
     public static double BASKET_APPROACH_HEADING = 40;
-    public static double SAMPLE_TWO_X = 59;
+    public static double SAMPLE_TWO_X = 58;
     public static double SAMPLE_TWO_Y = 37;
     public static double SAMPLE_TWO_HEADING = 270;
     public static double ASCENT_APPROACH_X = 36;
