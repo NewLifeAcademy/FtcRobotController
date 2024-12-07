@@ -71,7 +71,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double SAMPLE_AREA_X = 48;
     public static double SAMPLE_AREA_Y = 48;
     public static double SAMPLE_AREA_HEADING = 270;
-    public static int SAMPLE_LIFT_HEIGHT = 100;
+    public static int SAMPLE_LIFT_HEIGHT = 150;
     public static double SAMPLE_ONE_X = 48;
     public static double SAMPLE_ONE_Y = 35;
     public static double SAMPLE_ONE_HEADING = 270;
@@ -85,14 +85,6 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double SAMPLE_TWO_X = 58;
     public static double SAMPLE_TWO_Y = 37;
     public static double SAMPLE_TWO_HEADING = 270;
-    public static double ASCENT_APPROACH_X = 36;
-    public static double ASCENT_APPROACH_Y = 12;
-    public static double ASCENT_APPROACH_HEADING = 180;
-    public static double ASCENT_PARK_X = 30;
-    public static double ASCENT_PARK_Y = 12;
-    public static double ASCENT_PARK_HEADING = 180;
-    public static int ASCENT_PARK_HEIGHT = 1000;
-    public static int ASCENT_TILT_POSITION = 5000;
 
     @Override
     public void runOpMode() {
@@ -107,8 +99,6 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
         Pose2d basketDrop = new Pose2d(BASKET_DROP_X, BASKET_DROP_Y, Math.toRadians(BASKET_DROP_HEADING));
         Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
         Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
-        Pose2d ascentApproach = new Pose2d(ASCENT_APPROACH_X, ASCENT_APPROACH_Y, Math.toRadians(ASCENT_APPROACH_HEADING));
-        Pose2d ascentPark = new Pose2d(ASCENT_PARK_X, ASCENT_PARK_Y, Math.toRadians(ASCENT_PARK_HEADING));
 
         // Create all velocities and accelerations
         TrajectoryVelocityConstraint subApproachVelocity = AlphaBot2024.getVelocityConstraint(SUB_APPROACH_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
@@ -294,7 +284,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
             drive.openClaw();
 
             /*
-                Park in Ascent Zone
+                Move to Basket approach, and setup for teleop (lower lift and retract claw)
              */
 
             // move to basket approach
@@ -306,26 +296,11 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
             // retract the claw arm
             drive.retractClawArm();
 
-            // lower lift to ascent park height
-            drive.startLiftToPosition(ASCENT_PARK_HEIGHT, LIFT_DESCENT_SPEED);
-
-            // move to ascent approach
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(ascentApproach)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
+            // lower lift to starting height
+            drive.startLiftToPosition(0, LIFT_DESCENT_SPEED);
 
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
-
-            // tilt to ascent position
-            drive.startTiltToPosition(ASCENT_TILT_POSITION, TILT_SPEED);
-
-            // move to ascent park
-            trajSeq = drive.trajectorySequenceBuilder(ascentApproach)
-                    .lineToLinearHeading(ascentPark)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
 
             // stop autonomous and wait for finish
             sleep(30000);
