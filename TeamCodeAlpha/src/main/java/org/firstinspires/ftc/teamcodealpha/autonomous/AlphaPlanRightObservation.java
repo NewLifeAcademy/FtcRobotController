@@ -70,7 +70,7 @@ public class AlphaPlanRightObservation extends LinearOpMode {
     public static double OBSERVE_PARK_X = -48;
     public static double OBSERVE_PARK_Y = 62;
     public static double OBSERVE_PARK_HEADING = 270;
-    public static int OBSERVE_PARK_HEIGHT = 100;
+    public static int OBSERVE_PARK_HEIGHT = 0;
 
     @Override
     public void runOpMode() {

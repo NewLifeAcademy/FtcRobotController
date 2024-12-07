@@ -68,23 +68,24 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static int SUB_FASTEN_VELOCITY = 12;
     public static int SUB_FASTEN_ACCELERATION = 12;
     public static double SUB_FASTEN_LIFT_SPEED = 0.75;
-    public static double SAMPLE_AREA_X = 48;
+    public static double SAMPLE_AREA_X = 42;
     public static double SAMPLE_AREA_Y = 48;
-    public static double SAMPLE_AREA_HEADING = 270;
-    public static int SAMPLE_LIFT_HEIGHT = 150;
-    public static double SAMPLE_ONE_X = 48;
-    public static double SAMPLE_ONE_Y = 35;
-    public static double SAMPLE_ONE_HEADING = 270;
-    public static double BASKET_DROP_X = 54;
-    public static double BASKET_DROP_Y = 54;
-    public static double BASKET_DROP_HEADING = 40;
+    public static double SAMPLE_AREA_HEADING = 280;
+    public static int SAMPLE_ONE_LIFT_HEIGHT = 125;
+    public static double SAMPLE_ONE_X = 44;
+    public static double SAMPLE_ONE_Y = 33;
+    public static double SAMPLE_ONE_HEADING = 280;
+    public static double BASKET_DROP_X = 57;
+    public static double BASKET_DROP_Y = 50;
+    public static double BASKET_DROP_HEADING = 35;
     public static int BASKET_DROP_HEIGHT = 6300;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
-    public static double BASKET_APPROACH_HEADING = 40;
+    public static double BASKET_APPROACH_HEADING = 37;
     public static double SAMPLE_TWO_X = 58;
     public static double SAMPLE_TWO_Y = 37;
-    public static double SAMPLE_TWO_HEADING = 270;
+    public static double SAMPLE_TWO_HEADING = 263;
+    public static int SAMPLE_TWO_LIFT_HEIGHT = 110;
 
     @Override
     public void runOpMode() {
@@ -98,7 +99,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
         Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
         Pose2d basketDrop = new Pose2d(BASKET_DROP_X, BASKET_DROP_Y, Math.toRadians(BASKET_DROP_HEADING));
         Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
-        Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
+        //Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
 
         // Create all velocities and accelerations
         TrajectoryVelocityConstraint subApproachVelocity = AlphaBot2024.getVelocityConstraint(SUB_APPROACH_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
@@ -169,7 +170,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
             */
 
             // lower lift to sample height
-            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
+            drive.startLiftToPosition(SAMPLE_ONE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
 
             // create trajectory to sampleOne and follow it
             trajSeq = drive.trajectorySequenceBuilder(subFasten)
@@ -220,68 +221,6 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
             // wait (allow sample to drop in basket)
             sleep(200);
 
-            /*
-                Reverse away from basket and retract claw arm
-            */
-
-            // move from baskedDrop to basketReverse
-            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // lift to position 0 with power .75
-            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
-
-            // retract the claw arm
-            drive.retractClawArm();
-
-            /*
-                Move to Sample Two
-            */
-
-            // create trajectory to sample two and follow it
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(sampleTwo)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift descend to finish
-            drive.waitForLiftToReachPosition();
-
-            // close claw around sampleTwo
-            drive.closeClawAndWait();
-
-            /*
-                Lift and Move to Basket Approach
-            */
-            // lift to basket drop height
-            drive.startLiftToPosition(BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
-
-            // extend the claw arm
-            drive.extendClawArm();
-
-            // create trajectory to basket drop and follow it
-            trajSeq = drive.trajectorySequenceBuilder(sampleTwo)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift to reach position
-            drive.waitForLiftToReachPosition();
-
-            /*
-                Drop Sample Two in High Basket
-            */
-
-            // create trajectory to basket drop and follow it
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(basketDrop)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            //open claw
-            drive.openClaw();
 
             /*
                 Move to Basket approach, and setup for teleop (lower lift and retract claw)
