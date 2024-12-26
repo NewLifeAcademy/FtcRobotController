@@ -27,8 +27,15 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 8192; // // REV Robotics Through Bore Encoder specs
-    public static double WHEEL_RADIUS = .69; // // Dual Omni 35mm (1.38 inches / 2)
+    /*
+     * FTC 17240 GrantBot: (2024-12-26)
+     *  Switched from Custom Odometry Pods to GoBuila 4-Bar Odometry Pod (32mm) : https://www.gobilda.com/4-bar-odometry-pod-32mm-wheel/
+     *  TODO: Measure LATERAL_DISTANCE and FORWARD_OFFSET
+     *  TODO: Set new X_MULTIPLIER and Y_MULTIPLIER (https://learnroadrunner.com/dead-wheels.html#tuning-three-wheel)
+     */
+
+    public static double TICKS_PER_REV = 2000;
+    public static double WHEEL_RADIUS = .63; // // Dual Omni 32mm (1.2598 inches / 2)
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     public static double LATERAL_DISTANCE = 7.96; // in; distance between the left and right wheels
