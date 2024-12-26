@@ -51,6 +51,10 @@ import static org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstan
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
+    /*
+    * FTC 17240 GrantBot: (2024-12-26)
+    *  TODO: Tune TRANSLATIONAL_PID and HEADING_PID using BackAndForth and FollowerPIDTuner op modes (https://learnroadrunner.com/follower-pid-tuning.html)
+    */
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
@@ -111,7 +115,6 @@ public class SampleMecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncPositions = new ArrayList<>();
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
-        // TODO: if desired, use setLocalizer() to change the localization method
         setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap, lastTrackingEncPositions, lastTrackingEncVels));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(

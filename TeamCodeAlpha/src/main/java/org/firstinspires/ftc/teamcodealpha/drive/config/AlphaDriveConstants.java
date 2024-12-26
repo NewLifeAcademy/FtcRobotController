@@ -17,27 +17,15 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
  */
 @Config
 public class AlphaDriveConstants {
-
     /*
      * These are motor constants that should be listed online for your motors.
-     */
-    /*
-     * FTC 17240 DuluthBot REV Robotics:
+     *
+     * FTC 17240 GrantBot: (2024-12-26)
+     *  REV HD Hex 20:1 Planetary
+     *  https://learnroadrunner.com/drive-constants.html#ticks-per-rev-max-rpm
      */
     public static final double TICKS_PER_REV = 537.6;
     public static final double MAX_RPM = 312.5;
-
-    /* Autonomous Distances */
-    public static final double STRAFE_ONE_RED_DISTANCE = -67;
-    public static final double STRAFE_ONE_BLUE_DISTANCE = -60;
-    public static final double STRAFE_TWO_RED_DISTANCE = -12;
-    public static final double STRAFE_TWO_BLUE_DISTANCE = -12;
-    public static final double FORWARD_DISTANCE_BLUE_LONG = -120;
-    public static final double FORWARD_DISTANCE_RED_LONG = -132;
-    public static final double FORWARD_DISTANCE_SHORT = -60;
-    public static final double REVERSE_DISTANCE = -8;
-    public static final double STRAFE_THREE_DISTANCE = -48;
-
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -47,9 +35,8 @@ public class AlphaDriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      *
-     * FTC 17240 GoBuilda and DuluthBot:
-     *  Using 'dead' wheel odometry with 90mm Omni Wheels + Through Bore Encoder
-     *   Therefore, this should always be 'false'
+     * FTC 17240 GrantBot: (2024-12-26)
+     *  Using 'dead' wheel odometry, therefore RUN_USING_ENCODER should always be 'false'
      */
     public static final boolean RUN_USING_ENCODER = false;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
@@ -64,10 +51,11 @@ public class AlphaDriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     /*
-     * FTC 17240 GoBuilda:
-     *  DUO Omni 90mm wheels (3.54 in): https://www.revrobotics.com/DUO-Omni-Wheels/
-     *  Gear ratio is 1:1 (Through Bore Encoder direct to Omni Wheels)
-     *  Measured track width at 15in
+     * FTC 17240 GrantBot: (2024-12-26)
+     *  Wheel Radius 43mm (1.8898 inches) : https://www.gobilda.com/96mm-mecanum-wheel-set-70a-durometer-bearing-supported-rollers/
+     *  Gear ratio is 1:1 (Motor direct to wheel)
+     *  Measured track width at 15.2 inches
+     * TODO: Tune TRACK_WIDTH using MaxAngularVelocityTuner op mode (https://learnroadrunner.com/trackwidth-tuning.html)
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
@@ -79,9 +67,14 @@ public class AlphaDriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 0.0131;
-    public static double kA = 0.0036;
-    public static double kStatic = 0.005;
+    /*
+    * FTC 17240 GrantBot: (2024-12-26)
+    * Reset to defaults prior to tuning with new GoBilda 4-Bar Odometry Pods
+    * TODO: Tune these values using ManualFeedForwardTuner (see file history in GitHub for previous values) : https://learnroadrunner.com/feedforward-tuning.html#tuning
+     */
+    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
+    public static double kA = 0;
+    public static double kStatic = 0;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -111,30 +104,22 @@ public class AlphaDriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
      */
     /*
-     * FTC 17420 GoBilda + DuluthBot:
-     *  Values copied/pasted from the generated wizard at https://learnroadrunner.com/drive-constants.html#drive-constants
+     * FTC 17240 GrantBot: (2024-12-26)
+     * Reset to defaults prior to tuning with new GoBilda 4-Bar Odometry Pods
+     * TODO: Tune these values using MaxVelocityTuner (see file history in GitHub for previous values)
      */
-
-    /*
-    public static double MAX_VEL = 52.48180821614297;
-    public static double MAX_ACCEL = 52.48180821614297;
-    */
-
-    // Set max velocity and acceleration
-    public static double MAX_VEL = 52;
-    public static double MAX_ACCEL = 52;
-
-   // public static double MAX_ANG_VEL = Math.toRadians(184.02607784577722);
-   public static double MAX_ANG_VEL = 4.420;
-    public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722);
+    public static double MAX_VEL = 52.56702632542596;
+    public static double MAX_ACCEL = 52.56702632542596;
+    public static double MAX_ANG_VEL = Math.toRadians(167.32604166666664);
+    public static double MAX_ANG_ACCEL = Math.toRadians(167.32604166666664);
 
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
      */
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
-            RevHubOrientationOnRobot.LogoFacingDirection.UP;
+            RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
     public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
 
     public static double encoderTicksToInches(double ticks) {
