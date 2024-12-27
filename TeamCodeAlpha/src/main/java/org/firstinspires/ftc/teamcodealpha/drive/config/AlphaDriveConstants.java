@@ -54,12 +54,12 @@ public class AlphaDriveConstants {
      * FTC 17240 GrantBot: (2024-12-26)
      *  Wheel Radius 43mm (1.8898 inches) : https://www.gobilda.com/96mm-mecanum-wheel-set-70a-durometer-bearing-supported-rollers/
      *  Gear ratio is 1:1 (Motor direct to wheel)
-     *  Measured track width at 15.2 inches
+     *  Measured track width at 15.5 inches
      * TODO: Tune TRACK_WIDTH using MaxAngularVelocityTuner op mode (https://learnroadrunner.com/trackwidth-tuning.html)
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.2; // in
+    public static double TRACK_WIDTH = 15.5; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -72,9 +72,9 @@ public class AlphaDriveConstants {
     * Reset to defaults prior to tuning with new GoBilda 4-Bar Odometry Pods
     * TODO: Tune these values using ManualFeedForwardTuner (see file history in GitHub for previous values) : https://learnroadrunner.com/feedforward-tuning.html#tuning
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kV = 0.0115;
+    public static double kA = 0.002;
+    public static double kStatic = 0.01;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -108,9 +108,9 @@ public class AlphaDriveConstants {
      * Reset to defaults prior to tuning with new GoBilda 4-Bar Odometry Pods
      * TODO: Tune these values using MaxVelocityTuner (see file history in GitHub for previous values)
      */
-    public static double MAX_VEL = 52.56702632542596;
+    public static double MAX_VEL = 45;
     public static double MAX_ACCEL = 52.56702632542596;
-    public static double MAX_ANG_VEL = Math.toRadians(167.32604166666664);
+    public static double MAX_ANG_VEL = 5.455;
     public static double MAX_ANG_ACCEL = Math.toRadians(167.32604166666664);
 
     /*

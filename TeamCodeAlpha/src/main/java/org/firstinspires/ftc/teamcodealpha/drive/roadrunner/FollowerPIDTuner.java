@@ -26,13 +26,13 @@ import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence
 @Config
 @Autonomous(group = "roadrunner tuning", name = "FollowerPIDTuner")
 public class FollowerPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 48; // in
+    public static double DISTANCE = 96; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0);
+        Pose2d startPose = new Pose2d(-48, -48, 0);
 
         drive.setPoseEstimate(startPose);
 

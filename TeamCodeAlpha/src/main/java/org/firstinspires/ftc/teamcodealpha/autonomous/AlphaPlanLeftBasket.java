@@ -56,7 +56,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double START_POS_Y = 62;
     public static double START_POS_HEADING = 270;
     public static double SUB_APPROACH_X = 10;
-    public static double SUB_APPROACH_Y = 34;
+    public static double SUB_APPROACH_Y = 32;
     public static double SUB_APPROACH_HEADING = 270;
     public static int SUB_APPROACH_HEIGHT = 4000;
     public static int SUB_APPROACH_VELOCITY = 36;
@@ -68,16 +68,17 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static int SUB_FASTEN_VELOCITY = 12;
     public static int SUB_FASTEN_ACCELERATION = 12;
     public static double SUB_FASTEN_LIFT_SPEED = 0.75;
-    public static double SAMPLE_AREA_X = 42;
+    public static int SUB_FASTEN_REVERSE_HEIGHT = 4900;
+    public static double SAMPLE_AREA_X = 48;
     public static double SAMPLE_AREA_Y = 48;
     public static double SAMPLE_AREA_HEADING = 280;
     public static int SAMPLE_ONE_LIFT_HEIGHT = 125;
-    public static double SAMPLE_ONE_X = 44;
-    public static double SAMPLE_ONE_Y = 33;
+    public static double SAMPLE_ONE_X = 48;
+    public static double SAMPLE_ONE_Y = 34;
     public static double SAMPLE_ONE_HEADING = 280;
     public static double BASKET_DROP_X = 57;
     public static double BASKET_DROP_Y = 50;
-    public static double BASKET_DROP_HEADING = 35;
+    public static double BASKET_DROP_HEADING = 47;
     public static int BASKET_DROP_HEIGHT = 6300;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
@@ -161,6 +162,8 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
+
+            drive.startLiftToPosition(SUB_FASTEN_REVERSE_HEIGHT, SUB_FASTEN_LIFT_SPEED);
 
             // open claw
             drive.openClaw();
