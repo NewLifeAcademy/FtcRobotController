@@ -29,10 +29,13 @@
 
 package org.firstinspires.ftc.teamcodealpha.drive.samples;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -79,7 +82,7 @@ public class ConceptAprilTagEasy extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+        Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         initAprilTag();
 
         // Wait for the DS start button to be touched.
@@ -91,7 +94,7 @@ public class ConceptAprilTagEasy extends LinearOpMode {
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
-                telemetryAprilTag();
+                telemetryAprilTag(telemetry);
 
                 // Push telemetry to the Driver Station.
                 telemetry.update();
@@ -135,7 +138,7 @@ public class ConceptAprilTagEasy extends LinearOpMode {
     /**
      * Add telemetry about AprilTag detections.
      */
-    private void telemetryAprilTag() {
+    private void telemetryAprilTag(Telemetry telemetry) {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
