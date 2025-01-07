@@ -89,7 +89,8 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double BASKET_DROP_X = 56;
     public static double BASKET_DROP_Y = 51;
     public static double BASKET_DROP_HEADING = 47;
-    public static int BASKET_DROP_HEIGHT = 6300;
+    public static int UPPER_BASKET_DROP_HEIGHT = 6300;
+    public static int LOWER_BASKET_DROP_HEIGHT = 2177;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
     public static double BASKET_APPROACH_HEADING = 37;
@@ -270,7 +271,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
                 Lift and Move to Basket Approach
             */
             // lift to basket drop height
-            drive.startLiftToPosition(BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
+            drive.startLiftToPosition(UPPER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
 
             // extend the claw arm
             drive.extendClawArm();
@@ -325,7 +326,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
             */
 
             // Move to sample two
-            trajSeq = drive.trajectorySequenceBuilder(sampleAreaOne)
+            trajSeq = drive.trajectorySequenceBuilder(sampleAreaTwo)
                     .lineToLinearHeading(sampleTwo)
                     .build();
             drive.followTrajectorySequence(trajSeq);
@@ -335,61 +336,61 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
                 Trying to get Sample Two into the basket is to risky based on time
                 and we would rather be in position to start TeleOp next to sampleTwo
              */
-//            // close claw around sampleTwo
-//            drive.closeClawAndWait();
-//            sleep(200);
-//
-//            /*
-//                Lift and Move to Basket Approach
-//            */
-//            // lift to basket drop height
-//            drive.startLiftToPosition(BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
-//
-//            // extend the claw arm
-//            drive.extendClawArm();
-//
-//            // create trajectory to basket drop and follow it
-//            trajSeq = drive.trajectorySequenceBuilder(sampleOne)
-//                    .lineToLinearHeading(basketApproach)
-//                    .build();
-//            drive.followTrajectorySequence(trajSeq);
-//
-//
-//            // wait for lift to reach position
-//            drive.waitForLiftToReachPosition();
-//
-//            /*
-//                Drop Sample One in High Basket
-//            */
-//
-//            // move to basket drop position
-//            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-//                    .lineToLinearHeading(basketDrop)
-//                    .build();
-//            drive.followTrajectorySequence(trajSeq);
-//
-//            //open claw (release sample)
-//            drive.openClaw();
-//
-//
-//            /*
-//                Move to Basket approach, and setup for teleop (lower lift and retract claw)
-//             */
-//
-//            // move to basket approach
-//            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
-//                    .lineToLinearHeading(basketApproach)
-//                    .build();
-//            drive.followTrajectorySequence(trajSeq);
-//
-//            // retract the claw arm
-//            drive.retractClawArm();
-//
-//            // lower lift to starting height
-//            drive.startLiftToPosition(0, LIFT_DESCENT_SPEED);
-//
-//            // wait for lift to reach position
-//            drive.waitForLiftToReachPosition();
+            //close claw around sampleTwo
+            drive.closeClawAndWait();
+            sleep(200);
+
+            /*
+                Lift and Move to Basket Approach
+            */
+            // lift to basket drop height
+            drive.startLiftToPosition(LOWER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
+
+            // extend the claw arm
+            drive.extendClawArm();
+
+            // create trajectory to basket drop and follow it
+            trajSeq = drive.trajectorySequenceBuilder(sampleTwo)
+                    .lineToLinearHeading(basketApproach)
+                    .build();
+            drive.followTrajectorySequence(trajSeq);
+
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
+
+            /*
+                Drop Sample Two in High Basket
+            */
+
+            // move to basket drop position
+            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
+                    .lineToLinearHeading(basketDrop)
+                    .build();
+            drive.followTrajectorySequence(trajSeq);
+
+            //open claw (release sample)
+            drive.openClaw();
+
+
+            /*
+                Move to Basket approach, and setup for teleop (lower lift and retract claw)
+             */
+
+            // move to basket approach
+            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
+                    .lineToLinearHeading(basketApproach)
+                    .build();
+            drive.followTrajectorySequence(trajSeq);
+
+            // retract the claw arm
+            drive.retractClawArm();
+
+            // lower lift to starting height
+            drive.startLiftToPosition(0, LIFT_DESCENT_SPEED);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
 
             // stop autonomous and wait for finish
             sleep(30000);
