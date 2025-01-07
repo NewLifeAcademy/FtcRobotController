@@ -86,11 +86,14 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double SAMPLE_ONE_X = 48;
     public static double SAMPLE_ONE_Y = 36;
     public static double SAMPLE_ONE_HEADING = 270;
-    public static double BASKET_DROP_X = 56;
-    public static double BASKET_DROP_Y = 51;
-    public static double BASKET_DROP_HEADING = 47;
+    public static double UPPER_BASKET_DROP_X = 56;
+    public static double UPPER_BASKET_DROP_Y = 53;
+    public static double UPPER_BASKET_DROP_HEADING = 47;
     public static int UPPER_BASKET_DROP_HEIGHT = 6300;
-    public static int LOWER_BASKET_DROP_HEIGHT = 2177;
+    public static double LOWER_BASKET_DROP_X = 56;
+    public static double LOWER_BASKET_DROP_Y = 54;
+    public static double LOWER_BASKET_DROP_HEADING = 47;
+    public static int LOWER_BASKET_DROP_HEIGHT = 2800;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
     public static double BASKET_APPROACH_HEADING = 37;
@@ -125,7 +128,8 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
         Pose2d subFasten = new Pose2d(SUB_FASTEN_X, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
         Pose2d sampleAreaOne = new Pose2d(SAMPLE_AREA_ONE_X, SAMPLE_AREA_ONE_Y, Math.toRadians(SAMPLE_AREA_ONE_HEADING));
         Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
-        Pose2d basketDrop = new Pose2d(BASKET_DROP_X, BASKET_DROP_Y, Math.toRadians(BASKET_DROP_HEADING));
+        Pose2d upperBasketDrop = new Pose2d(UPPER_BASKET_DROP_X, UPPER_BASKET_DROP_Y, Math.toRadians(UPPER_BASKET_DROP_HEADING));
+        Pose2d lowerBasketDrop = new Pose2d(LOWER_BASKET_DROP_X, LOWER_BASKET_DROP_Y, Math.toRadians(LOWER_BASKET_DROP_HEADING));
         Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
         Pose2d sampleAreaTwo = new Pose2d(SAMPLE_AREA_TWO_X, SAMPLE_AREA_TWO_Y, Math.toRadians(SAMPLE_AREA_TWO_HEADING));
         Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
@@ -291,7 +295,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
 
             // move to basket drop position
             trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(basketDrop)
+                    .lineToLinearHeading(upperBasketDrop)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -307,7 +311,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
             */
 
             // Move to basket approach
-            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
+            trajSeq = drive.trajectorySequenceBuilder(upperBasketDrop)
                     .lineToLinearHeading(sampleAreaTwo)
                     .build();
 
@@ -331,11 +335,6 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
-            /*
-                Stop at Sample Two and wait for Auto to end
-                Trying to get Sample Two into the basket is to risky based on time
-                and we would rather be in position to start TeleOp next to sampleTwo
-             */
             //close claw around sampleTwo
             drive.closeClawAndWait();
             sleep(200);
@@ -365,7 +364,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
 
             // move to basket drop position
             trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(basketDrop)
+                    .lineToLinearHeading(lowerBasketDrop)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
@@ -378,7 +377,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
              */
 
             // move to basket approach
-            trajSeq = drive.trajectorySequenceBuilder(basketDrop)
+            trajSeq = drive.trajectorySequenceBuilder(lowerBasketDrop)
                     .lineToLinearHeading(basketApproach)
                     .build();
             drive.followTrajectorySequence(trajSeq);

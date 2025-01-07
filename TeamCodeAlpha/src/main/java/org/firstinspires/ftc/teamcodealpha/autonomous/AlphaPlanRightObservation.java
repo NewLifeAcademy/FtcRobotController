@@ -58,12 +58,14 @@ public class AlphaPlanRightObservation extends LinearOpMode {
     public static int SUB_APPROACH_VELOCITY = 36;
     public static int SUB_APPROACH_ACCELERATION = 36;
     public static double SUB_APPROACH_X = -10;
-    public static double SUB_APPROACH_Y = 34;
+    public static double SUB_APPROACH_Y = 32;
     public static double SUB_APPROACH_HEADING = 270;
     public static int SUB_FASTEN_HEIGHT = 4600;
     public static int SUB_FASTEN_VELOCITY = 12;
     public static int SUB_FASTEN_ACCELERATION = 12;
     public static double SUB_FASTEN_LIFT_SPEED = 0.75;
+    public static int SUB_FASTEN_REVERSE_HEIGHT = 4900;
+
     public static double SUB_FASTEN_X = -10;
     public static double SUB_FASTEN_Y = 45;
     public static double SUB_FASTEN_HEADING = 270;
@@ -141,6 +143,8 @@ public class AlphaPlanRightObservation extends LinearOpMode {
                     .build();
 
             drive.followTrajectorySequence(trajSeq);
+
+            drive.startLiftToPosition(SUB_FASTEN_REVERSE_HEIGHT, SUB_FASTEN_LIFT_SPEED);
 
             // open claw
             drive.openClaw();
