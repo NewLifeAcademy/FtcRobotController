@@ -37,6 +37,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -82,7 +83,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double SAMPLE_AREA_ONE_X = 48;
     public static double SAMPLE_AREA_ONE_Y = 48;
     public static double SAMPLE_AREA_ONE_HEADING = 270;
-    public static int SAMPLE_LIFT_HEIGHT = 125;
+    public static int SAMPLE_LIFT_HEIGHT = 0;
     public static double SAMPLE_ONE_X = 48;
     public static double SAMPLE_ONE_Y = 36;
     public static double SAMPLE_ONE_HEADING = 270;
@@ -140,6 +141,11 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
         TrajectoryVelocityConstraint subFastenVelocity = AlphaBot2024.getVelocityConstraint(SUB_FASTEN_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
         TrajectoryAccelerationConstraint subFastenAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_FASTEN_ACCELERATION);
 
+        /* Post Jan 7th 2024 updates
+        // Set tilt motor to brake - helps with fastened the specimen by keeping the tilt motor from moving
+        drive.LiftTiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        */
+
         waitForStart();
 
         if (opModeIsActive()) {
@@ -195,6 +201,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
 
             drive.followTrajectorySequence(trajSeq);
 
+            // raise lift while reversing to better fasten the specimen
             drive.startLiftToPosition(SUB_FASTEN_REVERSE_HEIGHT, SUB_FASTEN_LIFT_SPEED);
 
             // open claw
