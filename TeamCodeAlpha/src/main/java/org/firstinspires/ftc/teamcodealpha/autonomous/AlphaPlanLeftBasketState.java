@@ -36,9 +36,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -56,10 +54,10 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Left Side Basket", preselectTeleOp = "IntoTheDeep")
-@Disabled
+@Autonomous(name = "Auto - Left Side Basket State", preselectTeleOp = "IntoTheDeep")
+
 @Config
-public class AlphaPlanLeftBasket extends LinearOpMode {
+public class AlphaPlanLeftBasketState extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
     public static double LIFT_DESCENT_SPEED = 1;
     public static double TILT_SPEED = 1;
@@ -70,17 +68,17 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double SUB_APPROACH_X = 10;
     public static double SUB_APPROACH_Y = 32;
     public static double SUB_APPROACH_HEADING = 270;
-    public static int SUB_APPROACH_HEIGHT = 4000;
+    public static int SUB_APPROACH_HEIGHT = 2000;
     public static int SUB_APPROACH_VELOCITY = 36;
     public static int SUB_APPROACH_ACCELERATION = 36;
     public static double SUB_FASTEN_X = 10;
     public static double SUB_FASTEN_Y = 45;
     public static double SUB_FASTEN_HEADING = 270;
-    public static int SUB_FASTEN_HEIGHT = 4600;
+    public static int SUB_FASTEN_HEIGHT = 2300;
     public static int SUB_FASTEN_VELOCITY = 12;
     public static int SUB_FASTEN_ACCELERATION = 12;
     public static double SUB_FASTEN_LIFT_SPEED = 0.75;
-    public static int SUB_FASTEN_REVERSE_HEIGHT = 4900;
+    public static int SUB_FASTEN_REVERSE_HEIGHT = 2450;
     public static double SAMPLE_AREA_ONE_X = 48;
     public static double SAMPLE_AREA_ONE_Y = 48;
     public static double SAMPLE_AREA_ONE_HEADING = 270;
@@ -91,11 +89,11 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
     public static double UPPER_BASKET_DROP_X = 56;
     public static double UPPER_BASKET_DROP_Y = 53;
     public static double UPPER_BASKET_DROP_HEADING = 47;
-    public static int UPPER_BASKET_DROP_HEIGHT = 6300;
+    public static int UPPER_BASKET_DROP_HEIGHT = 3150;
     public static double LOWER_BASKET_DROP_X = 56;
     public static double LOWER_BASKET_DROP_Y = 54;
     public static double LOWER_BASKET_DROP_HEADING = 47;
-    public static int LOWER_BASKET_DROP_HEIGHT = 2800;
+    public static int LOWER_BASKET_DROP_HEIGHT = 1400;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
     public static double BASKET_APPROACH_HEADING = 37;
@@ -351,7 +349,7 @@ public class AlphaPlanLeftBasket extends LinearOpMode {
                 Lift and Move to Basket Approach
             */
             // lift to basket drop height
-            drive.startLiftToPosition(LOWER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
+            drive.startLiftToPosition(UPPER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
 
             // extend the claw arm
             drive.extendClawArm();

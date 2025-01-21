@@ -67,10 +67,11 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         ClawLevel.scaleRange(-1.0, 1.0);
         ClawClose.scaleRange(-1.0, 1.0);
 
-        LeftLiftMotor.setDirection(DcMotor.Direction.REVERSE);
-        RightLiftMotor.setDirection(DcMotor.Direction.FORWARD);
+        LeftLiftMotor.setDirection(DcMotor.Direction.FORWARD);
+        RightLiftMotor.setDirection(DcMotor.Direction.REVERSE);
         RightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LeftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LiftTiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void setLiftMotorPowers(double power) {
         LeftLiftMotor.setPower(power);
