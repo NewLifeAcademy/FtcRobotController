@@ -98,7 +98,7 @@ public class AlphaBot2024 extends SampleMecanumDrive {
 
     public void waitForLiftToReachPosition() {
         while (LeftLiftMotor.isBusy() && RightLiftMotor.isBusy()) {
-            wait(100);
+            wait(0);
         }
     }
 

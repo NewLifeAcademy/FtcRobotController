@@ -65,26 +65,30 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
     public static double START_POS_X = 39;
     public static double START_POS_Y = 62;
     public static double START_POS_HEADING = 270;
-    public static double SAMPLE_AREA_ONE_X = 49;
+    public static double SAMPLE_AREA_ONE_X = 51;
     public static double SAMPLE_AREA_ONE_Y = 48;
     public static double SAMPLE_AREA_ONE_HEADING = 270;
     public static int SAMPLE_LIFT_HEIGHT = 0;
-    public static double SAMPLE_ONE_X = 49;
+    public static double SAMPLE_ONE_X = 51;
     public static double SAMPLE_ONE_Y = 36;
     public static double SAMPLE_ONE_HEADING = 270;
     public static double UPPER_BASKET_DROP_X = 56;
     public static double UPPER_BASKET_DROP_Y = 51;
     public static double UPPER_BASKET_DROP_HEADING = 47;
     public static int UPPER_BASKET_DROP_HEIGHT = 3150;
+    public static int LOWER_BASKET_DROP_HEIGHT = 1400;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
     public static double BASKET_APPROACH_HEADING = 37;
-    public static double SAMPLE_AREA_TWO_X = 59;
+    public static double SAMPLE_AREA_TWO_X = 61;
     public static double SAMPLE_AREA_TWO_Y = 48;
     public static double SAMPLE_AREA_TWO_HEADING = 270;
-    public static double SAMPLE_TWO_X = 59;
+    public static double SAMPLE_TWO_X = 61;
     public static double SAMPLE_TWO_Y = 36;
     public static double SAMPLE_TWO_HEADING = 270;
+    public static double SAMPLE_THREE_X = 62;
+    public static double SAMPLE_THREE_Y = 26;
+    public static double SAMPLE_THREE_HEADING = 0;
     private static final boolean USE_APRILTAG_CORRECTIONS = true;  // true for to use webcam and april tag detection for micro adjustments
 
     private static final double APRILTAG_TARGET_Y = 16.35;
@@ -99,19 +103,21 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
+    // Create all waypoints
+    private Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
+    private Pose2d sampleAreaOne = new Pose2d(SAMPLE_AREA_ONE_X, SAMPLE_AREA_ONE_Y, Math.toRadians(SAMPLE_AREA_ONE_HEADING));
+    private Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
+    private Pose2d upperBasketDrop = new Pose2d(UPPER_BASKET_DROP_X, UPPER_BASKET_DROP_Y, Math.toRadians(UPPER_BASKET_DROP_HEADING));
+    private Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
+    private Pose2d sampleAreaTwo = new Pose2d(SAMPLE_AREA_TWO_X, SAMPLE_AREA_TWO_Y, Math.toRadians(SAMPLE_AREA_TWO_HEADING));
+    private Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
+    private Pose2d sampleThree = new Pose2d(SAMPLE_THREE_X, SAMPLE_THREE_Y, Math.toRadians(SAMPLE_THREE_HEADING));
+
     @Override
     public void runOpMode() {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         initAprilTag();
-        // Create all waypoints
-        Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
-        Pose2d sampleAreaOne = new Pose2d(SAMPLE_AREA_ONE_X, SAMPLE_AREA_ONE_Y, Math.toRadians(SAMPLE_AREA_ONE_HEADING));
-        Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
-        Pose2d upperBasketDrop = new Pose2d(UPPER_BASKET_DROP_X, UPPER_BASKET_DROP_Y, Math.toRadians(UPPER_BASKET_DROP_HEADING));
-        Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
-        Pose2d sampleAreaTwo = new Pose2d(SAMPLE_AREA_TWO_X, SAMPLE_AREA_TWO_Y, Math.toRadians(SAMPLE_AREA_TWO_HEADING));
-        Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
 
         /* Post Jan 7th 2024 updates
         // Set tilt motor to brake - helps with fastened the specimen by keeping the tilt motor from moving
@@ -126,25 +132,32 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
             drive.closeClawAndWait();
             drive.retractClawArm();
 
-            // Define the starting point
-            drive.setPoseEstimate(startPose);
-
             /*
-                Move to Sample Area
+                A. Preload Sample Sequence
+                1. Set start pose
+                2. Move to Sample Area
+                3. correct using April Tag
+                4. Raise to Basket Height
+                5. Move to Basket Approach
+                6. extend claw arm
+                7. Wait for lift to raise
+                8. move to basket drop
+                9. open claw
+                10. wait for sample to drop
+                11. retract claw
             */
 
-            // create trajectory to sampleAreaOne
+            // A.1 - Define the starting point
+            drive.setPoseEstimate(startPose);
+
+            // A.2 - Drive to sample area
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                     .lineToLinearHeading(sampleAreaOne)
                     .build();
-
             drive.followTrajectorySequence(trajSeq);
 
-
-            // Use AprilTag for heading correction
+            // A.3 - Use AprilTag for heading correction
             telemetryAprilTag(telemetry);
-
-            // Push telemetry to the Driver Station.
             telemetry.update();
 
             List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -166,7 +179,7 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
                 // write detection to telemetry
                 telemetry.addLine(String.format("April Tag Detection: %6.1f %6.1f %6.1f", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
                 // write sampleOneCorrection to telemetry
-                telemetry.addLine(String.format("Basket Apporach: %6.1f %6.1f %6.1f", basketApproach.getX(), basketApproach.getY(), basketApproachCorrection.getHeading()));
+                telemetry.addLine(String.format("Basket Apporach: %6.1f %6.1f %6.1f", basketApproach.getX(), basketApproach.getY(), basketApproach.getHeading()));
                 // write sampleOneCorrection to telemetry
                 telemetry.addLine(String.format("Basket Approach Correction: %6.1f %6.1f %6.1f", basketApproachCorrection.getX(), basketApproachCorrection.getY(), basketApproachCorrection.getHeading()));
                 telemetry.update();
@@ -188,185 +201,44 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
                         .build();
             }
 
-            // lift to basket drop height
+            // A.4 - lift to basket drop height
             drive.startLiftToPosition(UPPER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
 
+            // A.5 - drive to basketApproach and reset pose
             drive.followTrajectorySequence(trajSeq);
             drive.setPoseEstimate(basketApproach);
 
-            /*
-                Lift and Move to Basket Approach
-            */
-
-            // extend the claw arm
+            // A.6 - extend the claw arm
             drive.extendClawArm();
 
-            // wait for lift to reach position
+            // A.7 - wait for lift to reach position
             drive.waitForLiftToReachPosition();
 
-            /*
-                Drop Sample One in High Basket
-            */
-
-            // move to basket drop position
+            // A.8 - move to basket drop position
             trajSeq = drive.trajectorySequenceBuilder(basketApproach)
                     .lineToLinearHeading(upperBasketDrop)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
-            //open claw (release sample)
+            // A.9 - open claw (release sample)
             drive.openClaw();
 
-
-            // wait (allow sample to drop in basket)
-            sleep(200);
-            /*
-                Move to Basket approach, and setup for teleop (lower lift and retract claw)
-             */
-
-            // move to basket approach
-            trajSeq = drive.trajectorySequenceBuilder(upperBasketDrop)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // retract the claw arm
-            drive.retractClawArm();
-
-
-            /*
-                Move to Sample One
-            */
-
-            // lower lift to sample height
-            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
-
-            // create trajectory to sampleAreaOne
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(sampleAreaOne)
-                    .lineToLinearHeading(sampleOne)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift to reach position
-            drive.waitForLiftToReachPosition();
-
-            // close claw around sampleOne
-            drive.closeClawAndWait();
-
-
-            /*
-                Drop sample one in high basket
-             */
-
-            // lift to basket drop height
-            drive.startLiftToPosition(UPPER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
-
-            // extend the claw arm
-            drive.extendClawArm();
-
-            // create trajectory to sampleAreaOne
-            trajSeq = drive.trajectorySequenceBuilder(sampleOne)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift to reach position
-            drive.waitForLiftToReachPosition();
-
-            // create trajectory to sampleAreaOne
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(upperBasketDrop)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-            //open claw (release sample)
-            drive.openClaw();
-
-            // wait (allow sample to drop in basket)
+            // A.10 - wait (allow sample to drop in basket)
             sleep(200);
 
-            // move to basket approach
-            trajSeq = drive.trajectorySequenceBuilder(upperBasketDrop)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // retract the claw arm
+            // A.11 - retract claw
             drive.retractClawArm();
 
-            /*
-                Move to Sample Two
-            */
-
-            // lower lift to sample height
-            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
-
-            // create trajectory to sampleAreaOne
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(sampleAreaTwo)
-                    .lineToLinearHeading(sampleTwo)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift to reach position
-            drive.waitForLiftToReachPosition();
-
-            // close claw around sampleOne
-            drive.closeClawAndWait();
-
-
-            /*
-                Drop sample one in high basket
-             */
-
-            // lift to basket drop height
-            drive.startLiftToPosition(UPPER_BASKET_DROP_HEIGHT, LIFT_ASCENT_SPEED);
-
-            // extend the claw arm
-            drive.extendClawArm();
-
-            // create trajectory to sampleAreaOne
-            trajSeq = drive.trajectorySequenceBuilder(sampleTwo)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-            // wait for lift to reach position
-            drive.waitForLiftToReachPosition();
-
-            // create trajectory to sampleAreaOne
-            trajSeq = drive.trajectorySequenceBuilder(basketApproach)
-                    .lineToLinearHeading(upperBasketDrop)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-            //open claw (release sample)
-            drive.openClaw();
-
-            // wait (allow sample to drop in basket)
-            sleep(200);
-
-            // move to basket approach
-            trajSeq = drive.trajectorySequenceBuilder(upperBasketDrop)
-                    .lineToLinearHeading(basketApproach)
-                    .build();
-            drive.followTrajectorySequence(trajSeq);
-
-            // retract the claw arm
-            drive.retractClawArm();
+            basketToSampleDropSequence(drive, sampleOne, UPPER_BASKET_DROP_HEIGHT);
+            basketToSampleDropSequence(drive, sampleTwo, UPPER_BASKET_DROP_HEIGHT);
+            basketToSampleDropSequence(drive, sampleThree, LOWER_BASKET_DROP_HEIGHT);
 
             /*
                 Wait for autonomous to finish
              */
+
             // lower lift to starting height
-            drive.startLiftToPosition(0, LIFT_DESCENT_SPEED);
+            drive.startLiftToPosition(15, LIFT_DESCENT_SPEED);
 
             // wait for lift to reach position
             drive.waitForLiftToReachPosition();
@@ -390,6 +262,82 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
         }
 
     }   // end method initAprilTag()
+
+    /*
+    Assumes robot is
+    (1) lift at basket height
+    (2) Claw retracted
+    (3) Claw opened
+    (4) drive at basket drop
+    Execute sample sequence based on samplePose and basketHeight
+    After sequence, robot will be in the same state as before
+    */
+    private void basketToSampleDropSequence(AlphaBot2024 drive, Pose2d samplePose, int basketHeight)
+    {
+        /*
+            1. Lower to sample height
+            2. Move to sample
+            3. Wait for lift to descend
+            4. Close claw
+            5. Raise to basket height
+            6. Extend claw
+            7. Move to basket approach
+            8. Wait for lift to ascend
+            9. Move to basket drop
+            10. Open claw
+            11. Wait for sample drop
+            12. Retract claw
+         */
+
+        // 1. lower lift to sample height
+        drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
+
+        // 2. move to sample
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(upperBasketDrop)
+                .lineToLinearHeading(basketApproach)
+                .lineToLinearHeading(samplePose)
+                .build();
+        drive.followTrajectorySequence(trajSeq);
+
+        // 3. wait for lift to reach position
+        drive.waitForLiftToReachPosition();
+
+        // 4. close claw around sampleOne
+        drive.closeClawAndWait();
+
+        // 5. raise to basket drop height
+        drive.startLiftToPosition(basketHeight, LIFT_ASCENT_SPEED);
+
+        // 6. extend the claw arm
+        drive.extendClawArm();
+
+        // 7. move to basketapproach
+        trajSeq = drive.trajectorySequenceBuilder(samplePose)
+                .lineToLinearHeading(basketApproach)
+                .build();
+        drive.followTrajectorySequence(trajSeq);
+
+        // 8. wait for lift to reach position
+        drive.waitForLiftToReachPosition();
+
+        // 9. move to basketdrop
+        trajSeq = drive.trajectorySequenceBuilder(basketApproach)
+                .lineToLinearHeading(upperBasketDrop)
+                .build();
+
+        drive.followTrajectorySequence(trajSeq);
+
+        // 10. open claw (release sample)
+        drive.openClaw();
+
+        // 11. wait (allow sample to drop in basket)
+        sleep(200);
+
+        // 12. retract claw
+        drive.retractClawArm();
+
+    }
+
     private void telemetryAprilTag(Telemetry telemetry) {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
