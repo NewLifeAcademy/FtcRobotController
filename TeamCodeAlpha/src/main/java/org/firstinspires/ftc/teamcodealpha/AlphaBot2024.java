@@ -128,6 +128,14 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         ClawClose.setPosition(1);
     }
 
+    public void closeClaw() {
+        ClawClose.setPosition(0);
+    }
+
+    public void openClawAndWait() {
+        ClawClose.setPosition(1);
+        wait(200);
+    }
     public void closeClawAndWait() {
         ClawClose.setPosition(0);
         wait(400);
