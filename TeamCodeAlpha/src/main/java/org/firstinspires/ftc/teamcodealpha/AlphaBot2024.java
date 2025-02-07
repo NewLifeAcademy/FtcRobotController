@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcodealpha;
 
-import static org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants.TRACK_WIDTH;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcodealpha.drive.config.SampleMecanumDrive;
 
@@ -25,6 +21,8 @@ public class AlphaBot2024 extends SampleMecanumDrive {
     public Servo ClawExtend;
     public Servo ClawLevel;
     public Servo ClawClose;
+
+    public Servo OdometryWheel;
 
     public AlphaBot2024(HardwareMap hardwareMap) {
         super(hardwareMap);
@@ -63,9 +61,11 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         ClawLevel = hardwareMap.get(Servo.class, "ClawLevel");
         ClawClose = hardwareMap.get(Servo.class, "ClawClose");
 
-        ClawExtend.scaleRange(-1.0, 1.0);
-        ClawLevel.scaleRange(-1.0, 1.0);
+        ClawExtend.scaleRange(0, 1.0);
+        ClawLevel.scaleRange(0, 1.0);
         ClawClose.scaleRange(-1.0, 1.0);
+
+        OdometryWheel = hardwareMap.get(Servo.class, "Odometryretract");
 
         LeftLiftMotor.setDirection(DcMotor.Direction.FORWARD);
         RightLiftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -114,14 +114,29 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         }
     }
 
+    public void lowerOdometryWheel() {
+        OdometryWheel.setPosition(0);
+    }
+    public void clawLevelUp() {
+        ClawLevel.setPosition(0.9);
+    }
+
+    public void clawLevelNeutral() {
+        ClawLevel.setPosition(0.75);
+    }
+
+    public void clawLevelDown() {
+        ClawLevel.setPosition(0.4);
+    }
+
     public void extendClawArm() {
         ClawExtend.setPosition(0.25);
-        ClawLevel.setPosition(0.4);
+        clawLevelDown(); //0.4
     }
 
     public void retractClawArm() {
         ClawExtend.setPosition(1);
-        ClawLevel.setPosition(0.75);
+        clawLevelNeutral(); //0.75
     }
 
     public void openClaw() {
