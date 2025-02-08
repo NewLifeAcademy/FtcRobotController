@@ -33,7 +33,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -52,10 +51,10 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Samples", preselectTeleOp = "IntoTheDeep")
+@Autonomous(name = "Auto - Samples", preselectTeleOp = "IntoTheDeep-fastlift")
 
 @Config
-public class AlphaPlanLeftSamples extends LinearOpMode {
+public class AlphaPlanSamples extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
     public static double LIFT_DESCENT_SPEED = 1;
     public static double TILT_SPEED = 1;
