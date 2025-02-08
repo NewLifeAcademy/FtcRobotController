@@ -33,13 +33,17 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
+import org.firstinspires.ftc.teamcodealpha.drive.config.AlphaDriveConstants;
 import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -62,27 +66,56 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
     public static double START_POS_X = -10;
     public static double START_POS_Y = 62;
     public static double START_POS_HEADING = 270;
-    public static double SAMPLE_AREA_X = -52;
+
+    public static int SUB_APPROACH_HEIGHT = 2000;
+    public static int SUB_APPROACH_VELOCITY = 36;
+    public static int SUB_APPROACH_ACCELERATION = 36;
+    public static double SUB_PRE_APPROACH_X = -10;
+    public static double SUB_PRE_APPROACH_Y = 45;
+    public static double SUB_PRE_APPROACH_HEADING = 270;
+    public static double SUB_APPROACH_X = -10;
+    public static double SUB_APPROACH_Y = 32;
+    public static double SUB_APPROACH_HEADING = 270;
+    public static int SUB_FASTEN_HEIGHT = 2300;
+    public static int SUB_FASTEN_VELOCITY = 12;
+    public static int SUB_FASTEN_ACCELERATION = 12;
+    public static double SUB_FASTEN_LIFT_SPEED = 0.75;
+    public static int SUB_FASTEN_REVERSE_HEIGHT = 2450;
+
+    public static double SUB_FASTEN_X = -10;
+    public static double SUB_FASTEN_Y = 45;
+    public static double SUB_FASTEN_HEADING = 270;
+    public static double SAMPLE_AREA_X = -38;
     public static double SAMPLE_AREA_Y = 48;
-    public static double SAMPLE_AREA_HEADING = 270;
-    public static int SAMPLE_LIFT_HEIGHT = 0;
-    public static double SAMPLE_ONE_X = -52;
-    public static double SAMPLE_ONE_Y = 36;
-    public static double SAMPLE_ONE_HEADING = 270;
+    public static double SAMPLE_AREA_HEADING = 90;
+    public static int SAMPLE_LIFT_HEIGHT = 10;
+    public static double SAMPLE_AREA_BACK_X = -38;
+    public static double SAMPLE_AREA_BACK_Y = 12;
+    public static double SAMPLE_AREA_BACK_HEADING = 90;
+    public static double SAMPLE_ONE_X = -48;
+    public static double SAMPLE_ONE_Y = 12;
+    public static double SAMPLE_ONE_HEADING = 90;
 
     public static double SAMPLE_OBS_DROP_X = -48;
     public static double SAMPLE_OBS_DROP_Y = 52;
     public static double SAMPLE_OBS_DROP_HEADING = 90;
 
     public static double SAMPLE_OBS_WAIT_X = -48;
-    public static double SAMPLE_OBS_WAIT_Y = 46;
+    public static double SAMPLE_OBS_WAIT_Y = 42;
     public static double SAMPLE_OBS_WAIT_HEADING = 90;
+    public static double OBSERVE_PARK_X = -48;
+    public static double OBSERVE_PARK_Y = 62;
+    public static double OBSERVE_PARK_HEADING = 270;
+    public static int OBSERVE_PARK_HEIGHT = 0;
+
     private static final boolean USE_APRILTAG_CORRECTIONS = false;  // true for to use webcam and april tag detection for micro adjustments
 
     private static final double APRILTAG_TARGET_X = -3.5;  // Camera is 3.5 inches to the right of the robot center
-    private static final double APRILTAG_TARGET_Y = 16.35;
+    private static final double APRILTAG_TARGET_Y = 18.35;
 
     private static final double APRILTAG_TARGET_HEADING = 0;
+
+    private static final long HUMAN_PLAYER_WAIT_TIME = 2000;
     /**
      * The variable to store our instance of the AprilTag processor.
      */
@@ -95,12 +128,25 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
 
     // Create all waypoints
     private Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
+
+    Pose2d subApproach = new Pose2d(SUB_APPROACH_X, SUB_APPROACH_Y, Math.toRadians(SUB_APPROACH_HEADING));
+    Pose2d subPreApproach = new Pose2d(SUB_PRE_APPROACH_X, SUB_PRE_APPROACH_Y, Math.toRadians(SUB_PRE_APPROACH_HEADING));
+    Pose2d subFasten = new Pose2d(SUB_FASTEN_X, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
     private Pose2d sampleArea = new Pose2d(SAMPLE_AREA_X, SAMPLE_AREA_Y, Math.toRadians(SAMPLE_AREA_HEADING));
+    private Pose2d sampleAreaBack = new Pose2d(SAMPLE_AREA_BACK_X, SAMPLE_AREA_BACK_Y, Math.toRadians(SAMPLE_AREA_BACK_HEADING));
     private Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
 
     private Pose2d sampleObsDrop = new Pose2d(SAMPLE_OBS_DROP_X, SAMPLE_OBS_DROP_Y, Math.toRadians(SAMPLE_OBS_DROP_HEADING));
 
     private Pose2d sampleObsWait = new Pose2d(SAMPLE_OBS_WAIT_X, SAMPLE_OBS_WAIT_Y, Math.toRadians(SAMPLE_OBS_WAIT_HEADING));
+    private Pose2d observePark = new Pose2d(OBSERVE_PARK_X, OBSERVE_PARK_Y, Math.toRadians(OBSERVE_PARK_HEADING));
+
+
+    // Create all velocities and accelerations
+    TrajectoryVelocityConstraint subApproachVelocity = AlphaBot2024.getVelocityConstraint(SUB_APPROACH_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
+    TrajectoryAccelerationConstraint subApproachAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_APPROACH_ACCELERATION);
+    TrajectoryVelocityConstraint subFastenVelocity = AlphaBot2024.getVelocityConstraint(SUB_FASTEN_VELOCITY, AlphaDriveConstants.MAX_ANG_VEL, AlphaDriveConstants.TRACK_WIDTH);
+    TrajectoryAccelerationConstraint subFastenAcceleration = AlphaBot2024.getAccelerationConstraint(SUB_FASTEN_ACCELERATION);
 
 
     @Override
@@ -109,10 +155,9 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         initAprilTag();
 
-        /* Post Jan 7th 2024 updates
         // Set tilt motor to brake - helps with fastened the specimen by keeping the tilt motor from moving
         drive.LiftTiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        */
+
         drive.lowerOdometryWheel();
 
         waitForStart();
@@ -123,35 +168,68 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
             drive.closeClawAndWait();
             drive.retractClawArm();
 
-//            drive.openClaw();
-//            sleep(2000);
-//            drive.clawLevelNeutral();
-//            drive.closeClaw();
-//            sleep(2000);
-//            drive.clawLevelDown();
-//            sleep(2000);
-//            drive.clawLevelNeutral();
-//            sleep(2000);
-//            drive.clawLevelUp();
-//            sleep(2000);
-//            drive.clawLevelNeutral();
-//            drive.openClaw();
-//            sleep(30000);
-
-
             // A.1 - Define the starting point
             drive.setPoseEstimate(startPose);
 
-            // A.2 - Drive to sample area
+              /*
+                Move into submersible
+            */
+
+            // Raise list to approach height
+            drive.startLiftToPosition(SUB_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
+
+            // create trajectory to submersible approach with custom velocity
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .lineToLinearHeading(
+                            subApproach,
+                            subApproachVelocity,
+                            subApproachAcceleration)
+                    .build();
+
+            drive.followTrajectorySequence(trajSeq);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
+
+            /*
+                Raise specimen in submersible
+            */
+
+            // Raise specimen to fasten to submersible
+            drive.startLiftToPosition(SUB_FASTEN_HEIGHT, SUB_FASTEN_LIFT_SPEED);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
+
+            /*
+                Reverse out of submersible
+            */
+
+            // create trajectory to subFasten with custom velocity and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subApproach)
+                    .lineToLinearHeading(
+                            subFasten,
+                            subFastenVelocity,
+                            subFastenAcceleration)
+                    .build();
+
+            drive.followTrajectorySequence(trajSeq);
+
+            drive.startLiftToPosition(SUB_FASTEN_REVERSE_HEIGHT, SUB_FASTEN_LIFT_SPEED);
+
+            // open claw
+            drive.openClaw();
+
+            // move to sample area to calibrate camera
+            trajSeq = drive.trajectorySequenceBuilder(subFasten)
                     .lineToLinearHeading(sampleArea)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
-            //open claw
-            drive.openClaw();
+            // lower lift to sample height
+            drive.startLiftToPosition(SAMPLE_LIFT_HEIGHT, LIFT_DESCENT_SPEED);
 
-            // lower claw level
+            // raise claw level
             drive.clawLevelUp();
 
             // A.3 - Use AprilTag for heading correction
@@ -171,25 +249,25 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
                 double y = detection.ftcPose.y;
 
                 //set values of sampleOne based on detection
-                Pose2d sampleOneCorrection = new Pose2d(
-                        sampleOne.getX()-(APRILTAG_TARGET_Y-y),
-                        sampleOne.getY()-(APRILTAG_TARGET_X-x),
+                Pose2d sampleAreaBackCorrection = new Pose2d(
+                        sampleAreaBack.getX()-(APRILTAG_TARGET_Y-y),
+                        sampleAreaBack.getY()-(APRILTAG_TARGET_X-x),
                         //basketApproach.getHeading() - (APRILTAG_TARGET_HEADING + Math.toRadians(yaw)));
-                        sampleOne.getHeading());
+                        sampleAreaBack.getHeading());
 
                 // write april tag target to telemetry
                 telemetry.addLine(String.format("April Tag Target: %6.1f %6.1f %6.1f", APRILTAG_TARGET_X, APRILTAG_TARGET_Y, APRILTAG_TARGET_HEADING));
                 // write detection to telemetry
                 telemetry.addLine(String.format("April Tag Detection: %6.1f %6.1f %6.1f", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
                 // write sampleOneCorrection to telemetry
-                telemetry.addLine(String.format("Sample One: %6.1f %6.1f %6.1f", sampleOne.getX(), sampleOne.getY(), sampleOne.getHeading()));
+                telemetry.addLine(String.format("Sample One: %6.1f %6.1f %6.1f", sampleAreaBack.getX(), sampleAreaBack.getY(), sampleAreaBack.getHeading()));
                 // write sampleOneCorrection to telemetry
-                telemetry.addLine(String.format("Sample One Correction: %6.1f %6.1f %6.1f", sampleOneCorrection.getX(), sampleOneCorrection.getY(), sampleOneCorrection.getHeading()));
+                telemetry.addLine(String.format("Sample One Correction: %6.1f %6.1f %6.1f", sampleAreaBackCorrection.getX(), sampleAreaBackCorrection.getY(), sampleAreaBackCorrection.getHeading()));
                 telemetry.update();
 
 
                 trajSeq = drive.trajectorySequenceBuilder(sampleArea)
-                        .lineToLinearHeading(sampleOneCorrection)
+                        .lineToLinearHeading(sampleAreaBackCorrection)
                         .build();
 
 
@@ -199,7 +277,7 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
                 telemetry.update();
 
                 trajSeq = drive.trajectorySequenceBuilder(sampleArea)
-                        .lineToLinearHeading(sampleOne)
+                        .lineToLinearHeading(sampleAreaBack)
                         .build();
             }
 
@@ -207,40 +285,22 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
 
 
 
-            // drive to sampleArea and reset pose
+            // drive to sampleAreaBack and reset pose
             drive.followTrajectorySequence(trajSeq);
 
             // reset pose
-            drive.setPoseEstimate(sampleOne);
-
-            // claw to neutral
-            drive.clawLevelNeutral();
-
-            // close claw around sample
-            drive.closeClawAndWait();
-
-            // raise claw level
-            drive.clawLevelUp();
+            drive.setPoseEstimate(sampleAreaBack);
 
             // move robot to observation drop off
-            trajSeq = drive.trajectorySequenceBuilder(sampleOne)
+            trajSeq = drive.trajectorySequenceBuilder(sampleAreaBack)
+                    .lineToLinearHeading(sampleOne)
                     .lineToLinearHeading(sampleObsDrop)
-                    .build();
-
-            drive.followTrajectorySequence(trajSeq);
-
-
-            // open claw to drop sample
-            drive.openClaw();
-
-            // move to observation wait
-            trajSeq = drive.trajectorySequenceBuilder(sampleObsDrop)
                     .lineToLinearHeading(sampleObsWait)
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
             // wait for human player to swap out sample
-            sleep(3000);
+            sleep(HUMAN_PLAYER_WAIT_TIME);
 
             // move to observation drop off
             trajSeq = drive.trajectorySequenceBuilder(sampleObsWait)
@@ -248,11 +308,81 @@ public class AlphaPlanRightSpecimens extends LinearOpMode {
                     .build();
             drive.followTrajectorySequence(trajSeq);
 
-            // lower claw level
-            drive.clawLevelNeutral();
+            // close claw to pick up specimen
+            drive.closeClawAndWait();
 
-            // close claw to pick up sample
-            drive.closeClaw();
+            /*
+                Move and place specimen one in submersible
+             */
+
+            // Raise list to approach height
+            drive.startLiftToPosition(SUB_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
+
+            // Adjust subApproach and subFaster to be closer to the center of field (x = x - 2)
+            int specimen2_x_adjust = -4;
+            subApproach = new Pose2d(SUB_APPROACH_X - specimen2_x_adjust, SUB_APPROACH_Y, Math.toRadians(SUB_APPROACH_HEADING));
+            subFasten = new Pose2d(SUB_FASTEN_X - specimen2_x_adjust, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
+
+            // create trajectory to submersible approach with custom velocity
+            trajSeq = drive.trajectorySequenceBuilder(sampleObsDrop)
+                    .lineToLinearHeading(subPreApproach)
+                    .lineToLinearHeading(
+                            subApproach,
+                            subApproachVelocity,
+                            subApproachAcceleration)
+                    .build();
+
+            drive.followTrajectorySequence(trajSeq);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
+
+            /*
+                Raise specimen in submersible
+            */
+
+            // Raise specimen to fasten to submersible
+            drive.startLiftToPosition(SUB_FASTEN_HEIGHT, SUB_FASTEN_LIFT_SPEED);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
+
+            /*
+                Reverse out of submersible
+            */
+
+            // create trajectory to subFasten with custom velocity and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subApproach)
+                    .lineToLinearHeading(
+                            subFasten,
+                            subFastenVelocity,
+                            subFastenAcceleration)
+                    .build();
+
+            drive.followTrajectorySequence(trajSeq);
+
+            drive.startLiftToPosition(SUB_FASTEN_REVERSE_HEIGHT, SUB_FASTEN_LIFT_SPEED);
+
+            // open claw
+            drive.openClaw();
+
+            /*
+                Park in Observation Zone
+             */
+
+            // start lift descent
+            drive.startLiftToPosition(OBSERVE_PARK_HEIGHT, LIFT_DESCENT_SPEED);
+
+            // create trajectory to observation and follow it
+            trajSeq = drive.trajectorySequenceBuilder(subFasten)
+                    .lineToLinearHeading(observePark)
+
+                    .build();
+
+            drive.followTrajectorySequence(trajSeq);
+
+            // wait for lift to reach position
+            drive.waitForLiftToReachPosition();
 
 
 

@@ -74,7 +74,7 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
     public static double UPPER_BASKET_DROP_Y = 52;
     public static double UPPER_BASKET_DROP_HEADING = 47;
     public static int UPPER_BASKET_DROP_HEIGHT = 3150;
-    public static int LOWER_BASKET_DROP_HEIGHT = 1400;
+    public static int LOWER_BASKET_DROP_HEIGHT = 1600;
     public static double BASKET_APPROACH_X = 47;
     public static double BASKET_APPROACH_Y = 47;
     public static double BASKET_APPROACH_HEADING = 37;
@@ -82,11 +82,11 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
     public static double SAMPLE_TWO_Y = 36;
     public static double SAMPLE_TWO_HEADING = 270;
     public static double SAMPLE_THREE_X = 66;
-    public static double SAMPLE_THREE_Y = 26;
+    public static double SAMPLE_THREE_Y = 24;
     public static double SAMPLE_THREE_HEADING = 0;
     private static final boolean USE_APRILTAG_CORRECTIONS = true;  // true for to use webcam and april tag detection for micro adjustments
 
-    private static final double APRILTAG_TARGET_X = -3.5;  // Caamera is 3.5 inches to the right of the robot center
+    private static final double APRILTAG_TARGET_X = -3.5;  // Camera is 3.5 inches to the right of the robot center
     private static final double APRILTAG_TARGET_Y = 16.35;
 
     private static final double APRILTAG_TARGET_HEADING = 0;
@@ -104,10 +104,10 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
     private Pose2d startPose = new Pose2d(START_POS_X, START_POS_Y, Math.toRadians(START_POS_HEADING));
     private Pose2d sampleArea = new Pose2d(SAMPLE_AREA_X, SAMPLE_AREA_Y, Math.toRadians(SAMPLE_AREA_HEADING));
     private Pose2d sampleOne = new Pose2d(SAMPLE_ONE_X, SAMPLE_ONE_Y, Math.toRadians(SAMPLE_ONE_HEADING));
-    private Pose2d upperBasketDrop = new Pose2d(UPPER_BASKET_DROP_X, UPPER_BASKET_DROP_Y, Math.toRadians(UPPER_BASKET_DROP_HEADING));
-    private Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
     private Pose2d sampleTwo = new Pose2d(SAMPLE_TWO_X, SAMPLE_TWO_Y, Math.toRadians(SAMPLE_TWO_HEADING));
     private Pose2d sampleThree = new Pose2d(SAMPLE_THREE_X, SAMPLE_THREE_Y, Math.toRadians(SAMPLE_THREE_HEADING));
+    private Pose2d upperBasketDrop = new Pose2d(UPPER_BASKET_DROP_X, UPPER_BASKET_DROP_Y, Math.toRadians(UPPER_BASKET_DROP_HEADING));
+    private Pose2d basketApproach = new Pose2d(BASKET_APPROACH_X, BASKET_APPROACH_Y, Math.toRadians(BASKET_APPROACH_HEADING));
 
     @Override
     public void runOpMode() {
@@ -242,7 +242,7 @@ public class AlphaPlanLeftSamples extends LinearOpMode {
                     drive,
                     new Pose2d(sampleThree.getX()-3, sampleThree.getY(), sampleThree.getHeading()),
                     sampleThree,
-                    UPPER_BASKET_DROP_HEIGHT);
+                    LOWER_BASKET_DROP_HEIGHT);
 
             /*
                 Wait for autonomous to finish

@@ -118,7 +118,7 @@ public class AlphaBot2024 extends SampleMecanumDrive {
         OdometryWheel.setPosition(0);
     }
     public void clawLevelUp() {
-        ClawLevel.setPosition(0.9);
+        ClawLevel.setPosition(0.8);
     }
 
     public void clawLevelNeutral() {
