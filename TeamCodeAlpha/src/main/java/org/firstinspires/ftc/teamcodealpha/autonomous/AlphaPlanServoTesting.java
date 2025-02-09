@@ -32,41 +32,31 @@ package org.firstinspires.ftc.teamcodealpha.autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcodealpha.AlphaBot2024;
-import org.firstinspires.ftc.teamcodealpha.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
-import java.util.List;
+import org.firstinspires.ftc.teamcode.AlphaBotBlockCompanion;
 
 /*
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Servo Testing", preselectTeleOp = "IntoTheDeep-fastlift")
+@Autonomous(name = "Auto - Servo Testing", preselectTeleOp = "TestLiftEncoderPassthrough")
 
 @Config
 public class AlphaPlanServoTesting extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
     public static double LIFT_DESCENT_SPEED = 1;
     public static int TESTING_LIFT_HEIGHT = 700;
+    public static int TESTING_LIFT_END_HEIGHT = 350;
+
     @Override
     public void runOpMode() {
         AlphaBot2024 drive = new AlphaBot2024(hardwareMap);
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        /* Post Jan 7th 2024 updates
-        // Set tilt motor to brake - helps with fastened the specimen by keeping the tilt motor from moving
-        drive.LiftTiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        */
         drive.lowerOdometryWheel();
 
         waitForStart();
@@ -103,10 +93,11 @@ public class AlphaPlanServoTesting extends LinearOpMode {
             drive.retractClawArm();
             sleep(1000);
 
-            drive.startLiftToPosition(0, LIFT_DESCENT_SPEED);
+            drive.startLiftToPosition(TESTING_LIFT_END_HEIGHT, LIFT_DESCENT_SPEED);
             drive.waitForLiftToReachPosition();
 
-
+            // write lift encoder value to file
+            AlphaBotBlockCompanion.writeLiftEncoderToFile(drive.LeftLiftMotor.getCurrentPosition());
 
             // stop autonomous and wait for finish
             sleep(30000);
