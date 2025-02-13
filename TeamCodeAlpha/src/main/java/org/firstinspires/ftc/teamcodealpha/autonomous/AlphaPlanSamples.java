@@ -241,7 +241,7 @@ public class AlphaPlanSamples extends LinearOpMode {
                     drive,
                     new Pose2d(sampleThree.getX()-3, sampleThree.getY(), sampleThree.getHeading()),
                     sampleThree,
-                    LOWER_BASKET_DROP_HEIGHT);
+                    UPPER_BASKET_DROP_HEIGHT);
 
             /*
                 Wait for autonomous to finish
