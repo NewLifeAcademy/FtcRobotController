@@ -33,6 +33,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -44,7 +45,7 @@ import org.firstinspires.ftc.teamcode.AlphaBotBlockCompanion;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous(name = "Auto - Servo Testing", preselectTeleOp = "TestLiftEncoderPassthrough")
-
+@Disabled
 @Config
 public class AlphaPlanServoTesting extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
