@@ -26,9 +26,12 @@ REV Robotics Chassis Kit
 **Expansion Hub**
 |Port|Type|Name|Descriptor|
 |----|----|----|----|
-|3|Servo|`ClawExtend`||
+|2|Servo|`ClawExtend`||
 |4|Servo|`ClawLevel`||
 |5|Servo|`ClawClose`||
+
+**Webcam**
+`Webcam 1`
 
 ## Bot B - 17240-B-RC
 GoBilda Chassis V4 Kit
