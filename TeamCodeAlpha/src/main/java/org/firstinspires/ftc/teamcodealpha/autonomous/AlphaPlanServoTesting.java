@@ -45,7 +45,6 @@ import org.firstinspires.ftc.teamcode.AlphaBotBlockCompanion;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous(name = "Auto - Servo Testing", preselectTeleOp = "IntoTheDeep-fastlift")
-@Disabled
 @Config
 public class AlphaPlanServoTesting extends LinearOpMode {
     public static double LIFT_ASCENT_SPEED = 1;
