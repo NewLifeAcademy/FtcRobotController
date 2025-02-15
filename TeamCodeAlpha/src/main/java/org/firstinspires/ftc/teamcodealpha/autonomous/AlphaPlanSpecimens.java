@@ -319,7 +319,7 @@ public class AlphaPlanSpecimens extends LinearOpMode {
             drive.startLiftToPosition(SUB_APPROACH_HEIGHT, LIFT_ASCENT_SPEED);
 
             // Adjust subApproach and subFaster to be closer to the center of field (x = x - 2)
-            int specimen2_x_adjust = -4;
+            int specimen2_x_adjust = -8;
             subApproach = new Pose2d(SUB_APPROACH_X - specimen2_x_adjust, SUB_APPROACH_Y, Math.toRadians(SUB_APPROACH_HEADING));
             subFasten = new Pose2d(SUB_FASTEN_X - specimen2_x_adjust, SUB_FASTEN_Y, Math.toRadians(SUB_FASTEN_HEADING));
 
