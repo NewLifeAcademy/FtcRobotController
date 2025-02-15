@@ -44,7 +44,7 @@ import org.firstinspires.ftc.teamcode.AlphaBotBlockCompanion;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Servo Testing", preselectTeleOp = "TestLiftEncoderPassthrough")
+@Autonomous(name = "Auto - Servo Testing", preselectTeleOp = "IntoTheDeep-fastlift")
 @Disabled
 @Config
 public class AlphaPlanServoTesting extends LinearOpMode {
