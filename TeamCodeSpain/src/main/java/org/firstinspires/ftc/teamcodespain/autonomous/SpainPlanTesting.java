@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcodespain.SpainBot2025;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Testing", preselectTeleOp = "none")
+@Autonomous(name = "Auto - Testing")
 @Config
 public class SpainPlanTesting extends LinearOpMode {
 
@@ -55,7 +55,37 @@ public class SpainPlanTesting extends LinearOpMode {
 
         if (opModeIsActive()) {
 
+            // Run front left motor at half speed for 3 seconds
+            telemetry.addLine("Running front left motor at half speed for 3 seconds");
+            telemetry.update();
+            drive.getFrontLeftMotor().setPower(0.5);
+            sleep(3000);
+            drive.getFrontLeftMotor().setPower(0);
+
+            // Run back left motor at half speed for 3 seconds
+            telemetry.addLine("Running back left motor at half speed for 3 seconds");
+            telemetry.update();
+            drive.getBackLeftMotor().setPower(0.5);
+            sleep(3000);
+            drive.getBackLeftMotor().setPower(0);
+
+            // Run back right motor at half speed for 3 seconds
+            telemetry.addLine("Running back right motor at half speed for 3 seconds");
+            telemetry.update();
+            drive.getBackRightMotor().setPower(0.5);
+            sleep(3000);
+            drive.getBackRightMotor().setPower(0);
+
+            // Run front right motor at half speed for 3 seconds
+            telemetry.addLine("Running front right motor at half speed for 3 seconds");
+            telemetry.update();
+            drive.getFrontRightMotor().setPower(0.5);
+            sleep(3000);
+            drive.getFrontRightMotor().setPower(0);
+
             // stop autonomous and wait for finish
+            telemetry.addLine("Testing complete. Stopping autonomous.");
+            telemetry.update();
             sleep(30000);
         }
     }   // end runOpMode()

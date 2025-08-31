@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcodespain;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -18,15 +19,15 @@ public class SpainBot2025 extends SampleMecanumDrive {
         super(hardwareMap);
 
         // Configure the drive motors
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFrontDrive");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRearDrive");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRearDrive");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFrontDrive");
+        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
+        leftRear = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
+        rightRear = hardwareMap.get(DcMotorEx.class, "backRightMotor");
+        rightFront = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
 
         // Set drive motor directions
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
-        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
@@ -40,6 +41,23 @@ public class SpainBot2025 extends SampleMecanumDrive {
         // Default brake behavior
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
+
+    public DcMotor getFrontLeftMotor() {
+        return leftFront;
+    }
+
+    public DcMotor getBackLeftMotor() {
+        return leftRear;
+    }
+
+    public DcMotor getBackRightMotor() {
+        return rightRear;
+    }
+
+    public DcMotor getFrontRightMotor() {
+        return rightFront;
+    }
+
     private void wait(int milliseconds) {
         try {
             Thread.sleep(milliseconds);
