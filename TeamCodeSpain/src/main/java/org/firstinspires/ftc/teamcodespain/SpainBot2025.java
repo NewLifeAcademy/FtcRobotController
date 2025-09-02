@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcodespain;
 
+import com.qualcomm.hardware.sparkfun.SparkFunLEDStick;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,6 +15,8 @@ import java.util.Arrays;
  * FTC 17240 Spain Bot 2025: GoBuilda Mecanum Chassis
  */
 public class SpainBot2025 extends SampleMecanumDrive {
+
+    public SparkFunLEDStick ledStick;
 
     public SpainBot2025(HardwareMap hardwareMap) {
         super(hardwareMap);
@@ -40,27 +43,19 @@ public class SpainBot2025 extends SampleMecanumDrive {
 
         // Default brake behavior
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Configure the LED stick
+        ledStick = hardwareMap.get(SparkFunLEDStick.class, "backLEDStick");
+        ledStick.setBrightness(1);  // Set initial brightness (0-31)
     }
 
-    public DcMotor getFrontLeftMotor() {
-        return leftFront;
+    public void stopMotors() {
+        setMotorPowers(0, 0, 0, 0);
     }
 
-    public DcMotor getBackLeftMotor() {
-        return leftRear;
-    }
-
-    public DcMotor getBackRightMotor() {
-        return rightRear;
-    }
-
-    public DcMotor getFrontRightMotor() {
-        return rightFront;
-    }
-
-    private void wait(int milliseconds) {
+    public void wait(int seconds) {
         try {
-            Thread.sleep(milliseconds);
+            Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

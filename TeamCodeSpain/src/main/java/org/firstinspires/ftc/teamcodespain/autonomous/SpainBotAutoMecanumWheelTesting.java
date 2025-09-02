@@ -42,13 +42,13 @@ import org.firstinspires.ftc.teamcodespain.SpainBot2025;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Auto - Testing")
+@Autonomous(name = "Auto - Mecanum Wheel Testing")
 @Config
-public class SpainPlanTesting extends LinearOpMode {
+public class SpainBotAutoMecanumWheelTesting extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        SpainBot2025 drive = new SpainBot2025(hardwareMap);
+        SpainBot2025 robot = new SpainBot2025(hardwareMap);
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
@@ -58,30 +58,30 @@ public class SpainPlanTesting extends LinearOpMode {
             // Run front left motor at half speed for 3 seconds
             telemetry.addLine("Running front left motor at half speed for 3 seconds");
             telemetry.update();
-            drive.getFrontLeftMotor().setPower(0.5);
-            sleep(3000);
-            drive.getFrontLeftMotor().setPower(0);
+            robot.setMotorPowers(0.5, 0, 0, 0);
+            robot.wait(3);
+            robot.stopMotors();
 
             // Run back left motor at half speed for 3 seconds
             telemetry.addLine("Running back left motor at half speed for 3 seconds");
             telemetry.update();
-            drive.getBackLeftMotor().setPower(0.5);
-            sleep(3000);
-            drive.getBackLeftMotor().setPower(0);
+            robot.setMotorPowers(0, 0.5, 0, 0);
+            robot.wait(3);
+            robot.stopMotors();
 
             // Run back right motor at half speed for 3 seconds
             telemetry.addLine("Running back right motor at half speed for 3 seconds");
             telemetry.update();
-            drive.getBackRightMotor().setPower(0.5);
-            sleep(3000);
-            drive.getBackRightMotor().setPower(0);
+            robot.setMotorPowers(0, 0, 0.5, 0);
+            robot.wait(3);
+            robot.stopMotors();
 
             // Run front right motor at half speed for 3 seconds
             telemetry.addLine("Running front right motor at half speed for 3 seconds");
             telemetry.update();
-            drive.getFrontRightMotor().setPower(0.5);
-            sleep(3000);
-            drive.getFrontRightMotor().setPower(0);
+            robot.setMotorPowers(0, 0, 0, 0.5);
+            robot.wait(3);
+            robot.stopMotors();
 
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");
