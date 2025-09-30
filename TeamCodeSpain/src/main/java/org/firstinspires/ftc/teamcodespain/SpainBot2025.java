@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcodespain;
 
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.hardware.sparkfun.SparkFunLEDStick;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -29,6 +33,14 @@ public class SpainBot2025 extends MecanumDrive {
 
     public void stopMotors() {
         setMotorPowers(0, 0, 0, 0);
+    }
+
+    public void odometryBasedMove(double forwardInches, double strafeInches, double rotationDegrees) {
+        Action action = this.actionBuilder(this.localizer.getPose())
+                .splineTo(new Vector2d(forwardInches, strafeInches), Math.toRadians(rotationDegrees))
+                .build();
+
+        Actions.runBlocking(new SequentialAction(action));
     }
 
     public void wait(int seconds) {
