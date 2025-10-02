@@ -56,6 +56,7 @@ public class SpainBotBasicDrive extends LinearOpMode {
     public void runOpMode() {
         SpainBot2025 robot = new SpainBot2025(hardwareMap);
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        robot.initAprilTagDetection();
 
         waitForStart();
 
@@ -70,6 +71,11 @@ public class SpainBotBasicDrive extends LinearOpMode {
             ));
 
             robot.updatePoseEstimate();
+
+            while(gamepad1.a) {
+                robot.telemetryAprilTag(telemetry);
+                telemetry.update();
+            }
 
             Pose2d pose = robot.localizer.getPose();
             telemetry.addData("x", pose.position.x);

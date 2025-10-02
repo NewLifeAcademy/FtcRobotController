@@ -61,23 +61,16 @@ public class SpainBotAutoWaypointTest extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-//            Action action = robot.actionBuilder(new Pose2d(0, 0, 0))
-//                    .strafeTo(new Vector2d(24, 0))
-//                    .waitSeconds(2)
-//                    .strafeTo(new Vector2d(0,0))
-//                    .waitSeconds(2)
-//                    .strafeTo(new Vector2d(0,24))
-//                    .waitSeconds(2)
-//                    .strafeTo(new Vector2d(0,0))
-//                    .waitSeconds(2)
-//                    .splineTo(new Vector2d(48, 48), Math.toRadians(90))
-//                    .waitSeconds(2)
-//                    .splineTo(new Vector2d(0, 0), Math.toRadians(270))
-//                    .waitSeconds(2)
-//                    .build();
-//
-//            Actions.runBlocking(new SequentialAction(action));
-            robot.odometryBasedMove(24, 0, 0);
+            Action action = robot.actionBuilder(new Pose2d(0, 0, 0))
+                    .waitSeconds(2)
+                    .splineTo(new Vector2d(-24,24), Math.toRadians(315))
+                    .waitSeconds(1)
+
+                    .build();
+            Actions.runBlocking(new SequentialAction(action));
+
+            robot.initAprilTagDetection();
+            robot.telemetryAprilTag(telemetry);
 
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");
