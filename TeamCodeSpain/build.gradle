@@ -16,7 +16,7 @@ apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
 android {
-    namespace = 'org.firstinspires.ftc.teamcodealpha'
+    namespace = 'org.firstinspires.ftc.teamcodespain'
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
