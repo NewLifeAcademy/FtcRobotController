@@ -63,6 +63,7 @@ public class SpainBotAutoWaypointTest extends LinearOpMode {
 
             Action action = robot.actionBuilder(new Pose2d(0, 0, 0))
                     .waitSeconds(2)
+                    .setTangent(0)
                     .splineTo(new Vector2d(-24,24), Math.toRadians(315))
                     .waitSeconds(1)
 
