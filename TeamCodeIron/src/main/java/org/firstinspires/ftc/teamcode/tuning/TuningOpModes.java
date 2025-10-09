@@ -88,9 +88,8 @@ public final class TuningOpModes {
             }
 
             @Override
-            public float getHeadingVelocity() {
-                // BSpain: Fixes compile error from sample code at https://github.com/acmerobotics/road-runner-quickstart/blob/0c6c87aec20b20d26965e492eb4ca505575b2b9d/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tuning/TuningOpModes.java
-                return (float) pl.driver.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+            public float getHeadingVelocity(UnnormalizedAngleUnit unit) {
+                return (float) pl.driver.getHeadingVelocity(unit);
             }
 
             @Override
