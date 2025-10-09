@@ -61,6 +61,7 @@ public class SpainBotAutoWaypointTest extends LinearOpMode {
 
         if (opModeIsActive()) {
 
+            // Waypoint test
             Action action = robot.actionBuilder(new Pose2d(0, 0, 0))
                     .waitSeconds(2)
                     .setTangent(0)
@@ -70,6 +71,7 @@ public class SpainBotAutoWaypointTest extends LinearOpMode {
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 
+            // AprilTag detection test
             robot.initAprilTagDetection();
             robot.telemetryAprilTag(telemetry);
 

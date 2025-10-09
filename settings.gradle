@@ -1,4 +1,4 @@
 include ':FtcRobotController'
-include ':TeamCodeAlpha'
-include ':TeamCodeBeta'
+include ':TeamCodeIron'
+include ':TeamCodeWings'
 include ':TeamCodeSpain'
