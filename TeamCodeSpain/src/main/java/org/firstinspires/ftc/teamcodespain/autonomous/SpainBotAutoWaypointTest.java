@@ -42,6 +42,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Position;
 import org.firstinspires.ftc.teamcodespain.SpainBot2025;
 
 /*
@@ -61,14 +62,53 @@ public class SpainBotAutoWaypointTest extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            // Waypoint test
-            Action action = robot.actionBuilder(new Pose2d(0, 0, 0))
-                    .waitSeconds(2)
-                    .setTangent(0)
-                    .splineTo(new Vector2d(-24,24), Math.toRadians(315))
-                    .waitSeconds(1)
+            Pose2d startPose = new Pose2d(-60, 8, Math.toRadians(90));
+            Position firePosition = new Position(new Pose2d(-36, 32, Math.toRadians(135)), Math.toRadians(135));
+            double fireTime = 1.5;
 
+            robot.localizer.setPose(startPose);
+            Action action = robot.actionBuilder(startPose)
+                    // Move to fire position
+                    .setTangent(Math.toRadians(90))
+                    .splineToLinearHeading(firePosition.getPose(), firePosition.getTangent())
+                    // fire preloaded
+                    .waitSeconds(fireTime)
+                    // Move to spike 3 (PPG)
+                    .setTangent(Math.toRadians(45))
+                    .splineToLinearHeading(new Pose2d(-11.5, 32, Math.toRadians(90)), Math.toRadians(90))
+                    // intake PPG
+                    .lineToY(44)
+                    // Move to fire position
+                    .setTangent(Math.toRadians(90))
+                    .splineToLinearHeading(firePosition.getPose(), firePosition.getTangent())
+                    // fire PPG
+                    .waitSeconds(fireTime)
+                    // Move to spike 2 (PGP)
+                    .setTangent(Math.toRadians(135))
+                    .splineToLinearHeading(new Pose2d(11.5, 32, Math.toRadians(90)), Math.toRadians(90))
+                    // intake PGP
+                    .lineToY(44)
+                    // Move to fire position
+                    .setTangent(Math.toRadians(90))
+                    .splineToLinearHeading(firePosition.getPose(), firePosition.getTangent())
+                    // fire PGP
+                    .waitSeconds(fireTime)
+                    // Move to spike 1 (GPP)
+                    .setTangent(Math.toRadians(135))
+                    .splineToLinearHeading(new Pose2d(34.5, 32, Math.toRadians(90)), Math.toRadians(90))
+                    // intake GPP
+                    .lineToY(44)
+                    // Move to fire position
+                    .setTangent(Math.toRadians(90))
+                    .splineToLinearHeading(firePosition.getPose(), firePosition.getTangent())
+                    // fire GPP
+                    .waitSeconds(fireTime)
+                    // Move to park
+                    .setTangent(Math.toRadians(135))
+                    .splineToLinearHeading(new Pose2d(-52, 8, Math.toRadians(0)), Math.toRadians(0))
+                    // end autonomous
                     .build();
+
             Actions.runBlocking(new SequentialAction(action));
 
             // AprilTag detection test
