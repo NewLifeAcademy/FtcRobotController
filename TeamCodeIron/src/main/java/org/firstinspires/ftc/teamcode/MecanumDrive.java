@@ -143,10 +143,7 @@ public class MecanumDrive {
             rightFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightFront));
 
             imu = lazyImu.get();
-
-            // TODO: reverse encoders if needed
-            //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-
+            
             this.pose = pose;
         }
 
@@ -230,10 +227,10 @@ public class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeftMotor"); // motor3
-        leftBack = hardwareMap.get(DcMotorEx.class, "backLeftMotor"); // motor2
-        rightBack = hardwareMap.get(DcMotorEx.class, "backRightMotor"); // motor1
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontRightMotor"); // motor0
+        leftFront = hardwareMap.get(DcMotorEx.class, "frontleft"); // motor3
+        leftBack = hardwareMap.get(DcMotorEx.class, "backleft"); // motor2
+        rightBack = hardwareMap.get(DcMotorEx.class, "backright"); // motor1
+        rightFront = hardwareMap.get(DcMotorEx.class, "frontright"); // motor0
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -242,7 +239,7 @@ public class MecanumDrive {
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
 
         lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
