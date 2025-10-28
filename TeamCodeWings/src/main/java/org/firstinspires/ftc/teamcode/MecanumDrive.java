@@ -146,6 +146,10 @@ public class MecanumDrive {
 
             // TODO: reverse encoders if needed
             //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
             this.pose = pose;
         }
@@ -230,10 +234,10 @@ public class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeftMotor"); // motor3
-        leftBack = hardwareMap.get(DcMotorEx.class, "backLeftMotor"); // motor2
-        rightBack = hardwareMap.get(DcMotorEx.class, "backRightMotor"); // motor1
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontRightMotor"); // motor0
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFrontDrive"); // motor3
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftRearDrive"); // motor2
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightRearDrive"); // motor1
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFrontDrive"); // motor0
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
