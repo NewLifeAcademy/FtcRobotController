@@ -32,7 +32,7 @@ public class SpainBot2025 extends MecanumDrive {
     private HardwareMap hardwareMap;
     // AprilTag detection members
     private AprilTagProcessor aprilTagProcessor;
-    private VisionPortal visionPortal;
+    public VisionPortal visionPortal;
 
     public SpainBot2025(HardwareMap hardwareMap) {
         super(hardwareMap, new Pose2d(0, 0, 0));
