@@ -111,3 +111,33 @@ public class SpainBotMoveToFireSpotWithCamera extends LinearOpMode {
         }
     }   // end runOpMode()
 }   // end class
+
+
+/* AprilTag detection data
+Target position:
+    X: 0
+    Y: 0
+    Heading: 135
+    AprilTag Values:
+        XYZ: -6.4, 78.5, 1.8
+        PRY: -15.9, -3.7, -10.2
+        RBE: 78.7, 4.7, 1.3
+
+Forward Position:
+    X: -24
+    Y: 24
+    Heading: 135
+    AprilTag Values:
+        XYZ: -2.9, 98.7, -3.1
+        PRY: -14.2, -3.6, -10.6
+        RBE: 98.7, 1.7, -1.8
+
+Rear Position:
+    X: 24
+    Y: -24
+    Heading: 135
+    AprilTag Values:
+        XYZ: -0.8, 45.5, 11.5
+        PRY: -15.3, -4.4, -12.9
+        RBE: 45.5, 1.0, 14.2
+ */
