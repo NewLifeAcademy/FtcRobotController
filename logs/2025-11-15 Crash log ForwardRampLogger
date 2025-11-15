@@ -1,0 +1,85 @@
+er      I  Attempting to switch to OpMode ForwardRampLogger
+2025-11-15 12:16:43.997  1333-1454  ThreadPool              com.qualcomm.ftcrobotcontroller      V  container(0x0f42e8f3: OpModeExecutor) removed id=154 TID=1454 count=1
+2025-11-15 12:16:44.000  1333-1442  RobotCore               com.qualcomm.ftcrobotcontroller      I  ******************** START - OPMODE ForwardRampLogger ********************
+2025-11-15 12:16:44.220  1333-1442  HardwareMap             com.qualcomm.ftcrobotcontroller      D  Clearing which device instances have been retrieved
+2025-11-15 12:16:44.262  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      V  container(0x04713820: OpModeExecutor) added id=175 TID=0 count=1
+2025-11-15 12:16:44.263  1333-1430  Robocol                 com.qualcomm.ftcrobotcontroller      V  sending CMD_NOTIFY_INIT_OP_MODE(1513), attempt: 0
+2025-11-15 12:16:44.265  1333-1523  RobotCore               com.qualcomm.ftcrobotcontroller      V  thread: 'OpModeThread' starting...
+2025-11-15 12:16:44.309  1333-1340  art                     com.qualcomm.ftcrobotcontroller      I  Debugger is no longer active
+2025-11-15 12:16:44.309  1333-1340  art                     com.qualcomm.ftcrobotcontroller      I  Waiting for a blocking GC Instrumentation
+2025-11-15 12:16:44.341  1333-1340  art                     com.qualcomm.ftcrobotcontroller      I  WaitForGcToComplete blocked for 32.335ms for cause Instrumentation
+2025-11-15 12:16:44.341  1333-1340  art                     com.qualcomm.ftcrobotcontroller      I  Starting a blocking GC Instrumentation
+2025-11-15 12:16:47.184  1333-1430  Robocol                 com.qualcomm.ftcrobotcontroller      V  sending CMD_NOTIFY_RUN_OP_MODE(1542), attempt: 0
+2025-11-15 12:16:51.445  1333-1442  FtcEventLoop            com.qualcomm.ftcrobotcontroller      I  auto-stopping OpMode 'ForwardRampLogger'
+2025-11-15 12:16:51.449  1333-1523  RobotCore               com.qualcomm.ftcrobotcontroller      V  nack rec'd mod=173 msg#=0 ref#=0 reason=CANCELLED_FOR_SAFETY:259
+2025-11-15 12:16:51.465  1333-1523  RobotCore               com.qualcomm.ftcrobotcontroller      V  thread: ...terminating 'OpModeThread'
+2025-11-15 12:16:51.466  1333-1523  ThreadPool              com.qualcomm.ftcrobotcontroller      V  container(0x04713820: OpModeExecutor) removed id=175 TID=1523 count=1
+2025-11-15 12:16:51.469  1333-1442  RobotCore               com.qualcomm.ftcrobotcontroller      I  ******************** STOP - OPMODE /storage/emulated/0/FIRST/matchlogs/Match-0-ForwardRampLogger.txt ********************
+2025-11-15 12:16:51.475  1333-1526  RobotCore               com.qualcomm.ftcrobotcontroller      I  saving match logcat to /storage/emulated/0/FIRST/matchlogs/Match-0-ForwardRampLogger.txt
+2025-11-15 12:16:51.475  1333-1526  RobotCore               com.qualcomm.ftcrobotcontroller      I  logging command line: exec logcat -d -T '11-15 12:16:43.000' -f '/storage/emulated/0/FIRST/matchlogs/Match-0-ForwardRampLogger.txt' -n4 -v threadtime UsbRequestJNI:S UsbRequest:S art:W ThreadPool:W System:W ExtendedExtractor:W OMXClient:W MediaPlayer:W dalvikvm:W  *:V
+2025-11-15 12:16:51.487  1333-1442  RobotCore               com.qualcomm.ftcrobotcontroller      V  thread: ...terminating 'EventLoop'
+2025-11-15 12:16:51.488  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  exception thrown in thread pool; ignored
+2025-11-15 12:16:51.497  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.fasterxml.jackson.databind.util.ExceptionUtil.isFatal(ExceptionUtil.java:51)
+2025-11-15 12:16:51.500  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.fasterxml.jackson.databind.util.ExceptionUtil.rethrowIfFatal(ExceptionUtil.java:31)
+2025-11-15 12:16:51.505  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector.<clinit>(JacksonAnnotationIntrospector.java:71)
+2025-11-15 12:16:51.508  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.fasterxml.jackson.databind.ObjectMapper.<clinit>(ObjectMapper.java:403)
+2025-11-15 12:16:51.510  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.acmerobotics.roadrunner.ftc.TuningFiles.save(FileServing.kt:103)
+2025-11-15 12:16:51.513  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.acmerobotics.roadrunner.ftc.ForwardRampLogger.runOpMode(Tuning.kt:404)
+2025-11-15 12:16:51.516  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.eventloop.opmode.LinearOpMode.internalRunOpMode(LinearOpMode.java:199)
+2025-11-15 12:16:51.519  1333-1526  RobotCore               com.qualcomm.ftcrobotcontroller      I  Done running exec logcat -d -T '11-15 12:16:43.000' -f '/storage/emulated/0/FIRST/matchlogs/Match-0-ForwardRampLogger.txt' -n4 -v threadtime UsbRequestJNI:S UsbRequest:S art:W ThreadPool:W System:W ExtendedExtractor:W OMXClient:W MediaPlayer:W dalvikvm:W  *:V
+2025-11-15 12:16:51.519  1333-1526  RobotCore               com.qualcomm.ftcrobotcontroller      I  exiting match logcat for /storage/emulated/0/FIRST/matchlogs/Match-0-ForwardRampLogger.txt
+2025-11-15 12:16:51.522  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal.lambda$internalInit$1$com-qualcomm-robotcore-eventloop-opmode-OpModeInternal(OpModeInternal.java:184)
+2025-11-15 12:16:51.524  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+2025-11-15 12:16:51.525  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.util.ThreadPool.logThreadLifeCycle(ThreadPool.java:737)
+2025-11-15 12:16:51.526  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal.lambda$internalInit$2$com-qualcomm-robotcore-eventloop-opmode-OpModeInternal(OpModeInternal.java:182)
+2025-11-15 12:16:51.527  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal$$ExternalSyntheticLambda1.run(D8$$SyntheticClass:0)
+2025-11-15 12:16:51.529  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1133)
+2025-11-15 12:16:51.530  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:607)
+2025-11-15 12:16:51.531  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at com.qualcomm.robotcore.util.ThreadPool$ThreadFactoryImpl$1.run(ThreadPool.java:793)
+2025-11-15 12:16:51.531  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at java.lang.Thread.run(Thread.java:761)
+2025-11-15 12:16:51.537  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  Caused by: java.lang.ClassNotFoundException: Didn't find class "java.lang.BootstrapMethodError" on path: DexPathList[[zip file "/data/app/com.qualcomm.ftcrobotcontroller-2/base.apk"],nativeLibraryDirectories=[/data/app/com.qualcomm.ftcrobotcontroller-2/lib/arm64, /data/app/com.qualcomm.ftcrobotcontroller-2/base.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64]]
+2025-11-15 12:16:51.538  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:56)
+2025-11-15 12:16:51.538  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at java.lang.ClassLoader.loadClass(ClassLoader.java:380)
+2025-11-15 12:16:51.539  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+2025-11-15 12:16:51.540  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      E  	... 16 more
+2025-11-15 12:16:51.541  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      V  container(0x0b71b903: executorEventLoop) added id=180 TID=0 count=2
+2025-11-15 12:16:51.542  1333-1442  ThreadPool              com.qualcomm.ftcrobotcontroller      V  container(0x0b71b903: executorEventLoop) removed id=150 TID=1442 count=2
+2025-11-15 12:16:51.544  1333-1442  AndroidRuntime          com.qualcomm.ftcrobotcontroller      E  FATAL EXCEPTION: EventLoop
+                                                                                                    Process: com.qualcomm.ftcrobotcontroller, PID: 1333
+                                                                                                    java.lang.NoClassDefFoundError: Failed resolution of: Ljava/lang/BootstrapMethodError;
+                                                                                                    	at com.fasterxml.jackson.databind.util.ExceptionUtil.isFatal(ExceptionUtil.java:51)
+                                                                                                    	at com.fasterxml.jackson.databind.util.ExceptionUtil.rethrowIfFatal(ExceptionUtil.java:31)
+                                                                                                    	at com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector.<clinit>(JacksonAnnotationIntrospector.java:71)
+                                                                                                    	at com.fasterxml.jackson.databind.ObjectMapper.<clinit>(ObjectMapper.java:403)
+                                                                                                    	at com.acmerobotics.roadrunner.ftc.TuningFiles.save(FileServing.kt:103)
+                                                                                                    	at com.acmerobotics.roadrunner.ftc.ForwardRampLogger.runOpMode(Tuning.kt:404)
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.LinearOpMode.internalRunOpMode(LinearOpMode.java:199)
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal.lambda$internalInit$1$com-qualcomm-robotcore-eventloop-opmode-OpModeInternal(OpModeInternal.java:184)
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+                                                                                                    	at com.qualcomm.robotcore.util.ThreadPool.logThreadLifeCycle(ThreadPool.java:737)
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal.lambda$internalInit$2$com-qualcomm-robotcore-eventloop-opmode-OpModeInternal(OpModeInternal.java:182)
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal$$ExternalSyntheticLambda1.run(D8$$SyntheticClass:0)
+                                                                                                    	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1133)
+                                                                                                    	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:607)
+                                                                                                    	at com.qualcomm.robotcore.util.ThreadPool$ThreadFactoryImpl$1.run(ThreadPool.java:793)
+                                                                                                    	at java.lang.Thread.run(Thread.java:761)
+                                                                                                    Caused by: java.lang.ClassNotFoundException: Didn't find class "java.lang.BootstrapMethodError" on path: DexPathList[[zip file "/data/app/com.qualcomm.ftcrobotcontroller-2/base.apk"],nativeLibraryDirectories=[/data/app/com.qualcomm.ftcrobotcontroller-2/lib/arm64, /data/app/com.qualcomm.ftcrobotcontroller-2/base.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64]]
+                                                                                                    	at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:56)
+                                                                                                    	at java.lang.ClassLoader.loadClass(ClassLoader.java:380)
+                                                                                                    	at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+                                                                                                    	at com.fasterxml.jackson.databind.util.ExceptionUtil.isFatal(ExceptionUtil.java:51) 
+                                                                                                    	at com.fasterxml.jackson.databind.util.ExceptionUtil.rethrowIfFatal(ExceptionUtil.java:31) 
+                                                                                                    	at com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector.<clinit>(JacksonAnnotationIntrospector.java:71) 
+                                                                                                    	at com.fasterxml.jackson.databind.ObjectMapper.<clinit>(ObjectMapper.java:403) 
+                                                                                                    	at com.acmerobotics.roadrunner.ftc.TuningFiles.save(FileServing.kt:103) 
+                                                                                                    	at com.acmerobotics.roadrunner.ftc.ForwardRampLogger.runOpMode(Tuning.kt:404) 
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.LinearOpMode.internalRunOpMode(LinearOpMode.java:199) 
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal.lambda$internalInit$1$com-qualcomm-robotcore-eventloop-opmode-OpModeInternal(OpModeInternal.java:184) 
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0) 
+                                                                                                    	at com.qualcomm.robotcore.util.ThreadPool.logThreadLifeCycle(ThreadPool.java:737) 
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal.lambda$internalInit$2$com-qualcomm-robotcore-eventloop-opmode-OpModeInternal(OpModeInternal.java:182) 
+                                                                                                    	at com.qualcomm.robotcore.eventloop.opmode.OpModeInternal$$ExternalSyntheticLambda1.run(D8$$SyntheticClass:0) 
+                                                                                                    	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1133) 
+                                                                                                    	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:607) 
+                                                                                                    	at com.qualcomm.robotcore.util.ThreadPool$ThreadFactoryImpl$1.run(ThreadPool.java:793) 
+                                                                                                    	at java.lang.Thread.run(Thread.java:761) 
