@@ -1,11 +1,15 @@
-# Copilot Instructions – FTC DECODE Field Layout (2025–2026)
+# Copilot Instructions
+This document describes instructions for building robot code for use with the FTC DECODE 2025 season game.
+It includes field layout and coordinate system instructions for autonomous route programming.
+It includes details on how April Tag data can be used to identify robot positioning on the field.
 
-This document defines the **FTC DECODE field layout** in terms of program coordinates and field element positions.  
+## FTC DECODE Field Layout Overview
+This section defines the **FTC DECODE field layout** in terms of program coordinates and field element positions.  
 It is intended for use by autonomous robot code to reference zones, artifacts, and field elements.
 
 ---
 
-## 📐 Coordinate System Mapping
+### 📐 Coordinate System Mapping
 
 - **Origin (X=0, Y=0):** TILE tab-line location **X3** (center of field).
 - **Positive Quadrants:**
@@ -20,7 +24,7 @@ It is intended for use by autonomous robot code to reference zones, artifacts, a
 
 ---
 
-## 🎯 Tape Zones
+### 🎯 Tape Zones
 
 - **Launch Lines (White):**
   - **Back Launch Line:** “V” shape from back corners (approx. -24,24 and 24,24) to center (0,0).
@@ -45,7 +49,7 @@ It is intended for use by autonomous robot code to reference zones, artifacts, a
 
 ---
 
-## 🏗️ Field Elements
+### 🏗️ Field Elements
 
 - **Goals & Ramps:**
   - One GOAL + Upper Ramp per alliance (Red on right, Blue on left).
@@ -59,7 +63,7 @@ It is intended for use by autonomous robot code to reference zones, artifacts, a
 
 ---
 
-## 🪙 Scoring Elements (Artifacts)
+### 🪙 Scoring Elements (Artifacts)
 
 - **Alliance Areas:**
   - Each alliance starts with 6 artifacts (4P, 2G) in tray.
@@ -71,7 +75,7 @@ It is intended for use by autonomous robot code to reference zones, artifacts, a
 
 ---
 
-## 🟥 Alliance Areas
+### 🟥 Alliance Areas
 
 - **Red Alliance Area:** Right side of field (audience perspective).
 - **Blue Alliance Area:** Left side of field (audience perspective).
@@ -79,7 +83,7 @@ It is intended for use by autonomous robot code to reference zones, artifacts, a
 
 ---
 
-## ✅ Usage Notes
+### ✅ Usage Notes
 
 - All coordinates are approximate translations from TILE seams into program coordinates.
 - Use (X,Y) positions for autonomous navigation and artifact placement logic.
@@ -87,3 +91,89 @@ It is intended for use by autonomous robot code to reference zones, artifacts, a
   - 0° → facing audience side (tab-line 1).
   - 90° → facing right side (tab-line Z).
 
+## 📷 AprilTag Data Usage Guide for FTC Robots
+
+This section provides instructions for assisting with code that uses AprilTag detection data from the *FIRST* Tech Challenge (FTC) SDK. The goal is to use the `ftcPose` data (including translation, rotation, and derived values) to control robot movement for common tasks like aiming, driving, and aligning with AprilTags.
+
+## 1. Understanding AprilTag `ftcPose` Data
+
+When an AprilTag is detected, the SDK provides an `ftcPose` object containing the tag's position and orientation relative to the camera.
+
+### Coordinate System (Camera-Relative)
+
+*   **Y-axis (forward)**: Represents the forward distance from the camera to the tag. This is the primary distance measurement.
+*   **X-axis (strafe)**: Represents the sideways offset of the tag from the camera's centerline.
+    *   **Positive X**: The tag is to the **right** of the camera's center.
+    *   **Negative X**: The tag is to the **left** of the camera's center.
+*   **Z-axis (elevation)**: Represents the vertical offset of the tag from the camera's centerline.
+    *   **Positive Z**: The tag is **above** the camera.
+    *   **Negative Z**: The tag is **below** the camera.
+
+*Note: The default unit for these distances is **inches**.*
+
+### Rotation Values
+
+*   **Yaw**: Rotation of the tag around the Z-axis (vertical axis). This indicates if the robot is squarely in front of the tag.
+    *   **Positive Yaw**: The tag is rotated **counter-clockwise** relative to the camera's view.
+    *   A **Yaw of 0 degrees** means the robot is perfectly "square" with the face of the tag.
+*   **Pitch**: Rotation of the tag around the X-axis (horizontal side-to-side axis).
+*   **Roll**: Rotation of the tag around the Y-axis (forward-backward axis).
+
+*Note: The default unit for these angles is **degrees**.*
+
+### Derived Values
+
+These values are calculated from the core X, Y, and Z data to simplify navigation logic.
+
+*   **Range**: The direct, straight-line distance from the camera to the center of the tag.
+*   **Bearing**: The angle (in degrees) the robot needs to **turn** to point its camera directly at the tag.
+    *   **Positive Bearing**: Turn **counter-clockwise** (left).
+    *   **Negative Bearing**: Turn **clockwise** (right).
+*   **Elevation**: The angle (in degrees) the robot's camera needs to tilt **up or down** to point directly at the tag.
+
+## 2. Common Coding Patterns for Robot Control
+
+Based on the robot's drivetrain, different values from the `ftcPose` are prioritized.
+
+### Task 1: Pointing and Driving Towards a Target (Tank Drive)
+
+This approach is for robots that cannot move sideways (strafe). The goal is to turn to face the tag and drive to a desired range. This method does **not** guarantee the robot will be "square" with the tag.
+
+**Control Logic:**
+
+1.  **Turning**: Use the `Bearing` value as the primary input for turning control. A proportional controller is often sufficient.
+    *   `turn_power = Kp_turn * aprilTagDetection.ftcPose.bearing`
+    *   The goal is to drive the `Bearing` to 0.
+2.  **Forward/Backward Driving**: Use the `Range` value to control the robot's distance from the tag.
+    *   `forward_power = Kp_drive * (desired_range - aprilTagDetection.ftcPose.range)`
+    *   The goal is to reach a `desired_range`.
+
+*Reference Sample OpMode: `RobotAutoDriveToAprilTagTank.java`*
+
+### Task 2: Approaching a Target Squarely (Omni-Directional/Holonomic Drive)
+
+This approach is for robots that can move in any direction (forward, turn, and strafe). The goal is to arrive at a specific distance directly in front of the tag, perfectly aligned.
+
+**Control Logic (Three-Pronged PID Approach):**
+
+This uses three independent control loops for each axis of motion, with turning as the highest priority.
+
+1.  **Turn Control (Highest Priority)**:
+    *   **Goal**: Make the robot's camera point directly at the tag.
+    *   **Input**: `aprilTagDetection.ftcPose.bearing`
+    *   **Output**: Rotational power for the drivetrain.
+    *   **Objective**: Drive `bearing` to `0`.
+
+2.  **Strafe Control (Sideways Motion)**:
+    *   **Goal**: Move the robot sideways until it is directly in front of the tag (squarely aligned).
+    *   **Input**: `aprilTagDetection.ftcPose.yaw`
+    *   **Output**: Sideways (strafe) power for the drivetrain.
+    *   **Objective**: Drive `yaw` to `0`.
+
+3.  **Forward/Backward Control**:
+    *   **Goal**: Move the robot to the desired standoff distance from the tag.
+    *   **Input**: `aprilTagDetection.ftcPose.range`
+    *   **Output**: Forward/backward power for the drivetrain.
+    *   **Objective**: Drive `range` to `desired_range`.
+
+*Reference Sample OpMode: `RobotAutoDriveToAprilTagOmni.java`*
