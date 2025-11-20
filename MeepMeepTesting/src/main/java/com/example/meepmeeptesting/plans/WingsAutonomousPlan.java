@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting.plans;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.example.meepmeeptesting.util.BotBuilder;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
@@ -11,9 +12,8 @@ public class WingsAutonomousPlan {
         RoadRunnerBotEntity bot = BotBuilder.Build(meepMeep, new ColorSchemeRedDark());
 
         // Wings of Steel Autonomous Drive Plan -- Start --
-        bot.runAction(bot.getDrive().actionBuilder(new Pose2d(-60, -24, Math.toRadians(90)))
-                .setTangent(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-11.5, 0, Math.toRadians(90)), Math.toRadians(90))
+        bot.runAction(bot.getDrive().actionBuilder(new Pose2d(0, 0, Math.toRadians(90)))
+                .splineTo(new Vector2d(24, 0), Math.toRadians(0))
                 .build());
 
         // Wings of Steel Autonomous Drive Plan -- End --
