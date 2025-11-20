@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Position;
 import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 
 @Autonomous(name = "Auto - Waypoint Test")
@@ -25,20 +26,14 @@ public class WingsBotAutoWaypointTest extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+            Pose2d startPose = new Pose2d(0, 0, Math.toRadians(90));
 
-            // Waypoint test
-            Action action = robot.actionBuilder(new Pose2d(0, 0, 0))
-                    .waitSeconds(2)
-                    .setTangent(0)
-                    .splineTo(new Vector2d(-24,24), Math.toRadians(315))
-                    .waitSeconds(1)
-
+            robot.localizer.setPose(startPose);
+            Action action = robot.actionBuilder(startPose)
+                    .splineTo(new Vector2d(24, 0), Math.toRadians(0))
                     .build();
-            Actions.runBlocking(new SequentialAction(action));
 
-            // AprilTag detection test
-            robot.initAprilTagDetection();
-            robot.telemetryAprilTag(telemetry);
+            Actions.runBlocking(new SequentialAction(action));
 
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");
