@@ -26,13 +26,19 @@ public class WingsBotAutoWaypointTest extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+
+            // Starting Pose
             Pose2d startPose = new Pose2d(0, 0, Math.toRadians(90));
 
             robot.localizer.setPose(startPose);
+
+            // Build action sequence
             Action action = robot.actionBuilder(startPose)
                     .splineTo(new Vector2d(24, 0), Math.toRadians(0))
                     .build();
+            // End action sequence
 
+            // Run the action sequence
             Actions.runBlocking(new SequentialAction(action));
 
             // stop autonomous and wait for finish
