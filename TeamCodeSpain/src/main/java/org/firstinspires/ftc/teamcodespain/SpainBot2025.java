@@ -68,7 +68,7 @@ public class SpainBot2025 extends MecanumDrive {
         aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor);
     }
-    public void telemetryAprilTag(Telemetry telemetry) {
+    public AprilTagDetection telemetryAprilTag(Telemetry telemetry) {
 
         List<AprilTagDetection> currentDetections = aprilTagProcessor.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
@@ -91,5 +91,6 @@ public class SpainBot2025 extends MecanumDrive {
         telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
         telemetry.addLine("RBE = Range, Bearing & Elevation");
 
+        return currentDetections.isEmpty() ? null : currentDetections.get(0);
     }   // end method telemetryAprilTag()
 }

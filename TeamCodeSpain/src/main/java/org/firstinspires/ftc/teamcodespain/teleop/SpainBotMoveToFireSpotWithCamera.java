@@ -48,6 +48,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Position;
 import org.firstinspires.ftc.teamcodespain.SpainBot2025;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 /*
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
@@ -56,6 +57,17 @@ import org.firstinspires.ftc.vision.VisionPortal;
 @TeleOp(name = "Camera Firing Test")
 @Config
 public class SpainBotMoveToFireSpotWithCamera extends LinearOpMode {
+
+    private static final Pose2d TARGET_POSE = new Pose2d(0, 0, Math.toRadians(135));
+    private static final double TARGET_TAG_X = -6.4;
+    private static final double TARGET_TAG_Y = 78.5;
+    private static final double TARGET_TAG_BEARING = 4.7;
+    private static final double DX_TO_FIELD_X = -1.342;
+    private static final double DY_TO_FIELD_X = -0.955;
+    private static final double DX_TO_FIELD_Y = 1.342;
+    private static final double DY_TO_FIELD_Y = 0.955;
+    private static final double POSITION_TOLERANCE_IN = 0.5;
+    private static final double HEADING_TOLERANCE_DEG = 1.5;
 
     @Override
     public void runOpMode() {
@@ -95,11 +107,36 @@ public class SpainBotMoveToFireSpotWithCamera extends LinearOpMode {
 
                 if (yPressed && !yPressedLast) {
                     telemetry.addLine("Running AprilTag detection...");
-                    telemetry.update();
 
-                    robot.telemetryAprilTag(telemetry);
+                    AprilTagDetection detection = robot.telemetryAprilTag(telemetry);
+                    if (detection != null) {
+                        TagPoseEstimate estimate = estimatePoseFromDetection(detection);
+                        telemetry.addLine(String.format("Estimated Robot Pose: X: %.2f  Y: %.2f  Heading: %.2f deg",
+                                estimate.pose.position.x,
+                                estimate.pose.position.y,
+                                Math.toDegrees(estimate.pose.heading.toDouble())
+                        ));
+                        telemetry.addLine(String.format("Offset from Target: DX: %.2f  DY: %.2f  Heading Error: %.2f deg",
+                                estimate.offsetFromTarget.x,
+                                estimate.offsetFromTarget.y,
+                                estimate.headingErrorDeg
+                        ));
 
-                    telemetry.addLine("Detection complete. Press Y to run again.");
+                        double positionError = estimate.offsetFromTarget.norm();
+                        double headingError = Math.abs(estimate.headingErrorDeg);
+
+                        if (positionError <= POSITION_TOLERANCE_IN && headingError <= HEADING_TOLERANCE_DEG) {
+                            telemetry.addLine("Robot is within tolerance of target position and heading.");
+                        } else {
+                            telemetry.addLine("Moving robot to target position...");
+
+                            moveRobotToTarget(robot, estimate.pose);
+                            telemetry.addLine("Robot moved to target position.");
+                        }
+                    } else {
+                        telemetry.addLine("No AprilTag detected. Cannot estimate pose.");
+                    }
+
                 } else if (!yPressed) {
                     telemetry.addLine("Press Y to run AprilTag detection.");
                 }
@@ -110,10 +147,56 @@ public class SpainBotMoveToFireSpotWithCamera extends LinearOpMode {
             }
         }
     }   // end runOpMode()
+    private TagPoseEstimate estimatePoseFromDetection(AprilTagDetection detection) {
+        double dx = detection.ftcPose.x - TARGET_TAG_X;
+        double dy = detection.ftcPose.y - TARGET_TAG_Y;
+
+        double offsetX = DX_TO_FIELD_X * dx + DY_TO_FIELD_X * dy;
+        double offsetY = DX_TO_FIELD_Y * dx + DY_TO_FIELD_Y * dy;
+        double bearingDelta = detection.ftcPose.bearing - TARGET_TAG_BEARING;
+
+        Pose2d pose = new Pose2d(
+                TARGET_POSE.position.x - offsetX,
+                TARGET_POSE.position.y - offsetY,
+                TARGET_POSE.heading.toDouble() - Math.toRadians(bearingDelta)
+        );
+
+        return new TagPoseEstimate(pose, new Vector2d(offsetX, offsetY), bearingDelta);
+    }
+
+    private void moveRobotToTarget(SpainBot2025 robot, Pose2d estimatedPose) {
+        robot.localizer.setPose(estimatedPose);
+        Action moveAction = robot.actionBuilder(estimatedPose)
+                .splineToLinearHeading(TARGET_POSE, TARGET_POSE.heading)
+                .build();
+        Actions.runBlocking(new SequentialAction(moveAction));
+        robot.stopMotors();
+    }
+
+    private static class TagPoseEstimate {
+        final Pose2d pose;
+        final Vector2d offsetFromTarget;
+        final double headingErrorDeg;
+
+        TagPoseEstimate(Pose2d pose, Vector2d offsetFromTarget, double headingErrorDeg) {
+            this.pose = pose;
+            this.offsetFromTarget = offsetFromTarget;
+            this.headingErrorDeg = headingErrorDeg;
+        }
+    }
 }   // end class
 
 
 /* AprilTag detection data
+Forward Position:
+    X: -24
+    Y: 24
+    Heading: 135
+    AprilTag Values:
+        XYZ: -0.8, 45.5, 11.5
+        PRY: -15.3, -4.4, -12.9
+        RBE: 45.5, 1.0, 14.2
+
 Target position:
     X: 0
     Y: 0
@@ -123,21 +206,13 @@ Target position:
         PRY: -15.9, -3.7, -10.2
         RBE: 78.7, 4.7, 1.3
 
-Forward Position:
-    X: -24
-    Y: 24
+Rear Position:
+    X: 24
+    Y: -24
     Heading: 135
     AprilTag Values:
         XYZ: -2.9, 98.7, -3.1
         PRY: -14.2, -3.6, -10.6
         RBE: 98.7, 1.7, -1.8
 
-Rear Position:
-    X: 24
-    Y: -24
-    Heading: 135
-    AprilTag Values:
-        XYZ: -0.8, 45.5, 11.5
-        PRY: -15.3, -4.4, -12.9
-        RBE: 45.5, 1.0, 14.2
  */
