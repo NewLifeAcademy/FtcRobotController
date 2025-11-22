@@ -65,19 +65,19 @@ public class MecanumDrive {
     public static class Params {
         // IMU orientation
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.UP;
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+                RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
         public double inPerTick = .002;
-        public double lateralInPerTick = .0022;
-        public double trackWidthTicks = 6868.5;
+        public double lateralInPerTick = .0016;
+        public double trackWidthTicks = 5424.99;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.631;
-        public double kV = 0.0004;
-        public double kA = 0.0001;
+        public double kS = 1.37;
+        public double kV = 0.0002;
+        public double kA = 0.00006;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -227,10 +227,11 @@ public class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontleft"); // motor3
-        leftBack = hardwareMap.get(DcMotorEx.class, "backleft"); // motor2
-        rightBack = hardwareMap.get(DcMotorEx.class, "backright"); // motor1
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontright"); // motor0
+        // Config: IronEagles26
+        leftFront = hardwareMap.get(DcMotorEx.class, "frontleft"); // motor3 : ControlHub
+        leftBack = hardwareMap.get(DcMotorEx.class, "backleft"); // motor2 : ControlHub
+        rightBack = hardwareMap.get(DcMotorEx.class, "backright"); // motor1 : ExpansionHub
+        rightFront = hardwareMap.get(DcMotorEx.class, "frontright"); // motor0 : ExpansionHub
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
