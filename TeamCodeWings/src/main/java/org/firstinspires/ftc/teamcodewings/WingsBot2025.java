@@ -40,7 +40,7 @@ public class WingsBot2025 extends MecanumDrive {
             Thread.currentThread().interrupt();
         }
     }
-
+    
     public void initAprilTagDetection() {
         aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor);

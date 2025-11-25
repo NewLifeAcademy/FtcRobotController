@@ -39,12 +39,21 @@ public class WingsAutonomousPlan {
          */
 
         // Starting Pose
-        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-44, 44, Math.toRadians(315));
 
         // Build action sequence
         Action action = robot.actionBuilder(startPose)
-                .splineTo(new Vector2d(24, 0), Math.toRadians(0))
+
+                // Fire three
+                .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
+                .waitSeconds(3)
+                .splineTo(new Vector2d( -11 , 30 ), Math.toRadians( 90 ))
+                // intake PPG
+                .lineToY(39)
+                .waitSeconds(1)
+                .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
                 .build();
+
         // End action sequence
 
         // Run the action sequence (MeepMeep only)

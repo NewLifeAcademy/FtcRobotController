@@ -28,13 +28,20 @@ public class WingsBotAutoWaypointTest extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Starting Pose
-            Pose2d startPose = new Pose2d(0, 0, Math.toRadians(90));
+            Pose2d startPose = new Pose2d(-48, 48, Math.toRadians(315));
 
             robot.localizer.setPose(startPose);
 
             // Build action sequence
             Action action = robot.actionBuilder(startPose)
-                    .splineTo(new Vector2d(24, 0), Math.toRadians(0))
+                    // Fire three
+                    .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
+                    .waitSeconds(3)
+                    .splineTo(new Vector2d( -11 , 30 ), Math.toRadians( 90 ))
+                    // intake PPG
+                    .lineToY(39)
+                    .waitSeconds(1)
+                    .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
                     .build();
             // End action sequence
 
