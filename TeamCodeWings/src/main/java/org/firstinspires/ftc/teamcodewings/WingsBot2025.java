@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcodewings;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -22,11 +24,21 @@ public class WingsBot2025 extends MecanumDrive {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
+    private DcMotor spitterLeft; // motor0 (REV Robotics 20:1 HD Hex Motor) - expansion hub
+    private DcMotor ballPuter; // motor1 (REV Robotics 20:1 HD Hex Motor)- expansion hub
+    private DcMotor intakeBeltSpiner; // motor3 (REV Robotics Core Hex Motor) - expansion hub
+
+    private Servo ballPutterServo; // servo0 (Standard Servo) - expansion hub
 
     public WingsBot2025(HardwareMap hardwareMap) {
         super(hardwareMap, new Pose2d(0, 0, 0));
         // Save the hardware map reference
         this.hardwareMap = hardwareMap;
+
+        this.spitterLeft = hardwareMap.get(DcMotor.class, "spitter left");
+        this.ballPuter = hardwareMap.get(DcMotor.class, "ball puter");
+        this.intakeBeltSpiner = hardwareMap.get(DcMotor.class, "intake belt spiner");
+        this.ballPutterServo = hardwareMap.get(Servo.class, "ball putter servo");
     }
 
     public void stopMotors() {
@@ -40,7 +52,37 @@ public class WingsBot2025 extends MecanumDrive {
             Thread.currentThread().interrupt();
         }
     }
-    
+
+    public void fireArtifacts(int fireDurationSeconds) {
+        // Activate spitterLeft, intakeBeltSpiner, and ballPuter to fire artifacts
+        spitterLeft.setPower(-1.0);
+        intakeBeltSpiner.setPower(-1.0);
+        ballPuter.setPower(-1.0);
+
+        ballPutterServo.setPosition(0);
+
+        // wait fire duration
+        wait(fireDurationSeconds);
+
+        // Deactivate spitterLeft, intakeBeltSpiner, and ballPuter
+        spitterLeft.setPower(0);
+        intakeBeltSpiner.setPower(0);
+        ballPuter.setPower(0);
+
+        ballPutterServo.setPosition(1);
+    }
+
+    public void startIntake() {
+        // intakeBeltSpiner, and ballPuter to fire artifacts
+        intakeBeltSpiner.setPower(-1.0);
+        ballPuter.setPower(-1.0);
+    }
+
+    public void stopIntake() {
+        // intakeBeltSpiner, and ballPuter to fire artifacts
+        intakeBeltSpiner.setPower(0.0);
+        ballPuter.setPower(0.0);
+    }
     public void initAprilTagDetection() {
         aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor);

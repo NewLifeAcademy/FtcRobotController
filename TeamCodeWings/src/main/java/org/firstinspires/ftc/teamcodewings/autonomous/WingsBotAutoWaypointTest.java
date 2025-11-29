@@ -15,9 +15,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Position;
 import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 
-@Autonomous(name = "Auto - Waypoint Test")
+@Autonomous(name = "Auto - Start on Red Goal")
 @Config
 public class WingsBotAutoWaypointTest extends LinearOpMode {
+
+    public static int FIRE_TIME = 3;
+
     @Override
     public void runOpMode() {
         WingsBot2025 robot = new WingsBot2025(hardwareMap);
@@ -36,18 +39,38 @@ public class WingsBotAutoWaypointTest extends LinearOpMode {
             Action action = robot.actionBuilder(startPose)
                     // Fire three
                     .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
-                    .waitSeconds(3)
+                    .build();
+            Actions.runBlocking(new SequentialAction(action));
+
+            // Fire three preloaded
+            robot.fireArtifacts(FIRE_TIME);
+
+            action = robot.actionBuilder(robot.localizer.getPose())
                     .splineTo(new Vector2d( -11 , 30 ), Math.toRadians( 90 ))
-                    // intake PPG
+                    .build();
+            Actions.runBlocking(new SequentialAction(action));
+
+            // start the intake
+            robot.startIntake();
+
+            // intake PPG
+            action = robot.actionBuilder(robot.localizer.getPose())
                     .lineToY(39)
                     .waitSeconds(1)
                     .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
                     .build();
-            // End action sequence
 
-            // Run the action sequence
             Actions.runBlocking(new SequentialAction(action));
 
+            // Fire PPG
+            robot.fireArtifacts(FIRE_TIME);
+
+            // move off of launch line
+            action = robot.actionBuilder(robot.localizer.getPose())
+                    .splineTo(new Vector2d( 13 , 30 ), Math.toRadians( 90 ))
+                    .build();
+            Actions.runBlocking(new SequentialAction(action));
+            
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");
             telemetry.update();
