@@ -12,12 +12,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Position;
 import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 
 @Autonomous(name = "Auto - Start on Red Goal")
 @Config
-public class WingsBotAutoWaypointTest extends LinearOpMode {
+public class WingsStartOnRedGoal extends LinearOpMode {
 
     public static int FIRE_TIME = 3;
 
