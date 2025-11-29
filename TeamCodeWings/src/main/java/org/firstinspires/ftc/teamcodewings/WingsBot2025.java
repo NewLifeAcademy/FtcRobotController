@@ -55,10 +55,12 @@ public class WingsBot2025 extends MecanumDrive {
 
     public void fireArtifacts(int fireDurationSeconds) {
         // Activate spitterLeft, intakeBeltSpiner, and ballPuter to fire artifacts
-        spitterLeft.setPower(-1.0);
+        spitterLeft.setPower(1.0);
         intakeBeltSpiner.setPower(-1.0);
         ballPuter.setPower(-1.0);
 
+        // TODO: Delay 1 second to allow motors to get up to speed
+        //wait(1);
         ballPutterServo.setPosition(0);
 
         // wait fire duration

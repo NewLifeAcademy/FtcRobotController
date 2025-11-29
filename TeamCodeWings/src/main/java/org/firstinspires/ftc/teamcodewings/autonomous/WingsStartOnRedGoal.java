@@ -55,8 +55,15 @@ public class WingsStartOnRedGoal extends LinearOpMode {
             // intake PPG
             action = robot.actionBuilder(robot.localizer.getPose())
                     .lineToY(39)
-                    .waitSeconds(1)
-                    .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
+                    .build();
+            Actions.runBlocking(new SequentialAction(action));
+
+            // stop the intake
+            robot.stopIntake();
+
+            // move to launch position
+            action = robot.actionBuilder(robot.localizer.getPose())
+                    .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 45 ))
                     .build();
 
             Actions.runBlocking(new SequentialAction(action));
