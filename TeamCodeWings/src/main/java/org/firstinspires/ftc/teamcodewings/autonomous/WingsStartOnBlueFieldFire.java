@@ -14,11 +14,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 
-@Autonomous(name = "Auto - Start on Red Goal")
+@Autonomous(name = "Auto - Start on Blue Field - Fire")
 @Config
-public class WingsStartOnRedGoal extends LinearOpMode {
+public class WingsStartOnBlueFieldFire extends LinearOpMode {
 
-    public static int FIRE_TIME = 3;
+    public static int FIRE_TIME = 5;
+    public static int FLYWHEEL_SPINUP_TIME = 2;
+    public static double FLYWHEEL_POWER = 1;
+    public static double START_POSE_X= 63;
+    public static double START_POSE_Y=-24;
+    public static double START_HEADING=0;
+    public static double WAYPOINT_FIRE_X=40;
+    public static double WAYPOINT_FIRE_Y=1;
+    public static double WAYPOINT_FIRE_HEADING=30;
+    public static double END_POSE_X=39;
+    public static double END_POSE_Y=-30;
+    public static double END_HEADING=0;
 
     @Override
     public void runOpMode() {
@@ -30,52 +41,24 @@ public class WingsStartOnRedGoal extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Starting Pose
-            Pose2d startPose = new Pose2d(-48, 48, Math.toRadians(315));
+            Pose2d startPose = new Pose2d(START_POSE_X,START_POSE_Y, Math.toRadians(START_HEADING));
 
             robot.localizer.setPose(startPose);
 
             // Build action sequence
             Action action = robot.actionBuilder(startPose)
-                    // Fire three
-                    .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 315 ))
+                    .splineToLinearHeading(new Pose2d( WAYPOINT_FIRE_X , WAYPOINT_FIRE_Y, Math.toRadians( WAYPOINT_FIRE_HEADING)), Math.toRadians( WAYPOINT_FIRE_HEADING))
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 
             // Fire three preloaded
-            robot.fireArtifacts(FIRE_TIME,1, 1);
+            robot.fireArtifacts(FIRE_TIME, FLYWHEEL_SPINUP_TIME, FLYWHEEL_POWER);
 
             action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineTo(new Vector2d( -11 , 30 ), Math.toRadians( 90 ))
+                    .splineToLinearHeading(new Pose2d( END_POSE_X , END_POSE_Y, Math.toRadians( END_HEADING)), Math.toRadians( END_HEADING))
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 
-            // start the intake
-            robot.startIntake();
-
-            // intake PPG
-            action = robot.actionBuilder(robot.localizer.getPose())
-                    .lineToY(39)
-                    .build();
-            Actions.runBlocking(new SequentialAction(action));
-
-            // stop the intake
-            robot.stopIntake();
-
-            // move to launch position
-            action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineTo(new Vector2d( -12 , 12 ), Math.toRadians( 45 ))
-                    .build();
-
-            Actions.runBlocking(new SequentialAction(action));
-
-            // Fire PPG
-            robot.fireArtifacts(FIRE_TIME,1, 1);
-
-            // move off of launch line
-            action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineTo(new Vector2d( 13 , 30 ), Math.toRadians( 90 ))
-                    .build();
-            Actions.runBlocking(new SequentialAction(action));
             
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");

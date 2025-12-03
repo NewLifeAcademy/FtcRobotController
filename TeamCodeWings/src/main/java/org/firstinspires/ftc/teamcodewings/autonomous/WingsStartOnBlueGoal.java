@@ -18,8 +18,24 @@ import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 @Config
 public class WingsStartOnBlueGoal extends LinearOpMode {
 
-    public static int FIRE_TIME = 3;
-
+    public static int FIRE_TIME = 5;
+    public static int FLYWHEEL_SPINUP_TIME = 2;
+    public static double FLYWHEEL_POWER = 0.9;
+    public static double START_POSE_X= -48;
+    public static double START_POSE_Y= -48;
+    public static double START_HEADING= 45;
+    public static double WAYPOINT_FIRE_X=-16;
+    public static double WAYPOINT_FIRE_Y=-16;
+    public static double WAYPOINT_FIRE_HEADING=45;
+    public static double SPIKE_APPROACH_X=-9;
+    public static double SPIKE_APPROACH_Y=-22;
+    public static double SPIKE_APPROACH_HEADING=270;
+    public static double SPIKE_INTAKE_X=-11;
+    public static double SPIKE_INTAKE_Y=-39;
+    public static double SPIKE_INTAKE_HEADING=270;
+    public static double END_POSE_X=17;
+    public static double END_POSE_Y=-18;
+    public static double END_HEADING=270;
     @Override
     public void runOpMode() {
         WingsBot2025 robot = new WingsBot2025(hardwareMap);
@@ -30,22 +46,22 @@ public class WingsStartOnBlueGoal extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Starting Pose
-            Pose2d startPose = new Pose2d(-48, -48, Math.toRadians(45));
+            Pose2d startPose = new Pose2d(START_POSE_X, START_POSE_Y, Math.toRadians(START_HEADING));
 
             robot.localizer.setPose(startPose);
 
             // Build action sequence
             Action action = robot.actionBuilder(startPose)
                     // Fire three
-                    .splineTo(new Vector2d( -12 , -12 ), Math.toRadians( 45 ))
+                    .splineToLinearHeading(new Pose2d( WAYPOINT_FIRE_X , WAYPOINT_FIRE_Y, Math.toRadians( WAYPOINT_FIRE_HEADING ) ), Math.toRadians( WAYPOINT_FIRE_HEADING ))
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 
             // Fire three preloaded
-            robot.fireArtifacts(FIRE_TIME);
+            robot.fireArtifacts(FIRE_TIME, FLYWHEEL_SPINUP_TIME, FLYWHEEL_POWER);
 
             action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineTo(new Vector2d( -11 , -30 ), Math.toRadians(270 ))
+                    .splineToLinearHeading(new Pose2d( SPIKE_APPROACH_X , SPIKE_APPROACH_Y, Math.toRadians(SPIKE_APPROACH_HEADING) ), Math.toRadians( SPIKE_APPROACH_HEADING ))
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 
@@ -54,7 +70,7 @@ public class WingsStartOnBlueGoal extends LinearOpMode {
 
             // intake PPG
             action = robot.actionBuilder(robot.localizer.getPose())
-                    .lineToY(-39)
+                    .lineToY(SPIKE_INTAKE_Y)
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 
@@ -63,17 +79,17 @@ public class WingsStartOnBlueGoal extends LinearOpMode {
 
             // move to launch position
             action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineTo(new Vector2d( -12 , -12 ), Math.toRadians( 45 ))
+                    .splineToLinearHeading(new Pose2d( WAYPOINT_FIRE_X , WAYPOINT_FIRE_Y, Math.toRadians(WAYPOINT_FIRE_HEADING) ), Math.toRadians( WAYPOINT_FIRE_HEADING ))
                     .build();
 
             Actions.runBlocking(new SequentialAction(action));
 
             // Fire PPG
-            robot.fireArtifacts(FIRE_TIME);
+            robot.fireArtifacts(FIRE_TIME, FLYWHEEL_SPINUP_TIME, FLYWHEEL_POWER);
 
             // move off of launch line
             action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineTo(new Vector2d( 13 , -30 ), Math.toRadians( 270 ))
+                    .splineToLinearHeading(new Pose2d( END_POSE_X , END_POSE_Y, Math.toRadians(END_HEADING)), Math.toRadians( END_HEADING ))
                     .build();
             Actions.runBlocking(new SequentialAction(action));
             
