@@ -18,10 +18,12 @@ import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 @Config
 public class WingsStartOnBlueFieldMoveOnly extends LinearOpMode {
 
-    public static double START_POSE_X= 63;
-    public static double START_POSE_Y=-24;
-    public static double END_POSE_X=39;
-    public static double END_POSE_Y=-30;
+    public static double START_POSE_X = 63;
+    public static double START_POSE_Y = -24;
+    public static double START_POSE_HEADING = 0;
+    public static double END_POSE_X = 39;
+    public static double END_POSE_Y = -30;
+    public static double END_POSE_HEADING = 0;
 
     @Override
     public void runOpMode() {
@@ -33,13 +35,13 @@ public class WingsStartOnBlueFieldMoveOnly extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Starting Pose
-            Pose2d startPose = new Pose2d(START_POSE_X, START_POSE_Y, Math.toRadians(180));
+            Pose2d startPose = new Pose2d(START_POSE_X, START_POSE_Y, Math.toRadians(START_POSE_HEADING));
 
             robot.localizer.setPose(startPose);
 
-            // Build action sequence
+            // Move to GPP spike approach position
             Action action = robot.actionBuilder(startPose)
-                    .splineTo(new Vector2d( END_POSE_X , END_POSE_Y), Math.toRadians( 180 ))
+                    .splineToLinearHeading(new Pose2d( END_POSE_X , END_POSE_Y, Math.toRadians( END_POSE_HEADING )), Math.toRadians(END_POSE_HEADING))
                     .build();
             Actions.runBlocking(new SequentialAction(action));
 

@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,21 +13,21 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 
-@Autonomous(name = "Auto - Start on Blue Field - Fire")
+@Autonomous(name = "Auto - Start on Red Field - Fire")
 @Config
-public class WingsStartOnBlueFieldFire extends LinearOpMode {
+public class WingsStartOnRedFieldFire extends LinearOpMode {
 
     public static int FIRE_TIME = 5;
     public static int FLYWHEEL_SPINUP_TIME = 2;
     public static double FLYWHEEL_POWER = 1;
     public static double START_POSE_X = 63;
-    public static double START_POSE_Y = -24;
+    public static double START_POSE_Y = 24;
     public static double START_HEADING = 0;
     public static double WAYPOINT_FIRE_X = 40;
-    public static double WAYPOINT_FIRE_Y = 1;
-    public static double WAYPOINT_FIRE_HEADING = 30;
+    public static double WAYPOINT_FIRE_Y = -1;
+    public static double WAYPOINT_FIRE_HEADING = 330;
     public static double END_POSE_X = 39;
-    public static double END_POSE_Y = -30;
+    public static double END_POSE_Y = 30;
     public static double END_HEADING = 0;
 
     @Override
