@@ -28,8 +28,8 @@ public class IronStartOnBlueGoal extends LinearOpMode {
     public static double WAYPOINT_FIRE_01_X = -16;
     public static double WAYPOINT_FIRE_01_Y = -16;
     public static double WAYPOINT_FIRE_01_HEADING = 225;
-    public static double WAYPOINT_FIRE_02_X = -20;
-    public static double WAYPOINT_FIRE_02_Y = -20;
+    public static double WAYPOINT_FIRE_02_X = -12;
+    public static double WAYPOINT_FIRE_02_Y = -12;
     public static double WAYPOINT_FIRE_02_HEADING = 225;
     public static double SPIKE_APPROACH_X = -9;
     public static double SPIKE_APPROACH_Y = -22;
@@ -84,7 +84,7 @@ public class IronStartOnBlueGoal extends LinearOpMode {
 
             // Move to near launch position
             action = robot.actionBuilder(robot.localizer.getPose())
-                    .splineToLinearHeading(new Pose2d( WAYPOINT_FIRE_01_X , WAYPOINT_FIRE_01_Y, Math.toRadians(WAYPOINT_FIRE_01_HEADING) ), Math.toRadians( WAYPOINT_FIRE_01_HEADING ))
+                    .splineToLinearHeading(new Pose2d( WAYPOINT_FIRE_02_X , WAYPOINT_FIRE_02_Y, Math.toRadians(WAYPOINT_FIRE_02_HEADING) ), Math.toRadians( WAYPOINT_FIRE_02_HEADING ))
                     .build();
 
             Actions.runBlocking(new SequentialAction(action));
