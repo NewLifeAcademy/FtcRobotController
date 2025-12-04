@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodeiron.IronBot2025;
 
-@Autonomous(name = "Auto - Start on Red Field - Fire")
+@Autonomous(name = "Auto - Start on Red Field - Fire", preselectTeleOp = "Iron2026Decode")
 @Config
 public class IronStartOnRedFieldFire extends LinearOpMode {
 

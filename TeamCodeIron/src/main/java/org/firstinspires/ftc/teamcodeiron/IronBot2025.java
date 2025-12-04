@@ -61,7 +61,7 @@ public class IronBot2025 extends MecanumDrive {
 
         intake.setPower(-1.0);
         midspace.setPower(1.0);
-        pusher.setPower(-1.0);
+        pusher.setPower(1.0);
 
         // Continue firing for the remaining duration
         wait(fireDurationSeconds - flywheelSpinupSeconds);

@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 
-@Autonomous(name = "Auto - Start on Red Field - Fire")
+@Autonomous(name = "Auto - Start on Red Field - Fire", preselectTeleOp = "B-bot original code")
 @Config
 public class WingsStartOnRedFieldFire extends LinearOpMode {
 
