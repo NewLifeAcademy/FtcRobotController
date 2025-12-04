@@ -19,10 +19,10 @@ public class IronStartOnRedFieldMoveOnly extends LinearOpMode {
 
     public static double START_POSE_X = 63;
     public static double START_POSE_Y = 24;
-    public static double START_POSE_HEADING = 0;
+    public static double START_POSE_HEADING = 180;
     public static double END_POSE_X = 39;
     public static double END_POSE_Y = 30;
-    public static double END_POSE_HEADING = 0;
+    public static double END_POSE_HEADING = 180;
 
     @Override
     public void runOpMode() {
