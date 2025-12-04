@@ -64,7 +64,7 @@ public class WingsBot2025 extends MecanumDrive {
         ballPutterServo.setPosition(0);
 
         // wait fire duration
-        wait(fireDurationSeconds);
+        wait(fireDurationSeconds - flywheelSpinupSeconds);
 
         // Deactivate spitterLeft, intakeBeltSpiner, and ballPuter
         spitterLeft.setPower(0);

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcodeiron;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -22,12 +24,20 @@ public class IronBot2025 extends MecanumDrive {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
-
+    private DcMotor flywheel;
+    private CRServo intake;
+    private CRServo midspace;
+    private CRServo pusher;
 
     public IronBot2025(HardwareMap hardwareMap) {
         super(hardwareMap, new Pose2d(0, 0, 0));
         // Save the hardware map reference
         this.hardwareMap = hardwareMap;
+
+        this.flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        this.intake = hardwareMap.get(CRServo.class, "intake");
+        this.midspace = hardwareMap.get(CRServo.class, "midspace");
+        this.pusher = hardwareMap.get(CRServo.class, "pusher");
     }
 
     public void stopMotors() {
@@ -40,6 +50,37 @@ public class IronBot2025 extends MecanumDrive {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public void fireArtifacts(int fireDurationSeconds, int flywheelSpinupSeconds, double flywheelPower) {
+        // Activate flywheel, intake, midspace, and pusher to fire artifacts
+        flywheel.setPower(flywheelPower);
+
+        // Wait for flywheel to spin up
+        wait(flywheelSpinupSeconds);
+
+        intake.setPower(-1.0);
+        midspace.setPower(1.0);
+        pusher.setPower(-1.0);
+
+        // Continue firing for the remaining duration
+        wait(fireDurationSeconds - flywheelSpinupSeconds);
+
+        // Stop all firing mechanisms
+        flywheel.setPower(0);
+        intake.setPower(0);
+        midspace.setPower(0);
+        pusher.setPower(0);
+    }
+
+    public void startIntake() {
+        intake.setPower(-1.0);
+        midspace.setPower(1.0);
+    }
+
+    public void stopIntake() {
+        intake.setPower(0.0);
+        midspace.setPower(0.0);
     }
 
     public void initAprilTagDetection() {
