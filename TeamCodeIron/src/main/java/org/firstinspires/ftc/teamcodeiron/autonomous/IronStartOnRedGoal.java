@@ -38,7 +38,7 @@ public class IronStartOnRedGoal extends LinearOpMode {
     public static double SPIKE_INTAKE_HEADING = 270;
     public static double END_POSE_X = 17;
     public static double END_POSE_Y = 18;
-    public static double END_HEADING = 90;
+    public static double END_HEADING = 270;
 
     @Override
     public void runOpMode() {
