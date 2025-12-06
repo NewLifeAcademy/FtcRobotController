@@ -19,13 +19,13 @@ public class IronStartOnBlueFieldFire extends LinearOpMode {
 
     public static int FIRE_TIME = 5;
     public static int FLYWHEEL_SPINUP_TIME = 2;
-    public static double FLYWHEEL_POWER = 1;
+    public static double FLYWHEEL_POWER = -1;
     public static double START_POSE_X = 63;
     public static double START_POSE_Y = -24;
     public static double START_HEADING = 180;
-    public static double WAYPOINT_FIRE_X = 40;
+    public static double WAYPOINT_FIRE_X = 42;
     public static double WAYPOINT_FIRE_Y = 1;
-    public static double WAYPOINT_FIRE_HEADING = 210;
+    public static double WAYPOINT_FIRE_HEADING = 220;
     public static double END_POSE_X = 39;
     public static double END_POSE_Y = -30;
     public static double END_HEADING = 180;
