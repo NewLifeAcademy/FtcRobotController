@@ -26,7 +26,7 @@ public class WingsStartOnBlueGoal extends LinearOpMode {
     public static double START_HEADING = 45;
     public static double WAYPOINT_FIRE_X = -16;
     public static double WAYPOINT_FIRE_Y = -16;
-    public static double WAYPOINT_FIRE_HEADING = 45;
+    public static double WAYPOINT_FIRE_HEADING = 315;
     public static double SPIKE_APPROACH_X = -9;
     public static double SPIKE_APPROACH_Y = -22;
     public static double SPIKE_APPROACH_HEADING = 270;

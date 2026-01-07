@@ -25,7 +25,7 @@ public class WingsStartOnRedFieldFire extends LinearOpMode {
     public static double START_HEADING = 0;
     public static double WAYPOINT_FIRE_X = 40;
     public static double WAYPOINT_FIRE_Y = -1;
-    public static double WAYPOINT_FIRE_HEADING = 330;
+    public static double WAYPOINT_FIRE_HEADING = 60;
     public static double END_POSE_X = 39;
     public static double END_POSE_Y = 30;
     public static double END_HEADING = 0;
