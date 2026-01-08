@@ -25,6 +25,7 @@ public class WingsBot2025 extends MecanumDrive {
     private VisionPortal visionPortal;
 
     private DcMotor spitterLeft; // motor0 (REV Robotics 20:1 HD Hex Motor) - expansion hub
+    private DcMotor putter;
     private DcMotor ballPuter; // motor1 (REV Robotics 20:1 HD Hex Motor)- expansion hub
     private DcMotor intakeBeltSpiner; // motor3 (REV Robotics Core Hex Motor) - expansion hub
 
@@ -36,6 +37,7 @@ public class WingsBot2025 extends MecanumDrive {
         this.hardwareMap = hardwareMap;
 
         this.spitterLeft = hardwareMap.get(DcMotor.class, "spitter left");
+        this.putter = hardwareMap.get(DcMotor.class,"putter");
         this.ballPuter = hardwareMap.get(DcMotor.class, "ball puter");
         this.intakeBeltSpiner = hardwareMap.get(DcMotor.class, "intake belt spiner");
         this.ballPutterServo = hardwareMap.get(Servo.class, "ball putter servo");
@@ -56,28 +58,29 @@ public class WingsBot2025 extends MecanumDrive {
     public void fireArtifacts(int fireDurationSeconds, int flywheelSpinupSeconds, double flywheelPower) {
         // Activate spitterLeft, intakeBeltSpiner, and ballPuter to fire artifacts
         spitterLeft.setPower(flywheelPower);
-        intakeBeltSpiner.setPower(-1.0);
-        ballPuter.setPower(-1.0);
-
-        // Delay 1 second to allow motors to get up to speed
         wait(flywheelSpinupSeconds);
-        ballPutterServo.setPosition(0);
+        ballPutterServo.setPosition(1);
+        wait(1);
+        intakeBeltSpiner.setPower(1.0);
+        ballPuter.setPower(1.0);
+        putter.setPower(-0.3);
 
-        // wait fire duration
         wait(fireDurationSeconds - flywheelSpinupSeconds);
+
 
         // Deactivate spitterLeft, intakeBeltSpiner, and ballPuter
         spitterLeft.setPower(0);
         intakeBeltSpiner.setPower(0);
         ballPuter.setPower(0);
+        putter.setPower(0);
 
-        ballPutterServo.setPosition(1);
+        ballPutterServo.setPosition(0);
     }
 
     public void startIntake() {
         // intakeBeltSpiner, and ballPuter to fire artifacts
-        intakeBeltSpiner.setPower(-1.0);
-        ballPuter.setPower(-1.0);
+        intakeBeltSpiner.setPower(1.0);
+        ballPuter.setPower(1.0);
     }
 
     public void stopIntake() {
