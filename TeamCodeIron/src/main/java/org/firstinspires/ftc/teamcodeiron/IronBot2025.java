@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -24,20 +25,20 @@ public class IronBot2025 extends MecanumDrive {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
-    private DcMotor flywheel;
+    private DcMotor spinarizer;
     private CRServo intake;
-    private CRServo midspace;
-    private CRServo pusher;
+    private CRServo underlift;
+    private Servo pusher;
 
     public IronBot2025(HardwareMap hardwareMap) {
         super(hardwareMap, new Pose2d(0, 0, 0));
         // Save the hardware map reference
         this.hardwareMap = hardwareMap;
 
-        this.flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        this.spinarizer = hardwareMap.get(DcMotor.class, "spinarizer");
         this.intake = hardwareMap.get(CRServo.class, "intake");
-        this.midspace = hardwareMap.get(CRServo.class, "midspace");
-        this.pusher = hardwareMap.get(CRServo.class, "pusher");
+        this.underlift = hardwareMap.get(CRServo.class, "underlift");
+        this.pusher = hardwareMap.get(Servo.class, "pusher");
     }
 
     public void stopMotors() {
@@ -53,34 +54,22 @@ public class IronBot2025 extends MecanumDrive {
     }
 
     public void fireArtifacts(int fireDurationSeconds, int flywheelSpinupSeconds, double flywheelPower) {
-        // Activate flywheel, intake, midspace, and pusher to fire artifacts
-        flywheel.setPower(flywheelPower);
 
-        // Wait for flywheel to spin up
-        wait(flywheelSpinupSeconds);
-
-        intake.setPower(-1.0);
-        midspace.setPower(1.0);
-        pusher.setPower(1.0);
-
-        // Continue firing for the remaining duration
-        wait(fireDurationSeconds - flywheelSpinupSeconds);
-
-        // Stop all firing mechanisms
-        flywheel.setPower(0);
-        intake.setPower(0);
-        midspace.setPower(0);
-        pusher.setPower(0);
+        /*
+        TODO: Autonomous firing sequence
+        spinarizer velocity = 50
+        spinarizer increment = 96
+        */
     }
 
     public void startIntake() {
         intake.setPower(-1.0);
-        midspace.setPower(1.0);
+        underlift.setPower(1.0);
     }
 
     public void stopIntake() {
         intake.setPower(0.0);
-        midspace.setPower(0.0);
+        underlift.setPower(0.0);
     }
 
     public void initAprilTagDetection() {

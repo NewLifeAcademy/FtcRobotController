@@ -228,19 +228,19 @@ public class MecanumDrive {
         }
 
         // Config: IronEagles26
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontleft"); // motor3 : ControlHub
-        leftBack = hardwareMap.get(DcMotorEx.class, "backleft"); // motor2 : ControlHub
-        rightBack = hardwareMap.get(DcMotorEx.class, "backright"); // motor1 : ExpansionHub
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontright"); // motor0 : ExpansionHub
+        leftFront = hardwareMap.get(DcMotorEx.class, "frontleft"); // motor0 : ExpansionHub
+        leftBack = hardwareMap.get(DcMotorEx.class, "backleft"); // motor1 : ExpansionHub
+        rightBack = hardwareMap.get(DcMotorEx.class, "backright"); // motor1 : ControlHub
+        rightFront = hardwareMap.get(DcMotorEx.class, "frontright"); // motor0 : ControlHub
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
 
         lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
