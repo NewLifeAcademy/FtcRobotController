@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcodewings.WingsBot2025;
 @Config
 public class WingsStartOnBlueFieldFire extends LinearOpMode {
 
-    public static int FIRE_TIME = 15;
+    public static int FIRE_TIME = 6;
     public static int FLYWHEEL_SPINUP_TIME = 2;
     public static double FLYWHEEL_POWER = -1;
     public static double START_POSE_X = 63;

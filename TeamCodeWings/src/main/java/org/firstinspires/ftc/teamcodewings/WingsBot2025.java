@@ -61,9 +61,11 @@ public class WingsBot2025 extends MecanumDrive {
         wait(flywheelSpinupSeconds);
         ballPutterServo.setPosition(1);
         wait(1);
+        putter.setPower(-0.3);
+        wait(1);
         intakeBeltSpiner.setPower(1.0);
         ballPuter.setPower(1.0);
-        putter.setPower(-0.3);
+
 
         wait(fireDurationSeconds - flywheelSpinupSeconds);
 
