@@ -3,15 +3,12 @@ package org.firstinspires.ftc.teamcodeiron.autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodeiron.IronBot2025;
+import org.firstinspires.ftc.teamcodeiron.autonomous.common.IronBotCommonSequences;
 
 @Autonomous(name = "Auto - Start on Blue Field - Move Only", preselectTeleOp = "Iron2026Decode")
 @Config
@@ -33,20 +30,16 @@ public class IronStartOnBlueFieldMoveOnly extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            // Starting Pose
-            Pose2d startPose = new Pose2d(START_POSE_X, START_POSE_Y, Math.toRadians(START_POSE_HEADING));
-
-            robot.localizer.setPose(startPose);
-
-            // Move to GPP spike approach position
-            Action action = robot.actionBuilder(startPose)
-                    .splineToLinearHeading(new Pose2d( END_POSE_X , END_POSE_Y, Math.toRadians( END_POSE_HEADING )), Math.toRadians(END_POSE_HEADING))
-                    .build();
-            Actions.runBlocking(new SequentialAction(action));
-
-            // stop autonomous and wait for finish
-            telemetry.addLine("Testing complete. Stopping autonomous.");
-            telemetry.update();
+            IronBotCommonSequences.RunStartOnFieldMoveOnlySequence(
+                    robot,
+                    telemetry,
+                    START_POSE_X,
+                    START_POSE_Y,
+                    START_POSE_HEADING,
+                    END_POSE_X,
+                    END_POSE_Y,
+                    END_POSE_HEADING
+            );
         }
     }
 }

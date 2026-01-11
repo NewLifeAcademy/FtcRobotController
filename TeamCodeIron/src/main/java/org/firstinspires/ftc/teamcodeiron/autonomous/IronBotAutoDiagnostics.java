@@ -7,10 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcodeiron.IronBot2025;
 
-@Autonomous(name = "Auto - Mecanum Wheel Testing")
-@Disabled
+@Autonomous(name = "Auto - Diagnostics", preselectTeleOp = "Iron2026Decode")
 @Config
-public class IronBotAutoMecanumWheelTesting extends LinearOpMode {
+public class IronBotAutoDiagnostics extends LinearOpMode {
     @Override
     public void runOpMode() {
         IronBot2025 robot = new IronBot2025(hardwareMap);
@@ -46,6 +45,35 @@ public class IronBotAutoMecanumWheelTesting extends LinearOpMode {
             robot.setMotorPowers(0, 0, 0, 0.5);
             robot.wait(3);
             robot.stopMotors();
+
+            // Test Intake
+            telemetry.addLine("Testing intake mechanism for 3 seconds");
+            telemetry.update();
+            robot.startIntake();
+            robot.wait(3);
+            robot.stopIntake();
+
+            // Test Spinarizer
+            telemetry.addLine("Testing spinarizer increment");
+            telemetry.update();
+            robot.incrementSpinarizer();
+            robot.wait(1);
+            robot.incrementSpinarizer();
+            robot.wait(1);
+            robot.incrementSpinarizer();
+
+            // Test pusher servo
+            telemetry.addLine("Testing pusher servo");
+            telemetry.update();
+            robot.triggerPusher();
+            robot.wait(2);
+
+            // Test flywheels
+            telemetry.addLine("Testing flywheels for 3 seconds");
+            telemetry.update();
+            robot.startFlywheels();
+            robot.wait(3);
+            robot.stopFlywheels();
 
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcodeiron;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -20,12 +21,19 @@ import java.util.List;
  */
 public class IronBot2025 extends MecanumDrive {
 
+    public static int SPINARIZER_INCREMENT = 96; // Encoder counts per spinarizer increment step
+    public static double SPINARIZER_VELOCITY = 50.0; // Velocity for spinarizer motor
+    public static double FLYWHEEL_POWER = 0.8; // Power for flywheel motors
+    public static int FLYWHEEL_SPINUP_TIME_SECONDS = 2; // Time to wait for flywheels to spin up
+
     private HardwareMap hardwareMap;
     // AprilTag detection members
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
-    private DcMotor spinarizer;
+    private DcMotor flywheelLeft;
+    private DcMotor flywheelRight;
+    private DcMotorEx spinarizer;
     private CRServo intake;
     private CRServo underlift;
     private Servo pusher;
@@ -35,7 +43,10 @@ public class IronBot2025 extends MecanumDrive {
         // Save the hardware map reference
         this.hardwareMap = hardwareMap;
 
-        this.spinarizer = hardwareMap.get(DcMotor.class, "spinarizer");
+        // Initialize motors and servos
+        this.flywheelLeft = hardwareMap.get(DcMotor.class, "leftlauncher");
+        this.flywheelRight = hardwareMap.get(DcMotor.class, "rightlauncher");
+        this.spinarizer = hardwareMap.get(DcMotorEx.class, "spinarizer");
         this.intake = hardwareMap.get(CRServo.class, "intake");
         this.underlift = hardwareMap.get(CRServo.class, "underlift");
         this.pusher = hardwareMap.get(Servo.class, "pusher");
@@ -53,13 +64,25 @@ public class IronBot2025 extends MecanumDrive {
         }
     }
 
-    public void fireArtifacts(int fireDurationSeconds, int flywheelSpinupSeconds, double flywheelPower) {
+    public void firePreloadedArtifacts() {
+        fireArtifact();
+        incrementSpinarizer();
+        fireArtifact();
+        incrementSpinarizer();
+        fireArtifact();
+    }
 
-        /*
-        TODO: Autonomous firing sequence
-        spinarizer velocity = 50
-        spinarizer increment = 96
-        */
+    public void fireArtifact() {
+        // If both flywheels appear stopped, start them and wait for spin-up
+        if (Math.abs(flywheelLeft.getPower()) < 1e-3 && Math.abs(flywheelRight.getPower()) < 1e-3) {
+            startFlywheels();
+            wait(FLYWHEEL_SPINUP_TIME_SECONDS);
+        }
+        // Trigger the pusher to fire one artifact
+        triggerPusher();
+
+        // Short delay to allow pusher action to complete before advancing spinarizer
+        wait(1);
     }
 
     public void startIntake() {
@@ -70,6 +93,32 @@ public class IronBot2025 extends MecanumDrive {
     public void stopIntake() {
         intake.setPower(0.0);
         underlift.setPower(0.0);
+    }
+
+    public void incrementSpinarizer() {
+        int targetPosition = spinarizer.getCurrentPosition() + SPINARIZER_INCREMENT;
+        spinarizer.setTargetPosition(targetPosition);
+        spinarizer.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        spinarizer.setVelocity(SPINARIZER_VELOCITY);
+        while (spinarizer.isBusy()) {
+            // Wait until the motor reaches the target position
+        }
+    }
+
+    public void triggerPusher() {
+        pusher.setPosition(1.0);
+        wait(1);
+        pusher.setPosition(0.0);
+    }
+
+    public void startFlywheels() {
+        flywheelLeft.setPower(FLYWHEEL_POWER);
+        flywheelRight.setPower(FLYWHEEL_POWER);
+    }
+
+    public void stopFlywheels() {
+        flywheelLeft.setPower(0.0);
+        flywheelRight.setPower(0.0);
     }
 
     public void initAprilTagDetection() {
