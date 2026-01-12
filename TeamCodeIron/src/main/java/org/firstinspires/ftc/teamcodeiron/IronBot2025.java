@@ -23,7 +23,7 @@ public class IronBot2025 extends MecanumDrive {
 
     public static int SPINARIZER_INCREMENT = 96; // Encoder counts per spinarizer increment step
     public static double SPINARIZER_VELOCITY = 50.0; // Velocity for spinarizer motor
-    public static double FLYWHEEL_POWER = 0.8; // Power for flywheel motors
+    public static double FLYWHEEL_POWER = 0.5; // Power for flywheel motors
     public static int FLYWHEEL_SPINUP_TIME_SECONDS = 2; // Time to wait for flywheels to spin up
 
     private HardwareMap hardwareMap;
@@ -65,11 +65,13 @@ public class IronBot2025 extends MecanumDrive {
     }
 
     public void firePreloadedArtifacts() {
+        startIntake();
         fireArtifact();
         incrementSpinarizer();
         fireArtifact();
         incrementSpinarizer();
         fireArtifact();
+        stopIntake();
     }
 
     public void fireArtifact() {
@@ -80,9 +82,6 @@ public class IronBot2025 extends MecanumDrive {
         }
         // Trigger the pusher to fire one artifact
         triggerPusher();
-
-        // Short delay to allow pusher action to complete before advancing spinarizer
-        wait(1);
     }
 
     public void startIntake() {
@@ -107,8 +106,9 @@ public class IronBot2025 extends MecanumDrive {
 
     public void triggerPusher() {
         pusher.setPosition(1.0);
+        wait(2);
+        pusher.setPosition(0.5);
         wait(1);
-        pusher.setPosition(0.0);
     }
 
     public void startFlywheels() {
