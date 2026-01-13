@@ -20,7 +20,7 @@ public class WingsStartOnRedGoal extends LinearOpMode {
 
     public static int FIRE_TIME = 6;
     public static int FLYWHEEL_SPINUP_TIME = 2;
-    public static double FLYWHEEL_POWER = -0.75;
+    public static double FLYWHEEL_POWER = -0.70;
     public static double START_POSE_X = -48;
     public static double START_POSE_Y = 48;
     public static double START_HEADING = 315;

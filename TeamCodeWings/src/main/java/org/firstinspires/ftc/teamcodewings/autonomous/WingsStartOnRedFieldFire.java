@@ -19,7 +19,7 @@ public class WingsStartOnRedFieldFire extends LinearOpMode {
 
     public static int FIRE_TIME = 6;
     public static int FLYWHEEL_SPINUP_TIME = 2;
-    public static double FLYWHEEL_POWER = -.94;
+    public static double FLYWHEEL_POWER = -.90;
     public static double START_POSE_X = 63;
     public static double START_POSE_Y = 24;
     public static double START_HEADING = 0;
