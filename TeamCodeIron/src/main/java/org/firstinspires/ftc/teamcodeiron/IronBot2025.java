@@ -4,11 +4,14 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRRangeSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -37,6 +40,7 @@ public class IronBot2025 extends MecanumDrive {
     private CRServo intake;
     private CRServo underlift;
     private Servo pusher;
+    private DistanceSensor rangeSensor;
 
     public IronBot2025(HardwareMap hardwareMap) {
         super(hardwareMap, new Pose2d(0, 0, 0));
@@ -50,6 +54,8 @@ public class IronBot2025 extends MecanumDrive {
         this.intake = hardwareMap.get(CRServo.class, "intake");
         this.underlift = hardwareMap.get(CRServo.class, "underlift");
         this.pusher = hardwareMap.get(Servo.class, "pusher");
+
+        this.rangeSensor = hardwareMap.get(DistanceSensor.class, "sensor");
     }
 
     public void stopMotors() {
@@ -121,11 +127,21 @@ public class IronBot2025 extends MecanumDrive {
         flywheelRight.setPower(0.0);
     }
 
+    public void getSensorDistance(Telemetry telemetry) {
+        double distance = rangeSensor.getDistance(DistanceUnit.CM);
+        telemetry.addData("Range Sensor Distance (cm): ", distance);
+    }
+
     public void initAprilTagDetection() {
         aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTagProcessor);
     }
     public void telemetryAprilTag(Telemetry telemetry) {
+
+        if (aprilTagProcessor == null) {
+            telemetry.addLine("Initialize apriltag processor.");
+            this.initAprilTagDetection();
+        }
 
         List<AprilTagDetection> currentDetections = aprilTagProcessor.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
