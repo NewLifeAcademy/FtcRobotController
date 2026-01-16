@@ -26,8 +26,13 @@ public class IronBotCommonSequences {
             double waypoint_fire_02_heading,
             double end_pose_x,
             double end_pose_y,
-            double end_heading
+            double end_heading,
+            double flywheelPower,
+            int flywheelSpinupTimeSeconds,
+            int flywheelWaitBetweenShots
     ) {
+        robot.startIntake();
+        robot.wait(1); // Allow intake to spin up
         // Starting Pose
         Pose2d startPose = new Pose2d(start_pose_x, start_pose_y, Math.toRadians(start_heading));
 
@@ -40,27 +45,27 @@ public class IronBotCommonSequences {
         Actions.runBlocking(new SequentialAction(action));
 
         // Fire three preloaded artifacts
-        robot.firePreloadedArtifacts();
+        robot.firePreloadedArtifacts(telemetry, flywheelPower, flywheelSpinupTimeSeconds, flywheelWaitBetweenShots);
 
         // TODO: Use camera telemetry to determine target spike mark:
         // - Far (Goal Side) = PPG
         // - Middle (Center) = PGP
         // - Near (Audience Side) = GPP
 
-        // Move to PPG spike approach position
-        action = robot.actionBuilder(robot.localizer.getPose())
-                .splineToLinearHeading(new Pose2d( spike_approach_x , spike_approach_y, Math.toRadians(spike_approach_heading) ), Math.toRadians( spike_approach_heading ))
-                .build();
-        Actions.runBlocking(new SequentialAction(action));
-
-        // TODO: cooridnate intake and spinarizer to load three artifacts from spike mark
-
-        // Move to near launch position
-        action = robot.actionBuilder(robot.localizer.getPose())
-                .splineToLinearHeading(new Pose2d( waypoint_fire_02_x , waypoint_fire_02_y, Math.toRadians(waypoint_fire_02_heading) ), Math.toRadians( waypoint_fire_02_heading ))
-                .build();
-
-        Actions.runBlocking(new SequentialAction(action));
+//        // Move to PPG spike approach position
+//        action = robot.actionBuilder(robot.localizer.getPose())
+//                .splineToLinearHeading(new Pose2d( spike_approach_x , spike_approach_y, Math.toRadians(spike_approach_heading) ), Math.toRadians( spike_approach_heading ))
+//                .build();
+//        Actions.runBlocking(new SequentialAction(action));
+//
+//        // TODO: cooridnate intake and spinarizer to load three artifacts from spike mark
+//
+//        // Move to near launch position
+//        action = robot.actionBuilder(robot.localizer.getPose())
+//                .splineToLinearHeading(new Pose2d( waypoint_fire_02_x , waypoint_fire_02_y, Math.toRadians(waypoint_fire_02_heading) ), Math.toRadians( waypoint_fire_02_heading ))
+//                .build();
+//
+//        Actions.runBlocking(new SequentialAction(action));
 
 
         // Move to End pose position
@@ -86,8 +91,14 @@ public class IronBotCommonSequences {
             double waypoint_fire_heading,
             double end_pose_x,
             double end_pose_y,
-            double end_heading
+            double end_heading,
+            double flywheelPower,
+            int flywheelSpinupTimeSeconds,
+            int flywheelWaitBetweenShots
     ) {
+        robot.startIntake();
+        robot.wait(1); // Allow intake to spin up
+
         // Starting Pose
         Pose2d startPose = new Pose2d(start_pose_x, start_pose_y, Math.toRadians(start_heading));
 
@@ -100,7 +111,7 @@ public class IronBotCommonSequences {
         Actions.runBlocking(new SequentialAction(action));
 
         // Fire preloaded
-        robot.firePreloadedArtifacts();
+        robot.firePreloadedArtifacts(telemetry, flywheelPower, flywheelSpinupTimeSeconds, flywheelWaitBetweenShots);
 
         // Move to GPP spike approach position
         action = robot.actionBuilder(robot.localizer.getPose())

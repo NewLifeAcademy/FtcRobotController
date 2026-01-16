@@ -26,8 +26,6 @@ public class IronBot2025 extends MecanumDrive {
 
     public static int SPINARIZER_INCREMENT = 96; // Encoder counts per spinarizer increment step
     public static double SPINARIZER_VELOCITY = 50.0; // Velocity for spinarizer motor
-    public static double FLYWHEEL_POWER = 0.5; // Power for flywheel motors
-    public static int FLYWHEEL_SPINUP_TIME_SECONDS = 2; // Time to wait for flywheels to spin up
 
     private HardwareMap hardwareMap;
     // AprilTag detection members
@@ -50,6 +48,10 @@ public class IronBot2025 extends MecanumDrive {
         // Initialize motors and servos
         this.flywheelLeft = hardwareMap.get(DcMotor.class, "leftlauncher");
         this.flywheelRight = hardwareMap.get(DcMotor.class, "rightlauncher");
+
+        // reverse right flywheel direction
+        this.flywheelRight.setDirection(DcMotor.Direction.REVERSE);
+
         this.spinarizer = hardwareMap.get(DcMotorEx.class, "spinarizer");
         this.intake = hardwareMap.get(CRServo.class, "intake");
         this.underlift = hardwareMap.get(CRServo.class, "underlift");
@@ -70,21 +72,35 @@ public class IronBot2025 extends MecanumDrive {
         }
     }
 
-    public void firePreloadedArtifacts() {
+    public void firePreloadedArtifacts(Telemetry telemetry, double flywheelPower, int flywheelSpinupTimeSeconds, int waitBetweenShots) {
+        telemetry.addLine("Firing first preloaded artifact");
+        telemetry.update();
+        fireArtifact(flywheelPower, flywheelSpinupTimeSeconds);
         startIntake();
-        fireArtifact();
         incrementSpinarizer();
-        fireArtifact();
+        wait(waitBetweenShots); // wait 3 seconds between shots
+
+        telemetry.addLine("Firing second preloaded artifact");
+        telemetry.update();
+        fireArtifact(flywheelPower, flywheelSpinupTimeSeconds);
         incrementSpinarizer();
-        fireArtifact();
+        wait(waitBetweenShots);
+
+        telemetry.addLine("Firing third preloaded artifact");
+        telemetry.update();
         stopIntake();
+        fireArtifact(flywheelPower, flywheelSpinupTimeSeconds);
+
+        // stop autonomous and wait for finish
+        telemetry.addLine("Testing complete. Stopping autonomous.");
+        telemetry.update();
     }
 
-    public void fireArtifact() {
+    public void fireArtifact(double flywheelPower, int flywheelSpinupTimeSeconds) {
         // If both flywheels appear stopped, start them and wait for spin-up
         if (Math.abs(flywheelLeft.getPower()) < 1e-3 && Math.abs(flywheelRight.getPower()) < 1e-3) {
-            startFlywheels();
-            wait(FLYWHEEL_SPINUP_TIME_SECONDS);
+            startFlywheels(flywheelPower);
+            wait(flywheelSpinupTimeSeconds);
         }
         // Trigger the pusher to fire one artifact
         triggerPusher();
@@ -117,9 +133,9 @@ public class IronBot2025 extends MecanumDrive {
         wait(1);
     }
 
-    public void startFlywheels() {
-        flywheelLeft.setPower(FLYWHEEL_POWER);
-        flywheelRight.setPower(FLYWHEEL_POWER);
+    public void startFlywheels(double flywheelPower) {
+        flywheelLeft.setPower(flywheelPower);
+        flywheelRight.setPower(flywheelPower);
     }
 
     public void stopFlywheels() {

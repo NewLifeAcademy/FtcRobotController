@@ -57,7 +57,7 @@ public class IronBotSinglePreloadFiringTest extends LinearOpMode {
             // Firing test from preload position
             telemetry.addLine("Firing test from preload position");
             telemetry.update();
-            robot.fireArtifact();
+            robot.fireArtifact(.5, 3);
 
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");

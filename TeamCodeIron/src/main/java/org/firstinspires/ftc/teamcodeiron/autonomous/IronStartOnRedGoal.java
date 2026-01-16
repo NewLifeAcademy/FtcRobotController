@@ -17,18 +17,22 @@ public class IronStartOnRedGoal extends LinearOpMode {
     public static double START_POSE_X = -48;
     public static double START_POSE_Y = 48;
     public static double START_HEADING = 135;
-    public static double WAYPOINT_FIRE_01_X = -16;
-    public static double WAYPOINT_FIRE_01_Y = 16;
+    public static double WAYPOINT_FIRE_01_X = -8;
+    public static double WAYPOINT_FIRE_01_Y = 8;
     public static double WAYPOINT_FIRE_01_HEADING = 135;
     public static double WAYPOINT_FIRE_02_X = -12;
     public static double WAYPOINT_FIRE_02_Y = 12;
     public static double WAYPOINT_FIRE_02_HEADING = 135;
     public static double SPIKE_APPROACH_X = -9;
     public static double SPIKE_APPROACH_Y = 22;
-    public static double SPIKE_APPROACH_HEADING = 270;
+    public static double SPIKE_APPROACH_HEADING = 90;
     public static double END_POSE_X = 17;
     public static double END_POSE_Y = 18;
-    public static double END_HEADING = 270;
+    public static double END_HEADING = 90;
+    public static double FLYWHEEL_POWER = 0.4; // Power for flywheel motors
+    public static int FLYWHEEL_SPINUP_TIME_SEC = 2; // Time to spin up flywheels before firing
+    public static int FLYWHEEL_WAIT_BETWEEN_SHOTS_SEC = 3; // Time between shots
+
 
     @Override
     public void runOpMode() {
@@ -56,7 +60,10 @@ public class IronStartOnRedGoal extends LinearOpMode {
                     WAYPOINT_FIRE_02_HEADING,
                     END_POSE_X,
                     END_POSE_Y,
-                    END_HEADING
+                    END_HEADING,
+                    FLYWHEEL_POWER,
+                    FLYWHEEL_SPINUP_TIME_SEC,
+                    FLYWHEEL_WAIT_BETWEEN_SHOTS_SEC
             );
         }
     }

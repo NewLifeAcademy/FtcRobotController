@@ -46,6 +46,8 @@ import org.firstinspires.ftc.teamcodeiron.IronBot2025;
 @Config
 public class IronBotFullPreloadFiringTest extends LinearOpMode {
 
+    public static int WAIT_BETWEEN_SHOTS = 2000; // Time to wait between shots
+
     @Override
     public void runOpMode() {
         IronBot2025 robot = new IronBot2025(hardwareMap);
@@ -57,17 +59,21 @@ public class IronBotFullPreloadFiringTest extends LinearOpMode {
             // Firing three preloaded artifacts
             telemetry.addLine("Firing first preloaded artifact");
             telemetry.update();
-            robot.fireArtifact();
+            robot.fireArtifact(.5, 3);
+            robot.startIntake();
+            robot.incrementSpinarizer();
+            sleep(WAIT_BETWEEN_SHOTS); // wait 3 seconds between shots
 
             telemetry.addLine("Firing second preloaded artifact");
             telemetry.update();
+            robot.fireArtifact(.5, 3);
             robot.incrementSpinarizer();
-            robot.fireArtifact();
+            sleep(WAIT_BETWEEN_SHOTS);
 
             telemetry.addLine("Firing third preloaded artifact");
             telemetry.update();
-            robot.incrementSpinarizer();
-            robot.fireArtifact();
+            robot.stopIntake();
+            robot.fireArtifact(.5, 3);
 
             // stop autonomous and wait for finish
             telemetry.addLine("Testing complete. Stopping autonomous.");

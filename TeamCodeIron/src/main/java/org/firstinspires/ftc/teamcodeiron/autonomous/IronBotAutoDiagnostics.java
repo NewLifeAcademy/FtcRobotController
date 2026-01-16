@@ -71,7 +71,7 @@ public class IronBotAutoDiagnostics extends LinearOpMode {
             // Test flywheels
             telemetry.addLine("Testing flywheels for 3 seconds");
             telemetry.update();
-            robot.startFlywheels();
+            robot.startFlywheels(.5);
             robot.wait(3);
             robot.stopFlywheels();
 
