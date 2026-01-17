@@ -23,11 +23,11 @@ public class IronStartOnBlueGoal extends LinearOpMode {
     public static double START_POSE_X = -48;
     public static double START_POSE_Y = -48;
     public static double START_HEADING = 225;
-    public static double WAYPOINT_FIRE_01_X = -8;
-    public static double WAYPOINT_FIRE_01_Y = -8;
+    public static double WAYPOINT_FIRE_01_X = -16;
+    public static double WAYPOINT_FIRE_01_Y = -16;
     public static double WAYPOINT_FIRE_01_HEADING = 225;
-    public static double WAYPOINT_FIRE_02_X = -12;
-    public static double WAYPOINT_FIRE_02_Y = -12;
+    public static double WAYPOINT_FIRE_02_X = -16;
+    public static double WAYPOINT_FIRE_02_Y = -16;
     public static double WAYPOINT_FIRE_02_HEADING = 225;
     public static double SPIKE_APPROACH_X = -9;
     public static double SPIKE_APPROACH_Y = -22;
